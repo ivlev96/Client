@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Source Files\widgets">
+      <UniqueIdentifier>{01af271f-df7f-4f9b-82a9-ece181a582b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\widgets">
+      <UniqueIdentifier>{c3a1df36-5bda-4fbc-befd-924cdd62c3f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\widgets">
+      <UniqueIdentifier>{fa3e335e-7dac-495a-acfb-d9086ca0246d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\models">
+      <UniqueIdentifier>{54eccd5e-3577-4da3-9556-48a3f7a5c877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\models">
+      <UniqueIdentifier>{7f6ac3b0-e3cb-48ae-bbb4-4ffeac560e83}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\mainwindow\mainwindow.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\contacts\contacts.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\messages\messages.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="models\messagesmodel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="models\message.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="widgets\contacts\contacts.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="widgets\messages\messages.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="widgets\mainwindow\mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="widgets\contacts\contacts.h">
+      <Filter>Header Files\widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\mainwindow\mainwindow.h">
+      <Filter>Header Files\widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\messages\messages.h">
+      <Filter>Header Files\widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="models\messagesmodel.h">
+      <Filter>Header Files\models</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_contacts.h">
+      <Filter>Generated Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_messages.h">
+      <Filter>Generated Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="models\message.h">
+      <Filter>Header Files\models</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="Resources\client.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>
