@@ -6,7 +6,7 @@ MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 	, m_messages
 	{
-		{ QDateTime(QDate::currentDate(), QTime::currentTime()), "111", "Ivan Ivlev", "Mewssage", MessageAuthor::Me },
+		{ QDateTime(QDate::currentDate(), QTime::currentTime()), "111", "Ivan Ivlev", "Message", MessageAuthor::Me },
 		{ QDateTime(QDate::currentDate().addDays(1), QTime::currentTime()), "111", "Pavel Zharov", "Answer", MessageAuthor::Other }
 	}
 {
@@ -70,17 +70,39 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 		return { m_messages[index.row()].name };
 
 	case MessagesDataRole::MessageTimeRole:
-		return { m_messages[index.row()].dateTime };
+		{
+			auto dateTime = m_messages[index.row()].dateTime;
+			if (dateTime.date() == QDate::currentDate())
+			{
+				return { dateTime.time().toString("hh:mm") };
+			}
+			return { dateTime.toString("dd.MM.yy hh:mm") };
+		}
 
 	case MessagesDataRole::MessageAvatarRole:
 		return { m_messages[index.row()].avatar };
+
+	case MessagesDataRole::MessageIsFromMeRole:
+		return { m_messages[index.row()].author == MessageAuthor::Me };
 
 	default: 
 		return {};
 	}
 }
 
-bool MessagesModel::setData(const QModelIndex & index, const QVariant & value, int role)
+bool MessagesModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
 	return false;
+}
+
+QHash<int, QByteArray> MessagesModel::roleNames() const
+{
+	return
+	{
+		{ Qt::DisplayRole, "messageText" },
+		{ MessagesDataRole::MessageAuthorRole, "messageName" },
+		{ MessagesDataRole::MessageTimeRole, "messageTime" },
+		{ MessagesDataRole::MessageAvatarRole, "messageAvatar" },
+		{ MessagesDataRole::MessageIsFromMeRole, "messageIsFromMe" }
+	};
 }

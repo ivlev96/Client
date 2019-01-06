@@ -43,6 +43,9 @@
     <Filter Include="Source Files\models">
       <UniqueIdentifier>{7f6ac3b0-e3cb-48ae-bbb4-4ffeac560e83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="QML Files">
+      <UniqueIdentifier>{5db46350-d847-4e2d-982a-e653d2432216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,5 +107,10 @@
     <QtRcc Include="Resources\client.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MessageListView.qml">
+      <Filter>QML Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

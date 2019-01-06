@@ -5,18 +5,19 @@
 namespace Models
 {
 
-enum MessagesDataRole
-{
-	MessageAuthorRole = 0x101,
-	MessageTimeRole,
-	MessageAvatarRole
-};
-
 class MessagesModel : public QAbstractListModel
 {
 	Q_OBJECT
 
 public:
+	enum MessagesDataRole
+	{
+		MessageAuthorRole = Qt::UserRole + 1,
+		MessageTimeRole,
+		MessageAvatarRole,
+		MessageIsFromMeRole
+	};
+
 	explicit MessagesModel(QObject *parent = nullptr);
 	~MessagesModel();
 
@@ -30,6 +31,8 @@ public:
 
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+
+	virtual QHash<int, QByteArray> roleNames() const override;
 
 private:
 	std::vector<Message> m_messages;
