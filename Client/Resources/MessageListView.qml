@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.12
 
@@ -13,28 +13,60 @@ ListView
 
     delegate: Rectangle
     {
-        width: messageLayout.width
-        height: messageLayout.height
+        width: messageLayout.width + 10
+        height: messageLayout.height + 10
+
+        radius: 10
+
         color: "lightgreen"
         anchors.right: messageIsFromMe ? parent.right : null
         anchors.left: messageIsFromMe ? null : parent.left
 
-        ColumnLayout
+        GridLayout
         {
             id: messageLayout
-            spacing: 10
+            columns: 2
+            rows: 2
+            columnSpacing: 10
+            anchors.centerIn: parent
 
-            Text
+            Rectangle
             {
-                text: "<b>" + messageName + "</b> " + "<font color=\"grey\">" + messageTime + "</font>"
-                //selectByMouse: true
+                Layout.row: 0
+                Layout.column: 0
+                Layout.rowSpan: 2
+                Layout.alignment: Qt.AlignTop
+
+                width: 50
+                height: width
+                radius: width/2
+
+                RoundedImage
+                {
+                    source: messageAvatar
+                }
             }
 
-            Text
+
+            TextEdit
             {
-                //anchors.centerIn: parent
+                Layout.row: 0
+                Layout.column: 1
+
+                font.pointSize: 8
+                textFormat: TextEdit.RichText
+                text: "<b>" + messageName + "</b> " + "<font color=\"grey\">" + messageTime + "</font>"
+                selectByMouse: true
+            }
+
+            TextEdit
+            {
+                Layout.row: 1
+                Layout.column: 1
+
+                font.pointSize: 10
                 text: messageText
-                //selectByMouse: true
+                selectByMouse: true
             }
         }
     }

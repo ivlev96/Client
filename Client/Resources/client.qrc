@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>MessageListView.qml</file>
+        <file>RoundedImage.qml</file>
     </qresource>
 </RCC>

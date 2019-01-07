@@ -1,8 +1,7 @@
 #pragma once
 #include <QDateTime>
 #include <QString>
-#include <QImage>
-
+#include <QUrl>
 
 namespace Models
 {
@@ -21,7 +20,7 @@ public:
 		const QString& name,
 		const QString& text,
 		const MessageAuthor& author,
-		const QImage& avatar = {});
+		const QUrl& avatar);
 
 public:
 	QDateTime dateTime;
@@ -29,7 +28,7 @@ public:
 	QString name;
 	QString text;
 	MessageAuthor author;
-	QImage avatar;
+	QUrl avatar;
 };
 
 }

@@ -1,4 +1,7 @@
 #include "messagesmodel.h"
+#include <QPixmap>
+#include <QUrl>
+#include <QDir>
 
 using namespace Models;
 
@@ -6,8 +9,8 @@ MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 	, m_messages
 	{
-		{ QDateTime(QDate::currentDate(), QTime::currentTime()), "111", "Ivan Ivlev", "Message", MessageAuthor::Me },
-		{ QDateTime(QDate::currentDate().addDays(1), QTime::currentTime()), "111", "Pavel Zharov", "Answer", MessageAuthor::Other }
+		{ QDateTime(QDate::currentDate(), QTime::currentTime()), "111", "Ivan Ivlev", "Message", MessageAuthor::Me, QUrl::fromLocalFile("Vanya.jpg") },
+		{ QDateTime(QDate::currentDate().addDays(1), QTime::currentTime()), "111", "Pavel Zharov", "Answer\n\n\n\n\n111", MessageAuthor::Other, QUrl::fromLocalFile("Pasha.jpg") }
 	}
 {
 

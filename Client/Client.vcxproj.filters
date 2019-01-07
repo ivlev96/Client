@@ -112,5 +112,8 @@
     <None Include="Resources\MessageListView.qml">
       <Filter>QML Files</Filter>
     </None>
+    <None Include="Resources\RoundedImage.qml">
+      <Filter>QML Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

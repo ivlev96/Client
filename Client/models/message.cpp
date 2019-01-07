@@ -6,7 +6,7 @@ Models::Message::Message(
 	const QString& name, 
 	const QString& text, 
 	const MessageAuthor& author, 
-	const QImage& avatar)
+	const QUrl& avatar)
 	: dateTime(dateTime)
 	, id(id)
 	, name(name)
