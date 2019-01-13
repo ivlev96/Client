@@ -46,6 +46,12 @@
     <Filter Include="QML Files">
       <UniqueIdentifier>{5db46350-d847-4e2d-982a-e653d2432216}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\authorization">
+      <UniqueIdentifier>{387538e4-8809-497d-88e5-b5716d910174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\authorization">
+      <UniqueIdentifier>{947ced75-b57a-40b6-b06a-7f509d46f384}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="models\message.cpp">
       <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="authorization\authorizationinfo.cpp">
+      <Filter>Source Files\authorization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="models\message.h">
       <Filter>Header Files\models</Filter>
+    </ClInclude>
+    <ClInclude Include="authorization\authorizationinfo.h">
+      <Filter>Header Files\authorization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

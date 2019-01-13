@@ -2,32 +2,40 @@
 #include <QDateTime>
 #include <QString>
 #include <QUrl>
+#include <QJsonObject>
 
 namespace Models
 {
 
-enum class MessageAuthor : quint8
-{
-	Me,
-	Other
-};
-
 struct Message
 {
 public:
-	Message(const QDateTime& dateTime,
-		const QString& id,
-		const QString& name,
+	Message() = default;
+
+	Message(
+		const QDateTime& dateTime,
+		const QString& idFrom,
+		const QString& idTo,
+		const QString& nameFrom,
+		const QString& nameTo,
 		const QString& text,
-		const MessageAuthor& author,
 		const QUrl& avatar);
+
+	explicit Message(const QJsonObject& json);
+
+	QJsonObject toJson() const;
+	
 
 public:
 	QDateTime dateTime;
-	QString id;
-	QString name;
+
+	QString idFrom;
+	QString idTo;
+
+	QString nameFrom;
+	QString nameTo;
+
 	QString text;
-	MessageAuthor author;
 	QUrl avatar;
 };
 

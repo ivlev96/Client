@@ -117,6 +117,7 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="authorization\authorizationinfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="models\message.cpp" />
     <ClCompile Include="models\messagesmodel.cpp" />
@@ -142,6 +143,7 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="authorization\authorizationinfo.h" />
     <ClInclude Include="GeneratedFiles\ui_contacts.h" />
     <ClInclude Include="GeneratedFiles\ui_messages.h" />
     <ClInclude Include="models\message.h" />

@@ -1,6 +1,7 @@
 #pragma once
-#include <QAbstractListModel>
 #include "message.h"
+#include <QAbstractListModel>
+#include <deque>
 
 namespace Models
 {
@@ -35,7 +36,12 @@ public:
 	virtual QHash<int, QByteArray> roleNames() const override;
 
 private:
-	std::vector<Message> m_messages;
+	void pushFrontMessages(const QByteArray& json);
+	void pushBackMessages(const QByteArray& json);
+	void debugGenerate();
+
+private:
+	std::deque<Message> m_messages;
 
 };
 

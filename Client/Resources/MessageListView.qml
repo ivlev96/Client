@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.12
 
@@ -10,6 +11,13 @@ ListView
     height: parent.height
     spacing: 10
     model: listModel
+
+    boundsBehavior: Flickable.StopAtBounds
+
+    ScrollBar.vertical: ScrollBar
+    {
+        policy: ScrollBar.AsNeeded
+    }
 
     delegate: Rectangle
     {
