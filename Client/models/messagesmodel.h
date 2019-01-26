@@ -1,5 +1,5 @@
 #pragma once
-#include "message.h"
+#include "common/message.h"
 #include <QAbstractListModel>
 #include <deque>
 
@@ -41,7 +41,7 @@ private:
 	void debugGenerate();
 
 private:
-	std::deque<Message> m_messages;
+	std::deque<Common::Message> m_messages;
 
 };
 

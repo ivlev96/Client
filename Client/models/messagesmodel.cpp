@@ -8,19 +8,34 @@
 #include <tuple>
 
 using namespace Models;
+using namespace Common;
 
 MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 {
-	QFile debugMessages("debugMessages.json");
-	if (!debugMessages.exists())
+	QFile savedMessages;
+
+#ifdef _DEBUG
+
+	savedMessages.setFileName("debugMessages.json");
+	if (!savedMessages.exists())
 	{
 		debugGenerate();
 	}
 
-	assert(debugMessages.open(QFile::ReadOnly | QFile::Text));
-	pushBackMessages(debugMessages.readAll());
-	debugMessages.close();
+#else
+
+	savedMessages.setFileName("savedMessages.json");
+	if (!savedMessages.exists())
+	{
+		return;
+	}
+
+#endif
+
+	assert(savedMessages.open(QFile::ReadOnly | QFile::Text));
+	pushBackMessages(savedMessages.readAll());
+	savedMessages.close();
 }
 
 MessagesModel::~MessagesModel()
@@ -77,7 +92,7 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 		return { m_messages[index.row()].text };
 
 	case MessagesDataRole::MessageAuthorRole:
-		return { m_messages[index.row()].nameFrom };
+		return { m_messages[index.row()].from.name() };
 
 	case MessagesDataRole::MessageTimeRole:
 		{
@@ -90,10 +105,10 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 		}
 
 	case MessagesDataRole::MessageAvatarRole:
-		return { m_messages[index.row()].avatar };
+		return { m_messages[index.row()].from.avatarUrl };
 
 	case MessagesDataRole::MessageIsFromMeRole:
-		return { m_messages[index.row()].idFrom == Authorization::AuthorizationInfo::instance().id() };
+		return { m_messages[index.row()].from.id == Authorization::AuthorizationInfo::instance().id() };
 
 	default: 
 		return {};
@@ -155,10 +170,10 @@ void MessagesModel::pushBackMessages(const QByteArray& json)
 
 void MessagesModel::debugGenerate()
 {
-	std::vector<std::tuple<QString, QString, QUrl>> idNameAvatar
+	std::vector<Common::Person> persons
 	{
-		{ "1", "Ivan Ivlev", QUrl::fromLocalFile("Vanya.jpg") },
-		{ "2", "Pavel Zharov", QUrl::fromLocalFile("Pasha.jpg") }
+		{ 1, "Ivan", "Ivlev", QUrl::fromLocalFile("Vanya.jpg").toString() },
+		{ 2, "Pavel", "Zharov", QUrl::fromLocalFile("Pasha.jpg").toString() }
 	};
 
 	std::vector<QString> text
@@ -181,13 +196,10 @@ void MessagesModel::debugGenerate()
 		const int random = rand();
 		jsonArray.push_back(
 			Message(
-				time = time.addSecs(60 * (random%4 + 1)),
-				std::get<0>(idNameAvatar[random%2]),
-				std::get<0>(idNameAvatar[1 - random%2]),
-				std::get<1>(idNameAvatar[random % 2]),
-				std::get<1>(idNameAvatar[1 - random % 2]),
-				text[random % text.size()],
-				std::get<2>(idNameAvatar[random % 2])
+				persons[random % 2],
+				persons[1 - random % 2],
+				time = time.addSecs(60 * (random % 4 + 1)),
+				text[random % text.size()]
 			).toJson()
 		);
 	}

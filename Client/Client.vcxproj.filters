@@ -52,6 +52,12 @@
     <Filter Include="Header Files\authorization">
       <UniqueIdentifier>{947ced75-b57a-40b6-b06a-7f509d46f384}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{9749fdb1-5f73-4294-9655-01078c24fdb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{3ff60564-fea8-4cdc-a9a0-af2837aba128}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,11 +75,14 @@
     <ClCompile Include="models\messagesmodel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
-    <ClCompile Include="models\message.cpp">
-      <Filter>Source Files\models</Filter>
-    </ClCompile>
     <ClCompile Include="authorization\authorizationinfo.cpp">
       <Filter>Source Files\authorization</Filter>
+    </ClCompile>
+    <ClCompile Include="common\message.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\person.cpp">
+      <Filter>Source Files\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,11 +117,14 @@
     <ClInclude Include="GeneratedFiles\ui_messages.h">
       <Filter>Generated Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="models\message.h">
-      <Filter>Header Files\models</Filter>
-    </ClInclude>
     <ClInclude Include="authorization\authorizationinfo.h">
       <Filter>Header Files\authorization</Filter>
+    </ClInclude>
+    <ClInclude Include="common\message.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\person.h">
+      <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

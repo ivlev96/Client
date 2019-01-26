@@ -1,33 +1,30 @@
 #include "authorizationinfo.h"
 
 using namespace Authorization;
+using namespace Common;
 
-QString AuthorizationInfo::id() const
+int AuthorizationInfo::id() const
 {
-	return m_currentId;
+	return m_currentPerson.id;
 }
 
 QString AuthorizationInfo::name() const
 {
-	return m_currentName;
+	return m_currentPerson.name();
 }
 
 QUrl AuthorizationInfo::avatar() const
 {
-	return m_currentAvatar;
+	return m_currentPerson.avatarUrl;
 }
 
-void AuthorizationInfo::reset(const QString& id, const QString& name, const QUrl& avatar)
+void AuthorizationInfo::reset(const Person& person)
 {
-	m_currentId = id;
-	m_currentName = name;
-	m_currentAvatar = avatar;
+	m_currentPerson = person;
 }
 
 AuthorizationInfo::AuthorizationInfo()
-	: m_currentId("1")
-	, m_currentName("Ivan Ivlev")
-	, m_currentAvatar(QUrl::fromLocalFile("Vanya.jpg"))
+	: m_currentPerson(1, "Ivan", "Ivlev", QUrl::fromLocalFile("Vanya.jpg").toString())
 {
 
 }

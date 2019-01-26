@@ -1,4 +1,6 @@
 #pragma once
+#include "common/person.h"
+
 #include <QString>
 #include <QUrl>
 
@@ -14,11 +16,11 @@ public:
 		return theSingleInstance;
 	}
 
-	QString id() const;
+	int id() const;
 	QString name() const;
 	QUrl avatar() const;
 
-	void reset(const QString& id, const QString& name, const QUrl& avatar);
+	void reset(const Common::Person& person);
 
 private:
 	AuthorizationInfo();
@@ -26,9 +28,7 @@ private:
 	AuthorizationInfo& operator=(const AuthorizationInfo&) = delete;
 
 private:
-	QString m_currentId;
-	QString m_currentName;
-	QUrl m_currentAvatar;
+	Common::Person m_currentPerson;
 };
 
 }
