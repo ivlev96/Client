@@ -1,0 +1,3 @@
+[submodule "Client/common"]
+	path = Client/common
+	url = https://github.com/ivlev96/MessengerCommon
