@@ -1,5 +1,6 @@
 #pragma once
 #include "common/common.h"
+#include "common/person.h"
 #include "common/commands.h"
 
 #include <QObject>
@@ -22,13 +23,13 @@ signals:
 	void sendMessageResponse(const Common::Message& message, Common::State state);
 	void getMessagesResponse(int otherId, const std::vector<Common::Message>& messages);
 
-
 public slots:
 	void onConnected();
 	void onDisconnected();
 	void onMessageReceived(const QString& message);
 
-	void getMessages(int otherId, int count);
+	void onGetMessages(int otherId, int count);
+	void onSendMessage(const Common::Person& other, const QString& message);
 
 private:
 	QUrl m_serverUrl;

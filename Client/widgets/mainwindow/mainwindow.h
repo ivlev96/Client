@@ -4,26 +4,41 @@
 
 namespace Ui
 {
-	class MainWindow;
+class MainWindow;
+}
+
+namespace Models
+{
+class MessagesModel;
+}
+
+namespace Common
+{
+class Person;
 }
 
 namespace Widgets
 {
-	class Messages;
-	class Contacts;
 
-	class MainWindow : public QMainWindow
-	{
-		Q_OBJECT
+class Messages;
+class Contacts;
 
-	public:
-		MainWindow(QWidget *parent = nullptr);
-		~MainWindow();
+class MainWindow : public QMainWindow
+{
+	Q_OBJECT
 
-	private:
-		Ui::MainWindow *m_ui;
+public:
+	MainWindow(Models::MessagesModel* messagesModel, QWidget *parent = nullptr);
+	~MainWindow();
 
-		Messages* m_messages;
-		Contacts* m_contacts;
-	};
+signals:
+	void sendMessage(const Common::Person& other, const QString& message);
+
+private:
+	Ui::MainWindow *m_ui;
+
+	Messages* m_messages;
+	Contacts* m_contacts;
+};
+
 }

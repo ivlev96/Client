@@ -64,6 +64,12 @@
     <Filter Include="Header Files\network">
       <UniqueIdentifier>{d83ab82a-7d61-44d1-862d-60681e4d3765}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\controllers">
+      <UniqueIdentifier>{b0898763-b9c9-40ba-b4d8-6fc0ed65de32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\controllers">
+      <UniqueIdentifier>{bcaa1a9c-80de-4401-9ac8-aaf7b7a4e1d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +105,9 @@
     <ClCompile Include="network\requester.cpp">
       <Filter>Source Files\network</Filter>
     </ClCompile>
+    <ClCompile Include="controllers\globalcontroller.cpp">
+      <Filter>Source Files\controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -126,6 +135,9 @@
     </QtMoc>
     <QtMoc Include="network\requester.h">
       <Filter>Header Files\network</Filter>
+    </QtMoc>
+    <QtMoc Include="controllers\globalcontroller.h">
+      <Filter>Header Files\controllers</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

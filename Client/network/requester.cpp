@@ -1,6 +1,5 @@
 #include "requester.h"
 #include "authorization/authorizationinfo.h"
-#include "common/commands.h"
 #include <QJsonObject>
 #include <QJsonDocument>
 
@@ -68,10 +67,19 @@ void Requester::onMessageReceived(const QString& message)
 	}
 }
 
-void Requester::getMessages(int otherId, int count)
+void Requester::onGetMessages(int otherId, int count)
 {
 	const int myId = Authorization::AuthorizationInfo::instance().id();
 	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, count).toJson();
+	const QJsonDocument doc(json);
+
+	m_socket->sendTextMessage(doc.toJson());
+}
+
+void Requester::onSendMessage(const Common::Person& other, const QString& message)
+{
+	const Common::Person me = Authorization::AuthorizationInfo::instance().person();
+	const QJsonObject json = Common::SendMessageRequest(me, other, message).toJson();
 	const QJsonDocument doc(json);
 
 	m_socket->sendTextMessage(doc.toJson());

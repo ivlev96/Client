@@ -22,14 +22,17 @@ class Messages : public QWidget
 	Q_OBJECT
 
 public:
-	Messages(QWidget *parent = nullptr);
+	Messages(Models::MessagesModel* messagesModel, QWidget *parent = nullptr);
 	~Messages();
 
-	void setPerson(const Common::Person& person);
+signals:
+	void sendMessage(const Common::Person& other, const QString& message);
+
+private slots:
+	void onButtonSendClicked();
 
 private:
 	Ui::Messages* m_ui;
-	Models::MessagesModel* m_messagesModel;
 	QQuickView* m_messagesView;
 
 	Common::Person m_otherPerson;

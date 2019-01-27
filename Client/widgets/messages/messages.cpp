@@ -7,22 +7,22 @@
 using namespace Widgets;
 using namespace Common;
 
-Messages::Messages(QWidget *parent)
+Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 	: QWidget(parent)
 {
 	m_ui = new Ui::Messages();
 	m_ui->setupUi(this);
 
-	m_messagesModel = new Models::MessagesModel(this);
-
 	m_messagesView = new QQuickView();
 	QQmlContext* context = m_messagesView->rootContext();
-	context->setContextProperty("listModel", m_messagesModel);
+	context->setContextProperty("listModel", messagesModel);
 	m_messagesView->setSource(QUrl("qrc:/MessageListView.qml"));
 
 	QWidget* container = QWidget::createWindowContainer(m_messagesView, this);
 
 	m_ui->gridLayout->addWidget(container, 0, 0, 1, 2);
+
+	assert(connect(m_ui->buttonSend, &QPushButton::clicked, this, &Messages::onButtonSendClicked));
 }
 
 Messages::~Messages()
@@ -31,11 +31,7 @@ Messages::~Messages()
 	delete m_messagesView;
 }
 
-void Messages::setPerson(const Common::Person& person)
+void Messages::onButtonSendClicked()
 {
-	if (person != m_otherPerson)
-	{
-		m_otherPerson = person;
-		m_messagesModel->setPerson(m_otherPerson);
-	}
+	emit sendMessage(m_otherPerson, m_ui->newMessage->toPlainText());
 }
