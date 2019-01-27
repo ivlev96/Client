@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QtQuick/QQuickView>
+#include "common/person.h"
 
 namespace Ui 
 { 
@@ -24,10 +25,14 @@ public:
 	Messages(QWidget *parent = nullptr);
 	~Messages();
 
+	void setPerson(const Common::Person& person);
+
 private:
 	Ui::Messages* m_ui;
 	Models::MessagesModel* m_messagesModel;
 	QQuickView* m_messagesView;
+
+	Common::Person m_otherPerson;
 };
 
 }

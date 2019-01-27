@@ -58,6 +58,12 @@
     <Filter Include="Source Files\common">
       <UniqueIdentifier>{3ff60564-fea8-4cdc-a9a0-af2837aba128}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{10bc3147-d791-40e1-91cb-fb8f702756b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\network">
+      <UniqueIdentifier>{d83ab82a-7d61-44d1-862d-60681e4d3765}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,6 +90,15 @@
     <ClCompile Include="common\person.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
+    <ClCompile Include="common\commands.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\common.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="network\requester.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -109,6 +124,9 @@
     <QtMoc Include="models\messagesmodel.h">
       <Filter>Header Files\models</Filter>
     </QtMoc>
+    <QtMoc Include="network\requester.h">
+      <Filter>Header Files\network</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_contacts.h">
@@ -124,6 +142,12 @@
       <Filter>Header Files\common</Filter>
     </ClInclude>
     <ClInclude Include="common\person.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\commands.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\common.h">
       <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>

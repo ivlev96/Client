@@ -20,6 +20,8 @@ public:
 	QString name() const;
 	QUrl avatar() const;
 
+	Common::Person person() const;
+
 	void reset(const Common::Person& person);
 
 private:

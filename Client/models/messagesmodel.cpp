@@ -1,5 +1,6 @@
 #include "messagesmodel.h"
 #include "authorization/authorizationinfo.h"
+#include "common/common.h"
 
 #include <QUrl>
 #include <QDir>
@@ -12,7 +13,12 @@ using namespace Common;
 
 MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
+	, m_isWaitForResponce(false)
+	, m_timer(new QTimer(this))
 {
+	m_timer->setSingleShot(true);
+	assert(connect(m_timer, &QTimer::timeout, this, &MessagesModel::stopWaiting));
+
 	QFile savedMessages;
 
 #ifdef _DEBUG
@@ -34,7 +40,20 @@ MessagesModel::MessagesModel(QObject *parent)
 #endif
 
 	assert(savedMessages.open(QFile::ReadOnly | QFile::Text));
-	pushBackMessages(savedMessages.readAll());
+
+	QJsonParseError error;
+	QJsonDocument doc = QJsonDocument::fromJson(savedMessages.readAll(), &error);
+	assert(error.error == QJsonParseError::NoError);
+	assert(doc.isArray());
+
+	QJsonArray array = doc.array();
+	std::transform(array.constBegin(), array.constEnd(), std::back_inserter(m_messages),
+		[](const QJsonValue& json)
+	{
+		assert(json.isObject());
+		return Message(json.toObject());
+	});
+
 	savedMessages.close();
 }
 
@@ -101,7 +120,7 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 			{
 				return { dateTime.time().toString("hh:mm:ss") };
 			}
-			return { dateTime.toString("dd.MM.yy hh:mm:ss") };
+			return { dateTime.toString(Common::dateTimeFormat) };
 		}
 
 	case MessagesDataRole::MessageAvatarRole:
@@ -132,45 +151,61 @@ QHash<int, QByteArray> MessagesModel::roleNames() const
 	};
 }
 
-void MessagesModel::pushFrontMessages(const QByteArray& json)
+void MessagesModel::setPerson(const Person& person)
 {
-	QJsonParseError error;
-	QJsonDocument doc = QJsonDocument::fromJson(json, &error);
-	assert(error.error == QJsonParseError::NoError);
-	assert(doc.isArray());
+	if (person != m_otherPerson)
+	{
+		beginResetModel();
+		m_otherPerson = person;
+		m_messages.clear();
+		endResetModel();
 
-	QJsonArray array = doc.array();
-	std::vector<Message> newMessages(array.size());
+		emit getMessages(m_otherPerson.id, Common::defaultMessagesCount);
 
-	std::transform(array.constBegin(), array.constEnd(), newMessages.begin(),
-		[](const QJsonValue& json) 
-		{
-			assert(json.isObject()); 
-			return Message(json.toObject()); 
-		});
-
-	std::copy(newMessages.crbegin(), newMessages.crend(), std::front_inserter(m_messages));
+		startWaiting();	
+	}
 }
 
-void MessagesModel::pushBackMessages(const QByteArray& json)
+void MessagesModel::startWaiting()
 {
-	QJsonParseError error;
-	QJsonDocument doc = QJsonDocument::fromJson(json, &error);
-	assert(error.error == QJsonParseError::NoError);
-	assert(doc.isArray());
+	m_isWaitForResponce = true;
+	m_timer->start(Common::defaultTimeot);
+}
 
-	QJsonArray array = doc.array();
-	std::transform(array.constBegin(), array.constEnd(), std::back_inserter(m_messages),
-		[](const QJsonValue& json)
+void MessagesModel::stopWaiting()
+{
+	if (m_isWaitForResponce)
 	{
-		assert(json.isObject());
-		return Message(json.toObject());
-	});
+		m_isWaitForResponce = false;
+		emit noResponseForMessageRequest();
+	}
+}
+
+void MessagesModel::onSendMessageResponse(const Message& message, State state)
+{
+	assert(state < State::StatesCount);
+	pushBackMessages({ message });
+}
+
+void MessagesModel::onGetMessagesResponse(int otherId, const std::vector<Message>& messages)
+{
+	assert(otherId == m_otherPerson.id);
+	pushFrontMessages(messages);
+}
+
+void MessagesModel::pushFrontMessages(const std::vector<Common::Message>& newMessages)
+{
+	m_messages.insert(m_messages.begin(), newMessages.cbegin(), newMessages.cend());
+}
+
+void MessagesModel::pushBackMessages(const std::vector<Common::Message>& newMessages)
+{
+	std::copy(newMessages.cbegin(), newMessages.cend(), std::back_inserter(m_messages));
 }
 
 void MessagesModel::debugGenerate()
 {
-	std::vector<Common::Person> persons
+	std::vector<Person> persons
 	{
 		{ 1, "Ivan", "Ivlev", QUrl::fromLocalFile("Vanya.jpg").toString() },
 		{ 2, "Pavel", "Zharov", QUrl::fromLocalFile("Pasha.jpg").toString() }

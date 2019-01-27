@@ -5,7 +5,7 @@
 #include <QtQml/QQmlContext>
 
 using namespace Widgets;
-
+using namespace Common;
 
 Messages::Messages(QWidget *parent)
 	: QWidget(parent)
@@ -14,7 +14,6 @@ Messages::Messages(QWidget *parent)
 	m_ui->setupUi(this);
 
 	m_messagesModel = new Models::MessagesModel(this);
-
 
 	m_messagesView = new QQuickView();
 	QQmlContext* context = m_messagesView->rootContext();
@@ -30,4 +29,13 @@ Messages::~Messages()
 {
 	delete m_ui;
 	delete m_messagesView;
+}
+
+void Messages::setPerson(const Common::Person& person)
+{
+	if (person != m_otherPerson)
+	{
+		m_otherPerson = person;
+		m_messagesModel->setPerson(m_otherPerson);
+	}
 }

@@ -18,6 +18,11 @@ QUrl AuthorizationInfo::avatar() const
 	return m_currentPerson.avatarUrl;
 }
 
+Person AuthorizationInfo::person() const
+{
+	return m_currentPerson;
+}
+
 void AuthorizationInfo::reset(const Person& person)
 {
 	m_currentPerson = person;
