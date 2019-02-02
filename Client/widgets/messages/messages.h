@@ -25,6 +25,8 @@ public:
 	Messages(Models::MessagesModel* messagesModel, QWidget *parent = nullptr);
 	~Messages();
 
+	void setPerson(const Common::Person& other);
+
 signals:
 	void sendMessage(const Common::Person& other, const QString& message);
 
@@ -34,8 +36,7 @@ private slots:
 private:
 	Ui::Messages* m_ui;
 	QQuickView* m_messagesView;
-
-	Common::Person m_otherPerson;
+	Models::MessagesModel* m_messagesModel;
 };
 
 }

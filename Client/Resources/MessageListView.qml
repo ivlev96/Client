@@ -27,8 +27,8 @@ ListView
         radius: 10
 
         color: "lightgreen"
-        anchors.right: messageIsFromMe ? parent.right : null
-        anchors.left: messageIsFromMe ? null : parent.left
+        anchors.right: messageIsFromMe ? parent.right : undefined
+        anchors.left: messageIsFromMe ? undefined : parent.left
 
         GridLayout
         {

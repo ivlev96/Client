@@ -2,6 +2,7 @@
 #include "authorization/authorizationinfo.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QAbstractSocket>
 
 using namespace Network;
 
@@ -10,19 +11,22 @@ Requester::Requester(const QUrl& serverUrl, QObject* parent)
 	, m_serverUrl(serverUrl)
 	, m_socket(new QWebSocket())
 {
-	assert(connect(m_socket, &QWebSocket::connected, this, &Requester::onConnected));
+	qRegisterMetaType<QAbstractSocket::SocketError>("SocketError");
+	assert(connect(m_socket, &QWebSocket::connected, this, &Requester::connected));
 	assert(connect(m_socket, &QWebSocket::disconnected, this, &Requester::onDisconnected));
+	assert(connect(m_socket, qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
 	assert(connect(m_socket, &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
 
 	m_socket->open(m_serverUrl);
 }
 
-void Requester::onConnected()
+void Requester::onDisconnected()
 {
 }
 
-void Requester::onDisconnected()
+void Requester::onError(QAbstractSocket::SocketError)
 {
+	emit error(m_socket->errorString());
 }
 
 void Requester::onMessageReceived(const QString& message)
@@ -36,10 +40,10 @@ void Requester::onMessageReceived(const QString& message)
 
 	const QString type = json[Common::typeField].toString();
 
-	if (type == Common::sendMessageResponse)
+	if (type == Common::sendMessagesResponse)
 	{
-		const Common::SendMessageResponse response(json);
-		emit sendMessageResponse(response.message, response.state);
+		const Common::SendMessagesResponse response(json);
+		emit sendMessagesResponse(response.messages, response.state);
 		return;
 	}
 
@@ -60,11 +64,14 @@ void Requester::onMessageReceived(const QString& message)
 		else
 		{
 			assert(!"Incorrect ids in command");
+			return;
 		}
 
 		emit getMessagesResponse(otherId, response.messages);
 		return;
 	}
+
+	assert(!"Not implemented");
 }
 
 void Requester::onGetMessages(int otherId, int count)
@@ -73,14 +80,21 @@ void Requester::onGetMessages(int otherId, int count)
 	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, count).toJson();
 	const QJsonDocument doc(json);
 
-	m_socket->sendTextMessage(doc.toJson());
+	sendMessage(doc.toJson());
 }
 
 void Requester::onSendMessage(const Common::Person& other, const QString& message)
 {
 	const Common::Person me = Authorization::AuthorizationInfo::instance().person();
-	const QJsonObject json = Common::SendMessageRequest(me, other, message).toJson();
+	const QJsonObject json = Common::SendMessagesRequest({ Common::Message(me, other, QDateTime::currentDateTime(), message) }).toJson();
 	const QJsonDocument doc(json);
 
-	m_socket->sendTextMessage(doc.toJson());
+	sendMessage(doc.toJson());
+}
+
+void Requester::sendMessage(const QString& message) const
+{
+	assert(m_socket->isValid());
+	m_socket->sendTextMessage(message);
+	m_socket->flush();
 }

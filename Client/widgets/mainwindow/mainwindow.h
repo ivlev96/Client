@@ -14,7 +14,7 @@ class MessagesModel;
 
 namespace Common
 {
-class Person;
+struct Person;
 }
 
 namespace Widgets
@@ -33,6 +33,9 @@ public:
 
 signals:
 	void sendMessage(const Common::Person& other, const QString& message);
+
+public slots:
+	void onConnected();
 
 private:
 	Ui::MainWindow *m_ui;

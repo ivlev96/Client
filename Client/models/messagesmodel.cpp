@@ -6,22 +6,22 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <tuple>
 
 using namespace Models;
 using namespace Common;
 
 MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
-	, m_isWaitForResponce(false)
+	, m_isWaitForResponse(false)
 	, m_timer(new QTimer(this))
+	, m_otherPerson()
 {
 	m_timer->setSingleShot(true);
 	assert(connect(m_timer, &QTimer::timeout, this, &MessagesModel::stopWaiting));
 
 	QFile savedMessages;
 
-#ifdef _DEBUG
+#ifdef o_DEBUG
 
 	savedMessages.setFileName("debugMessages.json");
 	if (!savedMessages.exists())
@@ -62,6 +62,11 @@ MessagesModel::~MessagesModel()
 
 }
 
+Common::Person MessagesModel::otherPerson() const
+{
+	return m_otherPerson;
+}
+
 bool MessagesModel::hasIndex(int row, int column, const QModelIndex &parent) const
 {
 	return !parent.isValid() && column == 0 && 
@@ -70,6 +75,7 @@ bool MessagesModel::hasIndex(int row, int column, const QModelIndex &parent) con
 
 QModelIndex MessagesModel::index(int row, int column, const QModelIndex& parent) const
 {
+	Q_UNUSED(parent);
 	assert(!parent.isValid());
 
 	return createIndex(row, column, static_cast<quintptr>(0));
@@ -77,6 +83,7 @@ QModelIndex MessagesModel::index(int row, int column, const QModelIndex& parent)
 
 QModelIndex MessagesModel::parent(const QModelIndex& child) const
 {
+	Q_UNUSED(child);
 	assert(child.isValid());
 
 	return {};
@@ -84,6 +91,7 @@ QModelIndex MessagesModel::parent(const QModelIndex& child) const
 
 int MessagesModel::rowCount(const QModelIndex& parent) const
 {
+	Q_UNUSED(parent);
 	assert(!parent.isValid());
 
 	return static_cast<int>(m_messages.size());
@@ -91,6 +99,7 @@ int MessagesModel::rowCount(const QModelIndex& parent) const
 
 int MessagesModel::columnCount(const QModelIndex& parent) const
 {
+	Q_UNUSED(parent);
 	assert(!parent.isValid());
 
 	return 1;
@@ -136,6 +145,10 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 
 bool MessagesModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
+	Q_UNUSED(index);
+	Q_UNUSED(value);
+	Q_UNUSED(role);
+
 	return false;
 }
 
@@ -168,39 +181,49 @@ void MessagesModel::setPerson(const Person& person)
 
 void MessagesModel::startWaiting()
 {
-	m_isWaitForResponce = true;
+	m_isWaitForResponse = true;
 	m_timer->start(Common::defaultTimeot);
 }
 
 void MessagesModel::stopWaiting()
 {
-	if (m_isWaitForResponce)
+	if (m_isWaitForResponse)
 	{
-		m_isWaitForResponce = false;
-		emit noResponseForMessageRequest();
+		m_isWaitForResponse = false;
+		emit error("No answer from the server");
 	}
 }
 
-void MessagesModel::onSendMessageResponse(const Message& message, State state)
+void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages, State state)
 {
 	assert(state < State::StatesCount);
-	pushBackMessages({ message });
+	if (state == State::Sent)
+	{
+		pushBackMessages(messages);
+	}
 }
 
 void MessagesModel::onGetMessagesResponse(int otherId, const std::vector<Message>& messages)
 {
+	m_isWaitForResponse = false;
+
+	Q_UNUSED(otherId);
 	assert(otherId == m_otherPerson.id);
 	pushFrontMessages(messages);
 }
 
 void MessagesModel::pushFrontMessages(const std::vector<Common::Message>& newMessages)
 {
+	beginInsertRows(QModelIndex(), 0, static_cast<int>(newMessages.size()) - 1);
 	m_messages.insert(m_messages.begin(), newMessages.cbegin(), newMessages.cend());
+	endInsertRows();
 }
 
 void MessagesModel::pushBackMessages(const std::vector<Common::Message>& newMessages)
 {
+	beginInsertRows(QModelIndex(), rowCount(), rowCount() + static_cast<int>(newMessages.size()) - 1);
 	std::copy(newMessages.cbegin(), newMessages.cend(), std::back_inserter(m_messages));
+	endInsertRows();
 }
 
 void MessagesModel::debugGenerate()

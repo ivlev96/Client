@@ -20,6 +20,9 @@ public:
 
 	void run();
 
+public slots:
+	void onError(const QString& error);
+
 private:
 	Widgets::MainWindow* m_mainWindow;
 

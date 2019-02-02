@@ -24,6 +24,8 @@ public:
 	explicit MessagesModel(QObject *parent = nullptr);
 	~MessagesModel();
 
+	Common::Person otherPerson() const;
+
 	//QAbstractItemModel implementation:
 	bool hasIndex(int row, int column, const QModelIndex &parent = {}) const;
 	virtual QModelIndex index(int row, int column, const QModelIndex &parent = {}) const override;
@@ -40,7 +42,7 @@ public:
 
 signals:
 	void getMessages(int otherId, int count);
-	void noResponseForMessageRequest();
+	void error(const QString& error);
 
 public slots:
 	//Slots for parent Widget
@@ -49,7 +51,7 @@ public slots:
 	void stopWaiting();
 
 	//Slots for requester
-	void onSendMessageResponse(const Common::Message& message, Common::State state);
+	void onSendMessagesResponse(const std::vector<Common::Message>& message, Common::State state);
 	void onGetMessagesResponse(int otherId, const std::vector<Common::Message>& messages);
 
 private:
@@ -61,7 +63,7 @@ private:
 	std::deque<Common::Message> m_messages;
 
 	Common::Person m_otherPerson;
-	bool m_isWaitForResponce;
+	bool m_isWaitForResponse;
 	QTimer* m_timer;
 };
 

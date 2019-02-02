@@ -30,3 +30,8 @@ MainWindow::~MainWindow()
 	delete m_contacts;
 	delete m_messages;
 }
+
+void MainWindow::onConnected()
+{
+	m_messages->setPerson({ 2, "Pavel", "Zharov", QUrl::fromLocalFile("Pasha.jpg").toString() });
+}
