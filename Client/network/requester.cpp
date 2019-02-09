@@ -50,8 +50,8 @@ void Requester::onMessageReceived(const QString& message)
 	if (type == Common::getMessagesResponse)
 	{
 		const Common::GetMessagesResponse response(json);
-		const int myId = Authorization::AuthorizationInfo::instance().id();
-		int otherId;
+		const Common::PersonIdType myId = Authorization::AuthorizationInfo::instance().id();
+		Common::PersonIdType otherId;
 
 		if (response.id1 == myId)
 		{
@@ -74,9 +74,9 @@ void Requester::onMessageReceived(const QString& message)
 	assert(!"Not implemented");
 }
 
-void Requester::onGetMessages(int otherId, int count)
+void Requester::onGetMessages(Common::PersonIdType otherId, int count)
 {
-	const int myId = Authorization::AuthorizationInfo::instance().id();
+	const Common::PersonIdType myId = Authorization::AuthorizationInfo::instance().id();
 	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, count).toJson();
 	const QJsonDocument doc(json);
 
@@ -86,7 +86,7 @@ void Requester::onGetMessages(int otherId, int count)
 void Requester::onSendMessage(const Common::Person& other, const QString& message)
 {
 	const Common::Person me = Authorization::AuthorizationInfo::instance().person();
-	const QJsonObject json = Common::SendMessagesRequest({ Common::Message(me, other, QDateTime::currentDateTime(), message) }).toJson();
+	const QJsonObject json = Common::SendMessagesRequest({ Common::Message(me.id, other.id, QDateTime::currentDateTime(), message) }).toJson();
 	const QJsonDocument doc(json);
 
 	sendMessage(doc.toJson());

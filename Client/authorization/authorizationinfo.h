@@ -16,7 +16,7 @@ public:
 		return theSingleInstance;
 	}
 
-	int id() const;
+	Common::PersonIdType id() const;
 	QString name() const;
 	QUrl avatar() const;
 

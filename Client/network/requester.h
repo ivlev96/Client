@@ -21,8 +21,8 @@ public:
 	explicit Requester(const QUrl& serverUrl = Common::serverUrl, QObject* parent = nullptr);
 
 signals:
-	void sendMessagesResponse(const std::vector<Common::Message>& message, Common::State state);
-	void getMessagesResponse(int otherId, const std::vector<Common::Message>& messages);
+	void sendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
+	void getMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages);
 	void error(const QString& error);
 	void connected();
 
@@ -31,7 +31,7 @@ public slots:
 	void onError(QAbstractSocket::SocketError error);
 	void onMessageReceived(const QString& message);
 
-	void onGetMessages(int otherId, int count);
+	void onGetMessages(Common::PersonIdType otherId, int count);
 	void onSendMessage(const Common::Person& other, const QString& message);
 
 private:

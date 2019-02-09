@@ -8,7 +8,6 @@
 #include <QJsonArray>
 
 using namespace Models;
-using namespace Common;
 
 MessagesModel::MessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
@@ -20,11 +19,13 @@ MessagesModel::MessagesModel(QObject *parent)
 	assert(connect(m_timer, &QTimer::timeout, this, &MessagesModel::stopWaiting));
 
 	QFile savedMessages;
+	QFile savedPersons;
 
-#ifdef o_DEBUG
+#ifdef _DEBUG
 
 	savedMessages.setFileName("debugMessages.json");
-	if (!savedMessages.exists())
+	savedPersons.setFileName("debugPersons.json");
+	if (!savedMessages.exists() || !savedPersons.exists())
 	{
 		debugGenerate();
 	}
@@ -32,29 +33,49 @@ MessagesModel::MessagesModel(QObject *parent)
 #else
 
 	savedMessages.setFileName("savedMessages.json");
-	if (!savedMessages.exists())
-	{
-		return;
-	}
+	savedPersons.setFileName("savedPersons.json");
 
 #endif
-
-	assert(savedMessages.open(QFile::ReadOnly | QFile::Text));
-
-	QJsonParseError error;
-	QJsonDocument doc = QJsonDocument::fromJson(savedMessages.readAll(), &error);
-	assert(error.error == QJsonParseError::NoError);
-	assert(doc.isArray());
-
-	QJsonArray array = doc.array();
-	std::transform(array.constBegin(), array.constEnd(), std::back_inserter(m_messages),
-		[](const QJsonValue& json)
+	if (savedMessages.exists())
 	{
-		assert(json.isObject());
-		return Message(json.toObject());
-	});
+		assert(savedMessages.open(QFile::ReadOnly | QFile::Text));
 
-	savedMessages.close();
+		QJsonParseError error;
+		QJsonDocument doc = QJsonDocument::fromJson(savedMessages.readAll(), &error);
+		assert(error.error == QJsonParseError::NoError);
+		assert(doc.isArray());
+
+		QJsonArray array = doc.array();
+		std::transform(array.constBegin(), array.constEnd(), std::back_inserter(m_messages),
+			[](const QJsonValue& json)
+		{
+			assert(json.isObject());
+			return Common::Message(json.toObject());
+		});
+
+		savedMessages.close();
+	}
+
+	if (savedPersons.exists())
+	{
+		assert(savedPersons.open(QFile::ReadOnly | QFile::Text));
+
+		QJsonParseError error;
+		QJsonDocument doc = QJsonDocument::fromJson(savedPersons.readAll(), &error);
+		assert(error.error == QJsonParseError::NoError);
+		assert(doc.isArray());
+
+		QJsonArray array = doc.array();
+		std::transform(array.constBegin(), array.constEnd(), std::inserter(m_person, m_person.begin()),
+			[](const QJsonValue& json)
+		{
+			assert(json.isObject());
+			const Common::Person person(json.toObject());
+			return std::make_pair(person.id, person);
+		});
+
+		savedPersons.close();
+	}
 }
 
 MessagesModel::~MessagesModel()
@@ -113,6 +134,9 @@ bool MessagesModel::hasChildren(const QModelIndex& parent) const
 QVariant MessagesModel::data(const QModelIndex& index, int role) const
 {
 	assert(hasIndex(index.row(), index.column(), index.parent()));
+	assert(m_person.count(m_messages[index.row()].from) == 1);
+
+	const auto personFrom = m_person.at(m_messages[index.row()].from);
 
 	switch (role)
 	{
@@ -120,7 +144,7 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 		return { m_messages[index.row()].text };
 
 	case MessagesDataRole::MessageAuthorRole:
-		return { m_messages[index.row()].from.name() };
+		return { personFrom.name() };
 
 	case MessagesDataRole::MessageTimeRole:
 		{
@@ -133,10 +157,10 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 		}
 
 	case MessagesDataRole::MessageAvatarRole:
-		return { m_messages[index.row()].from.avatarUrl };
+		return { personFrom.avatarUrl };
 
 	case MessagesDataRole::MessageIsFromMeRole:
-		return { m_messages[index.row()].from.id == Authorization::AuthorizationInfo::instance().id() };
+		return { personFrom.id == Authorization::AuthorizationInfo::instance().id() };
 
 	default: 
 		return {};
@@ -164,7 +188,7 @@ QHash<int, QByteArray> MessagesModel::roleNames() const
 	};
 }
 
-void MessagesModel::setPerson(const Person& person)
+void MessagesModel::setPerson(const Common::Person& person)
 {
 	if (person != m_otherPerson)
 	{
@@ -194,16 +218,17 @@ void MessagesModel::stopWaiting()
 	}
 }
 
-void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages, State state)
+void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages, Common::Message::State state)
 {
-	assert(state < State::StatesCount);
-	if (state == State::Sent)
+	assert(state < Common::Message::State::StatesCount);
+
+	if (state == Common::Message::State::Sent)
 	{
 		pushBackMessages(messages);
 	}
 }
 
-void MessagesModel::onGetMessagesResponse(int otherId, const std::vector<Message>& messages)
+void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages)
 {
 	m_isWaitForResponse = false;
 
@@ -228,7 +253,7 @@ void MessagesModel::pushBackMessages(const std::vector<Common::Message>& newMess
 
 void MessagesModel::debugGenerate()
 {
-	std::vector<Person> persons
+	std::vector<Common::Person> persons
 	{
 		{ 1, "Ivan", "Ivlev", QUrl::fromLocalFile("Vanya.jpg").toString() },
 		{ 2, "Pavel", "Zharov", QUrl::fromLocalFile("Pasha.jpg").toString() }
@@ -253,18 +278,64 @@ void MessagesModel::debugGenerate()
 	{
 		const int random = rand();
 		jsonArray.push_back(
-			Message(
-				persons[random % 2],
-				persons[1 - random % 2],
+			Common::Message(
+				persons[random % 2].id,
+				persons[1 - random % 2].id,
 				time = time.addSecs(60 * (random % 4 + 1)),
 				text[random % text.size()]
 			).toJson()
 		);
 	}
+
 	QJsonDocument doc(jsonArray);
 	QFile debugMessages("debugMessages.json");
 	assert(debugMessages.open(QFile::WriteOnly));
-
 	debugMessages.write(doc.toJson());
 	debugMessages.close();
+
+	QJsonArray jsonPersons
+	{
+		persons[0].toJson(),
+		persons[1].toJson()
+	};
+
+	doc.setArray(jsonPersons);
+	QFile debugPersons("debugPersons.json");
+	assert(debugPersons.open(QFile::WriteOnly));
+	debugPersons.write(doc.toJson());
+	debugPersons.close();
+}
+
+void MessagesModel::saveMessages() const
+{
+	QJsonArray messages;
+
+	std::transform(m_messages.cbegin(), m_messages.cend(), std::back_inserter(messages),
+		[](const Common::Message& message)
+		{
+			return message.toJson();
+		});
+
+	QJsonDocument doc(messages);
+	QFile savedMessages("savedMessages.json");
+	assert(savedMessages.open(QFile::WriteOnly));
+	savedMessages.write(doc.toJson());
+	savedMessages.close();
+}
+
+void MessagesModel::savePersons() const
+{
+	QJsonArray persons;
+
+	std::transform(m_person.cbegin(), m_person.cend(), std::back_inserter(persons),
+		[](const auto& pair)
+	{
+		return pair.second.toJson();
+	});
+
+	QJsonDocument doc(persons);
+	QFile savedPersons("savedPersons.json");
+	assert(savedPersons.open(QFile::WriteOnly));
+	savedPersons.write(doc.toJson());
+	savedPersons.close();
 }

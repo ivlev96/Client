@@ -41,7 +41,7 @@ public:
 	virtual QHash<int, QByteArray> roleNames() const override;
 
 signals:
-	void getMessages(int otherId, int count);
+	void getMessages(Common::PersonIdType otherId, int count);
 	void error(const QString& error);
 
 public slots:
@@ -51,16 +51,20 @@ public slots:
 	void stopWaiting();
 
 	//Slots for requester
-	void onSendMessagesResponse(const std::vector<Common::Message>& message, Common::State state);
-	void onGetMessagesResponse(int otherId, const std::vector<Common::Message>& messages);
+	void onSendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
+	void onGetMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages);
 
 private:
 	void pushFrontMessages(const std::vector<Common::Message>& newMessages);
 	void pushBackMessages(const std::vector<Common::Message>& newMessages);
 	void debugGenerate();
 
+	void saveMessages() const;
+	void savePersons() const;
+
 private:
 	std::deque<Common::Message> m_messages;
+	std::map<Common::PersonIdType, Common::Person> m_person;
 
 	Common::Person m_otherPerson;
 	bool m_isWaitForResponse;

@@ -3,7 +3,7 @@
 using namespace Authorization;
 using namespace Common;
 
-int AuthorizationInfo::id() const
+Common::PersonIdType AuthorizationInfo::id() const
 {
 	return m_currentPerson.id;
 }

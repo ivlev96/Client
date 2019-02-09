@@ -16,7 +16,7 @@ GlobalController::GlobalController()
 	qRegisterMetaType<Common::Person>("Person");
 	qRegisterMetaType<Common::Message>("Message");
 	qRegisterMetaType<std::vector<Common::Message>>("vector<Message>");
-	qRegisterMetaType<Common::State>("State");
+	qRegisterMetaType<Common::Message::State>("State");
 
 	m_mainWindow = new MainWindow(m_messagesModel);
 
