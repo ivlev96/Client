@@ -20,8 +20,6 @@ MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)
 
 	m_ui->centralWidget->layout()->addWidget(m_messages);
 	m_ui->centralWidget->layout()->addWidget(m_contacts);
-
-	assert(connect(m_messages, &Messages::sendMessage, this, &MainWindow::sendMessage));
 }
 
 MainWindow::~MainWindow()

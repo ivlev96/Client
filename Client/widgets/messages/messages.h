@@ -27,9 +27,6 @@ public:
 
 	void setPerson(const Common::Person& other);
 
-signals:
-	void sendMessage(const Common::Person& other, const QString& message);
-
 private slots:
 	void onButtonSendClicked();
 

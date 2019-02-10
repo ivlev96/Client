@@ -88,6 +88,16 @@ Common::Person MessagesModel::otherPerson() const
 	return m_otherPerson;
 }
 
+void MessagesModel::addNewMessage(const QString& text)
+{
+	Common::Person me = Authorization::AuthorizationInfo::instance().person();
+
+	const std::vector<Common::Message> newMessages(1, { me.id, otherPerson().id, QDateTime::currentDateTime(), text });
+
+	pushBackMessages(newMessages);
+	emit sendMessages(newMessages);
+}
+
 bool MessagesModel::hasIndex(int row, int column, const QModelIndex &parent) const
 {
 	return !parent.isValid() && column == 0 && 
@@ -194,10 +204,16 @@ void MessagesModel::setPerson(const Common::Person& person)
 	{
 		beginResetModel();
 		m_otherPerson = person;
+
+		m_person.clear();
+		const auto me = Authorization::AuthorizationInfo::instance().person();
+		m_person[me.id] = me;
+		m_person[m_otherPerson.id] = m_otherPerson;
+
 		m_messages.clear();
 		endResetModel();
 
-		emit getMessages(m_otherPerson.id, Common::defaultMessagesCount);
+		emit getMessages(m_otherPerson.id, true, Common::defaultMessagesCount);
 
 		startWaiting();	
 	}
@@ -222,19 +238,25 @@ void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& m
 {
 	assert(state < Common::Message::State::StatesCount);
 
-	if (state == Common::Message::State::Sent)
-	{
-		pushBackMessages(messages);
-	}
+	//update states of this messages
+	Q_UNUSED(messages);
 }
 
-void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages)
+void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages)
 {
 	m_isWaitForResponse = false;
 
 	Q_UNUSED(otherId);
 	assert(otherId == m_otherPerson.id);
-	pushFrontMessages(messages);
+
+	if (isNew)
+	{
+		pushBackMessages(messages);
+	}
+	else
+	{
+		pushFrontMessages(messages);
+	}
 }
 
 void MessagesModel::pushFrontMessages(const std::vector<Common::Message>& newMessages)

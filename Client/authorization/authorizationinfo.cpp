@@ -3,6 +3,12 @@
 using namespace Authorization;
 using namespace Common;
 
+AuthorizationInfo& Authorization::AuthorizationInfo::instance()
+{
+	static AuthorizationInfo theSingleInstance;
+	return theSingleInstance;
+}
+
 Common::PersonIdType AuthorizationInfo::id() const
 {
 	return m_currentPerson.id;

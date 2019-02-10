@@ -39,5 +39,6 @@ void Messages::setPerson(const Person& other)
 
 void Messages::onButtonSendClicked()
 {
-	emit sendMessage(m_messagesModel->otherPerson(), m_ui->newMessage->toPlainText());
+	m_messagesModel->addNewMessage(m_ui->newMessage->toPlainText());
+	m_ui->newMessage->clear();
 }

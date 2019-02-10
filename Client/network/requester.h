@@ -9,6 +9,7 @@
 #include <QtWebSockets/QWebSocket>
 #include <QJsonObject>
 #include <vector>
+#include <queue>
 
 namespace Network
 {
@@ -19,27 +20,33 @@ class Requester : public QObject
 
 public:
 	explicit Requester(const QUrl& serverUrl = Common::serverUrl, QObject* parent = nullptr);
+	~Requester();
 
 signals:
 	void sendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
-	void getMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages);
+	void getMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
 	void error(const QString& error);
 	void connected();
 
 public slots:
+	void onThreadStarted();
+
+	void onConnected();
 	void onDisconnected();
 	void onError(QAbstractSocket::SocketError error);
 	void onMessageReceived(const QString& message);
 
-	void onGetMessages(Common::PersonIdType otherId, int count);
-	void onSendMessage(const Common::Person& other, const QString& message);
+	void onGetMessages(Common::PersonIdType otherId, bool isNew, int count);
+	void onSendMessages(const std::vector<Common::Message>& messages);
 
 private:
-	void sendMessage(const QString& message) const;
+	void sendMessage(const QString& message);
 
 private:
 	QUrl m_serverUrl;
 	QWebSocket* m_socket;
+
+	std::queue<QString> m_pendingMessages;
 };
 
 }

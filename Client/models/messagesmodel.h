@@ -25,6 +25,7 @@ public:
 	~MessagesModel();
 
 	Common::Person otherPerson() const;
+	void addNewMessage(const QString& text);
 
 	//QAbstractItemModel implementation:
 	bool hasIndex(int row, int column, const QModelIndex &parent = {}) const;
@@ -41,7 +42,8 @@ public:
 	virtual QHash<int, QByteArray> roleNames() const override;
 
 signals:
-	void getMessages(Common::PersonIdType otherId, int count);
+	void getMessages(Common::PersonIdType otherId, bool isNew, int count);
+	void sendMessages(const std::vector<Common::Message>& messages);
 	void error(const QString& error);
 
 public slots:
@@ -52,7 +54,7 @@ public slots:
 
 	//Slots for requester
 	void onSendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
-	void onGetMessagesResponse(Common::PersonIdType otherId, const std::vector<Common::Message>& messages);
+	void onGetMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
 
 private:
 	void pushFrontMessages(const std::vector<Common::Message>& newMessages);

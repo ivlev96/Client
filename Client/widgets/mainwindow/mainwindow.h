@@ -31,9 +31,6 @@ public:
 	MainWindow(Models::MessagesModel* messagesModel, QWidget *parent = nullptr);
 	~MainWindow();
 
-signals:
-	void sendMessage(const Common::Person& other, const QString& message);
-
 public slots:
 	void onConnected();
 

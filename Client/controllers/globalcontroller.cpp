@@ -14,7 +14,10 @@ GlobalController::GlobalController()
 	, m_requesterThread(new QThread(this))
 {
 	qRegisterMetaType<Common::Person>("Person");
+	qRegisterMetaType<Common::PersonIdType>("Common::PersonIdType");
+
 	qRegisterMetaType<Common::Message>("Message");
+	qRegisterMetaType<Common::MessageIdType>("Common::MessageIdType");
 	qRegisterMetaType<std::vector<Common::Message>>("vector<Message>");
 	qRegisterMetaType<Common::Message::State>("State");
 
@@ -22,6 +25,7 @@ GlobalController::GlobalController()
 
 	m_requester->moveToThread(m_requesterThread);
 	assert(connect(m_requesterThread, &QThread::finished, m_requester, &QObject::deleteLater));
+	assert(connect(m_requesterThread, &QThread::started, m_requester, &Requester::onThreadStarted));
 
 	assert(connect(m_requester, &Requester::error, this, &GlobalController::onError));
 	assert(connect(m_messagesModel, &MessagesModel::error, this, &GlobalController::onError));
@@ -29,7 +33,7 @@ GlobalController::GlobalController()
 	assert(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
 	assert(connect(m_requester, &Requester::getMessagesResponse, m_messagesModel, &MessagesModel::onGetMessagesResponse));
 
-	assert(connect(m_mainWindow, &MainWindow::sendMessage, m_requester, &Requester::onSendMessage));
+	assert(connect(m_messagesModel, &MessagesModel::sendMessages, m_requester, &Requester::onSendMessages));
 	assert(connect(m_requester, &Requester::sendMessagesResponse, m_messagesModel, &MessagesModel::onSendMessagesResponse));
 
 	assert(connect(m_requester, &Requester::connected, m_mainWindow, &MainWindow::onConnected));

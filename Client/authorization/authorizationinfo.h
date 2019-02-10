@@ -10,11 +10,7 @@ namespace Authorization
 class AuthorizationInfo
 {
 public:
-	static AuthorizationInfo& instance()
-	{
-		static AuthorizationInfo theSingleInstance;
-		return theSingleInstance;
-	}
+	static AuthorizationInfo& instance();
 
 	Common::PersonIdType id() const;
 	QString name() const;
@@ -26,7 +22,7 @@ public:
 
 private:
 	AuthorizationInfo();
-	AuthorizationInfo(const AuthorizationInfo& root) = delete;
+	AuthorizationInfo(const AuthorizationInfo&) = delete;
 	AuthorizationInfo& operator=(const AuthorizationInfo&) = delete;
 
 private:
