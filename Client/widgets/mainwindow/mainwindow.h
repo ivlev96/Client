@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
-
 namespace Ui
 {
 class MainWindow;

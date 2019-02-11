@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QWidget>
-#include <QtQuick/QQuickView>
 #include "common/person.h"
 
 namespace Ui 

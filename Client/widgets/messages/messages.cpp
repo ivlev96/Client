@@ -2,8 +2,6 @@
 #include "ui_messages.h"
 #include "models/messagesmodel.h"
 
-#include <QtQml/QQmlContext>
-
 using namespace Widgets;
 using namespace Common;
 

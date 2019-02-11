@@ -1,9 +1,6 @@
 #pragma once
 #include "common/message.h"
 #include "common/person.h"
-#include <QAbstractListModel>
-#include <QTimer>
-#include <deque>
 
 namespace Models
 {

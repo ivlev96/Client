@@ -1,8 +1,5 @@
 #include "requester.h"
 #include "authorization/authorizationinfo.h"
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QAbstractSocket>
 
 using namespace Network;
 

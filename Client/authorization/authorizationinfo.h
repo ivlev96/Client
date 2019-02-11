@@ -1,9 +1,6 @@
 #pragma once
 #include "common/person.h"
 
-#include <QString>
-#include <QUrl>
-
 namespace Authorization
 {
 

@@ -4,8 +4,6 @@
 #include "widgets/messages/messages.h"
 #include "models/messagesmodel.h"
 
-#include <QStackedLayout>
-
 using namespace Widgets;
 
 MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)

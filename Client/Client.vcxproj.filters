@@ -108,6 +108,9 @@
     <ClCompile Include="controllers\globalcontroller.cpp">
       <Filter>Source Files\controllers</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="common\common.h">
       <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,13 +4,6 @@
 #include "common/message.h"
 #include "common/commands.h"
 
-#include <QObject>
-#include <QUrl>
-#include <QtWebSockets/QWebSocket>
-#include <QJsonObject>
-#include <vector>
-#include <queue>
-
 namespace Network
 {
 

@@ -4,9 +4,6 @@
 #include "models/messagesmodel.h"
 #include "network/requester.h"
 
-#include <QObject>
-#include <QThread>
-
 namespace Controllers
 {
 

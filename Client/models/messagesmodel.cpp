@@ -2,11 +2,6 @@
 #include "authorization/authorizationinfo.h"
 #include "common/common.h"
 
-#include <QUrl>
-#include <QDir>
-#include <QJsonDocument>
-#include <QJsonArray>
-
 using namespace Models;
 
 MessagesModel::MessagesModel(QObject *parent)

@@ -1,8 +1,6 @@
 #include "globalcontroller.h"
 #include "common/common.h"
 
-#include <QMessageBox>
-
 using namespace Controllers;
 using namespace Widgets;
 using namespace Models;

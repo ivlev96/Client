@@ -1,7 +1,6 @@
 #include "widgets/mainwindow/mainwindow.h"
 #include "controllers/globalcontroller.h"
 
-#include <QtWidgets/QApplication>
 
 using namespace Widgets;
 
