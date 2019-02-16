@@ -19,22 +19,26 @@ GlobalController::GlobalController()
 	qRegisterMetaType<std::vector<Common::Message>>("vector<Message>");
 	qRegisterMetaType<Common::Message::State>("State");
 
-	m_mainWindow = new MainWindow(m_messagesModel);
+	m_mainWindow = std::make_unique<MainWindow>(m_messagesModel);
 
 	m_requester->moveToThread(m_requesterThread);
 	assert(connect(m_requesterThread, &QThread::finished, m_requester, &QObject::deleteLater));
 	assert(connect(m_requesterThread, &QThread::started, m_requester, &Requester::onThreadStarted));
 
+	//errors
 	assert(connect(m_requester, &Requester::error, this, &GlobalController::onError));
 	assert(connect(m_messagesModel, &MessagesModel::error, this, &GlobalController::onError));
+	assert(connect(m_mainWindow.get(), &MainWindow::error, this, &GlobalController::onError));
+
+	assert(connect(m_mainWindow.get(), &MainWindow::logIn, m_requester, &Requester::onLogIn));
+	assert(connect(m_requester, &Requester::logInResponse, m_mainWindow.get(), &MainWindow::onLogInResponse));
 
 	assert(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
-	assert(connect(m_requester, &Requester::getMessagesResponse, m_messagesModel, &MessagesModel::onGetMessagesResponse));
 
 	assert(connect(m_messagesModel, &MessagesModel::sendMessages, m_requester, &Requester::onSendMessages));
 	assert(connect(m_requester, &Requester::sendMessagesResponse, m_messagesModel, &MessagesModel::onSendMessagesResponse));
 
-	assert(connect(m_requester, &Requester::connected, m_mainWindow, &MainWindow::onConnected));
+	assert(connect(m_requester, &Requester::connected, m_mainWindow.get(), &MainWindow::onConnected));
 
 	m_requesterThread->start();
 	assert(m_requesterThread->isRunning());
@@ -44,7 +48,6 @@ GlobalController::~GlobalController()
 {
 	m_requesterThread->quit();
 	m_requesterThread->wait();
-	delete m_mainWindow;
 }
 
 void Controllers::GlobalController::run()
@@ -54,5 +57,6 @@ void Controllers::GlobalController::run()
 
 void GlobalController::onError(const QString& error)
 {
-	QMessageBox::critical(nullptr, "Error", error);
+	m_mainWindow->showError(error);
+	//QMessageBox::critical(nullptr, "Error", error);
 }

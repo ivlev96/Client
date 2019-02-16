@@ -17,7 +17,7 @@ public:
 	~Contacts();
 
 private:
-	Ui::Contacts *m_ui;
+	std::unique_ptr<Ui::Contacts> m_ui;
 };
 
 }

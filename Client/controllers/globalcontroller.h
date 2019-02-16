@@ -21,7 +21,7 @@ public slots:
 	void onError(const QString& error);
 
 private:
-	Widgets::MainWindow* m_mainWindow;
+	std::unique_ptr<Widgets::MainWindow> m_mainWindow;
 
 	Models::MessagesModel* m_messagesModel;
 

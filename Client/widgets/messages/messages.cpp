@@ -8,16 +8,16 @@ using namespace Common;
 Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 	: QWidget(parent)
 	, m_messagesModel(messagesModel)
+	, m_ui(std::make_unique<Ui::Messages>())
+	, m_messagesView(std::make_unique<QQuickView>())
 {
-	m_ui = new Ui::Messages();
 	m_ui->setupUi(this);
 
-	m_messagesView = new QQuickView();
 	QQmlContext* context = m_messagesView->rootContext();
 	context->setContextProperty("listModel", m_messagesModel);
 	m_messagesView->setSource(QUrl("qrc:/MessageListView.qml"));
 
-	QWidget* container = QWidget::createWindowContainer(m_messagesView, this);
+	QWidget* container = QWidget::createWindowContainer(m_messagesView.get(), this);
 
 	m_ui->gridLayout->addWidget(container, 0, 0, 1, 2);
 
@@ -26,8 +26,6 @@ Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 
 Messages::~Messages()
 {
-	delete m_ui;
-	delete m_messagesView;
 }
 
 void Messages::setPerson(const Person& other)

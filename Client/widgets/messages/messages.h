@@ -29,8 +29,9 @@ private slots:
 	void onButtonSendClicked();
 
 private:
-	Ui::Messages* m_ui;
-	QQuickView* m_messagesView;
+	std::unique_ptr<Ui::Messages> m_ui;
+	std::unique_ptr<QQuickView> m_messagesView;
+
 	Models::MessagesModel* m_messagesModel;
 };
 

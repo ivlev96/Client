@@ -111,6 +111,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="widgets\authorization\authorization.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -120,6 +123,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="widgets\mainwindow\mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="widgets\authorization\authorization.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -141,6 +147,9 @@
     </QtMoc>
     <QtMoc Include="controllers\globalcontroller.h">
       <Filter>Header Files\controllers</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\authorization\authorization.h">
+      <Filter>Header Files\widgets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

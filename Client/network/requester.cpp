@@ -6,26 +6,25 @@ using namespace Network;
 Requester::Requester(const QUrl& serverUrl, QObject* parent)
 	: QObject(parent)
 	, m_serverUrl(serverUrl)
-	, m_socket(nullptr)
 {
 
 }
 
 void Requester::onThreadStarted()
 {
-	m_socket = new QWebSocket();
+	m_socket = std::make_unique<QWebSocket>();
 
-	assert(connect(m_socket, &QWebSocket::connected, this, &Requester::onConnected));
-	assert(connect(m_socket, &QWebSocket::disconnected, this, &Requester::onDisconnected));
-	assert(connect(m_socket, qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
-	assert(connect(m_socket, &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
+	assert(connect(m_socket.get(), &QWebSocket::connected, this, &Requester::onConnected));
+	assert(connect(m_socket.get(), &QWebSocket::disconnected, this, &Requester::onDisconnected));
+	assert(connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
+	assert(connect(m_socket.get(), &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
 
 	m_socket->open(m_serverUrl);
 }
 
 Requester::~Requester()
 {
-	delete m_socket;
+
 }
 
 void Requester::onConnected()
@@ -71,7 +70,7 @@ void Requester::onMessageReceived(const QString& message)
 		emit sendMessagesResponse(response.messages, response.state);
 		return;
 	}
-
+	
 	if (type == Common::getMessagesResponse)
 	{
 		const Common::GetMessagesResponse response(json);
@@ -95,34 +94,49 @@ void Requester::onMessageReceived(const QString& message)
 		emit getMessagesResponse(otherId, response.isNew, response.messages);
 		return;
 	}
+	
+	if (type == Common::logInResponse)
+	{
+		const Common::LogInResponse response(json);
+		emit logInResponse(response.ok, response.person);
+		return;
+	}
 
 	assert(!"Not implemented");
+}
+
+void Requester::onLogIn(const QString& login, const QString& password)
+{
+	const QJsonObject json = Common::LogInRequest(login, password).toJson();
+
+	sendMessage(json);
 }
 
 void Requester::onGetMessages(Common::PersonIdType otherId, bool isNew, int count)
 {
 	const Common::PersonIdType myId = Authorization::AuthorizationInfo::instance().id();
 	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, isNew, count).toJson();
-	const QJsonDocument doc(json);
 
-	sendMessage(doc.toJson());
+	sendMessage(json);
 }
 
 void Requester::onSendMessages(const std::vector<Common::Message>& messages)
 {
 	const Common::Person me = Authorization::AuthorizationInfo::instance().person();
 	const QJsonObject json = Common::SendMessagesRequest(messages).toJson();
-	const QJsonDocument doc(json);
 
-	sendMessage(doc.toJson());
+	sendMessage(json);
 }
 
-void Requester::sendMessage(const QString& message)
+void Requester::sendMessage(const QJsonObject& json)
 {
+	const QJsonDocument doc(json);
+	const QString message = doc.toJson();
+
 	if (!m_socket->isValid())
 	{
 		m_socket->open(m_serverUrl);
-		m_pendingMessages.push(message);
+		m_pendingMessages.push(json);
 		return;
 	}
 	m_socket->sendTextMessage(message);
