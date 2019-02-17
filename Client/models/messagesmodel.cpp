@@ -229,10 +229,8 @@ void MessagesModel::stopWaiting()
 	}
 }
 
-void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages, Common::Message::State state)
+void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages)
 {
-	assert(state < Common::Message::State::StatesCount);
-
 	//update states of this messages
 	Q_UNUSED(messages);
 }

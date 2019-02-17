@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "authorization/authorizationinfo.h"
+#include "widgets/registration/registration.h"
 #include "widgets/authorization/authorization.h"
 #include "widgets/contacts/contacts.h"
 #include "widgets/messages/messages.h"
@@ -15,6 +16,7 @@ MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)
 	m_ui->setupUi(this);
 
 	m_authorization = std::make_unique<Authorization>();
+	m_registration = std::make_unique<Registration>();
 	m_contacts = std::make_unique<Contacts>();
 	m_messages = std::make_unique<Messages>(messagesModel);
 
@@ -22,12 +24,18 @@ MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)
 	m_ui->centralWidget->setLayout(m_layout.get());
 
 	m_layout->addWidget(m_authorization.get());
+	m_layout->addWidget(m_registration.get());
 	m_layout->addWidget(m_contacts.get());
 	m_layout->addWidget(m_messages.get());
 
-	m_layout->setCurrentWidget(m_authorization.get());
+	switchToAuthorization();
 
 	assert(connect(m_authorization.get(), &Authorization::error, this, &MainWindow::error));
+	assert(connect(m_authorization.get(), &Authorization::signUpClicked, this, &MainWindow::switchToRegistration));	
+	assert(connect(m_authorization.get(), &Authorization::logIn, this, &MainWindow::logIn));
+
+	assert(connect(m_registration.get(), &Registration::logInClicked, this, &MainWindow::switchToAuthorization));	
+	assert(connect(m_registration.get(), &Registration::signUp, this, &MainWindow::signUp));	
 }
 
 MainWindow::~MainWindow()
@@ -40,12 +48,17 @@ void MainWindow::showError(const QString& error) const
 	m_ui->statusBar->showMessage(error, 2000);
 }
 
+void MainWindow::onConnected()
+{
+
+}
+
 void MainWindow::onLogInResponse(bool ok, const std::optional<Common::Person>& person)
 {
 	if (ok)
 	{
 		::Authorization::AuthorizationInfo::instance().reset(*person);
-		m_layout->setCurrentWidget(m_contacts.get());
+		switchToContacts();
 	}
 	else
 	{
@@ -53,7 +66,30 @@ void MainWindow::onLogInResponse(bool ok, const std::optional<Common::Person>& p
 	}
 }
 
-void MainWindow::onConnected()
+void MainWindow::onSignUpResponse(bool ok, const std::optional<Common::Person>& person)
 {
-	m_messages->setPerson({ 2, "Pavel", "Zharov", QUrl::fromLocalFile("Pasha.jpg").toString() });
+	if (ok)
+	{
+		::Authorization::AuthorizationInfo::instance().reset(*person);
+		switchToContacts();
+	}
+	else
+	{
+		emit error("Login is already in use");
+	}
+}
+
+void MainWindow::switchToRegistration()
+{
+	m_layout->setCurrentWidget(m_registration.get());
+}
+
+void MainWindow::switchToAuthorization()
+{
+	m_layout->setCurrentWidget(m_authorization.get());
+}
+
+void MainWindow::switchToContacts()
+{
+	m_layout->setCurrentWidget(m_contacts.get());
 }

@@ -18,6 +18,7 @@ GlobalController::GlobalController()
 	qRegisterMetaType<Common::MessageIdType>("Common::MessageIdType");
 	qRegisterMetaType<std::vector<Common::Message>>("vector<Message>");
 	qRegisterMetaType<Common::Message::State>("State");
+	qRegisterMetaType<std::optional<Common::Person>>("std::optional<Common::Person>");
 
 	m_mainWindow = std::make_unique<MainWindow>(m_messagesModel);
 
@@ -32,6 +33,9 @@ GlobalController::GlobalController()
 
 	assert(connect(m_mainWindow.get(), &MainWindow::logIn, m_requester, &Requester::onLogIn));
 	assert(connect(m_requester, &Requester::logInResponse, m_mainWindow.get(), &MainWindow::onLogInResponse));
+
+	assert(connect(m_mainWindow.get(), &MainWindow::signUp, m_requester, &Requester::onSignUp));
+	assert(connect(m_requester, &Requester::signUpResponse, m_mainWindow.get(), &MainWindow::onSignUpResponse));
 
 	assert(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
 

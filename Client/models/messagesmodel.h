@@ -50,7 +50,7 @@ public slots:
 	void stopWaiting();
 
 	//Slots for requester
-	void onSendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
+	void onSendMessagesResponse(const std::vector<Common::Message>& message);
 	void onGetMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
 
 private:

@@ -67,7 +67,7 @@ void Requester::onMessageReceived(const QString& message)
 	if (type == Common::sendMessagesResponse)
 	{
 		const Common::SendMessagesResponse response(json);
-		emit sendMessagesResponse(response.messages, response.state);
+		emit sendMessagesResponse(response.messages);
 		return;
 	}
 	
@@ -102,6 +102,13 @@ void Requester::onMessageReceived(const QString& message)
 		return;
 	}
 
+	if (type == Common::registrationResponse)
+	{
+		const Common::RegistrationResponse response(json);
+		emit signUpResponse(response.ok, response.person);
+		return;
+	}
+
 	assert(!"Not implemented");
 }
 
@@ -109,6 +116,19 @@ void Requester::onLogIn(const QString& login, const QString& password)
 {
 	const QJsonObject json = Common::LogInRequest(login, password).toJson();
 
+	sendMessage(json);
+}
+
+void Requester::onSignUp(
+	const QString& firstName,
+	const QString& lastName,
+	const QString& avatarUrl,
+	const QString& login,
+	const QString& password)
+{
+	const Common::RegistrationRequest request(firstName, lastName, avatarUrl, login, password);
+	const QJsonObject json = request.toJson();
+	
 	sendMessage(json);
 }
 

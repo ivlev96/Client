@@ -16,9 +16,10 @@ public:
 	~Requester();
 
 signals:
-	void sendMessagesResponse(const std::vector<Common::Message>& message, Common::Message::State state);
+	void sendMessagesResponse(const std::vector<Common::Message>& message);
 	void getMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
 	void logInResponse(bool ok, const std::optional<Common::Person>& person);
+	void signUpResponse(bool ok, const std::optional<Common::Person>& person);
 	void error(const QString& error);
 	void connected();
 
@@ -31,6 +32,12 @@ public slots:
 	void onMessageReceived(const QString& message);
 
 	void onLogIn(const QString& login, const QString& password);
+	void onSignUp(
+		const QString& firstName,
+		const QString& lastName,
+		const QString& avatarUrl,
+		const QString& login,
+		const QString& password);
 
 	void onGetMessages(Common::PersonIdType otherId, bool isNew, int count);
 	void onSendMessages(const std::vector<Common::Message>& messages);

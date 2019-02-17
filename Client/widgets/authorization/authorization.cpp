@@ -10,6 +10,7 @@ Authorization::Authorization(QWidget *parent)
 	m_ui->setupUi(this);
 
 	assert(connect(m_ui->buttonLogIn, &QPushButton::clicked, this, &Authorization::onLogInClicked));
+	assert(connect(m_ui->signUp, &QPushButton::clicked, this, &Authorization::signUpClicked));
 }
 
 Authorization::~Authorization()

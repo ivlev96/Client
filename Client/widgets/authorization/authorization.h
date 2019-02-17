@@ -2,7 +2,7 @@
 
 namespace Ui
 {
-	class Authorization;
+class Authorization;
 };
 
 namespace Widgets
@@ -18,6 +18,7 @@ public:
 
 signals:
 	void logIn(const QString& login, const QString& password);
+	void signUpClicked();
 	void error(const QString& error);
 
 private slots:

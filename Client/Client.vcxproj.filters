@@ -114,6 +114,9 @@
     <ClCompile Include="widgets\authorization\authorization.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="widgets\registration\registration.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -126,6 +129,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="widgets\authorization\authorization.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="widgets\registration\registration.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -149,6 +155,9 @@
       <Filter>Header Files\controllers</Filter>
     </QtMoc>
     <QtMoc Include="widgets\authorization\authorization.h">
+      <Filter>Header Files\widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\registration\registration.h">
       <Filter>Header Files\widgets</Filter>
     </QtMoc>
   </ItemGroup>
