@@ -10,14 +10,6 @@ class MessagesModel : public QAbstractListModel
 	Q_OBJECT
 
 public:
-	enum MessagesDataRole
-	{
-		MessageAuthorRole = Qt::UserRole + 1,
-		MessageTimeRole,
-		MessageAvatarRole,
-		MessageIsFromMeRole
-	};
-
 	explicit MessagesModel(QObject *parent = nullptr);
 	~MessagesModel();
 

@@ -117,6 +117,9 @@
     <ClCompile Include="widgets\registration\registration.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="models\lastmessagesmodel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\contacts\contacts.ui">
@@ -160,6 +163,9 @@
     <QtMoc Include="widgets\registration\registration.h">
       <Filter>Header Files\widgets</Filter>
     </QtMoc>
+    <QtMoc Include="models\lastmessagesmodel.h">
+      <Filter>Header Files\models</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_contacts.h">
@@ -185,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\modelscommon.h">
+      <Filter>Header Files\models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

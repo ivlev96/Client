@@ -1,4 +1,5 @@
 #include "messagesmodel.h"
+#include "modelscommon.h"
 #include "authorization/authorizationinfo.h"
 #include "common/common.h"
 
@@ -153,10 +154,10 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 
 	case MessagesDataRole::MessageTimeRole:
 		{
-			auto dateTime = m_messages[index.row()].dateTime;
+			const auto dateTime = m_messages[index.row()].dateTime;
 			if (dateTime.date() == QDate::currentDate())
 			{
-				return { dateTime.time().toString("hh:mm:ss") };
+				return { dateTime.time().toString(Common::timeFormat) };
 			}
 			return { dateTime.toString(Common::dateTimeFormat) };
 		}
@@ -166,6 +167,9 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 
 	case MessagesDataRole::MessageIsFromMeRole:
 		return { personFrom.id == Authorization::AuthorizationInfo::instance().id() };
+
+	case MessagesDataRole::MessageStateRole:
+		return { static_cast<int>(m_messages[index.row()].state) };
 
 	default: 
 		return {};
