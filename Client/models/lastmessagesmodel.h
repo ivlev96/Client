@@ -34,8 +34,12 @@ signals:
 	void personSelected(const Common::Person& other);
 
 public slots:
-	void updateAll(const std::deque<std::pair<Common::Person, Common::Message>>& lastMessages);
+	void insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
 	void updateOne(const std::pair<Common::Person, Common::Message>& last);
+
+private:
+	void pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
+	void pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
 
 private:
 	std::deque<std::pair<Common::Person, Common::Message>> m_messages;

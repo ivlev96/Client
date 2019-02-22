@@ -64,6 +64,27 @@ void Requester::onMessageReceived(const QString& message)
 
 	const QString type = json[Common::typeField].toString();
 
+	if (type == Common::logInResponse)
+	{
+		const Common::LogInResponse response(json);
+		emit logInResponse(response.ok, response.person);
+		return;
+	}
+
+	if (type == Common::registrationResponse)
+	{
+		const Common::RegistrationResponse response(json);
+		emit signUpResponse(response.ok, response.person);
+		return;
+	}
+
+	if (type == Common::getLastMessagesResponse)
+	{
+		const Common::GetLastMessagesResponse response(json);
+		emit getLastMessagesResponse(response.id, response.messages);
+		return;
+	}
+
 	if (type == Common::sendMessagesResponse)
 	{
 		const Common::SendMessagesResponse response(json);
@@ -92,20 +113,6 @@ void Requester::onMessageReceived(const QString& message)
 		}
 
 		emit getMessagesResponse(otherId, response.isNew, response.messages);
-		return;
-	}
-	
-	if (type == Common::logInResponse)
-	{
-		const Common::LogInResponse response(json);
-		emit logInResponse(response.ok, response.person);
-		return;
-	}
-
-	if (type == Common::registrationResponse)
-	{
-		const Common::RegistrationResponse response(json);
-		emit signUpResponse(response.ok, response.person);
 		return;
 	}
 

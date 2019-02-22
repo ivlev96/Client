@@ -153,9 +153,31 @@ void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Messag
 	endInsertRows();
 }
 
-void LastMessagesModel::updateAll(const std::deque<std::pair<Common::Person, Common::Message>>& lastMessages)
+void LastMessagesModel::insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
 {
-	beginResetModel();
-	m_messages = lastMessages;
-	endResetModel();
+	Q_UNUSED(id);
+	assert(id == Authorization::AuthorizationInfo::instance().id());
+
+	if (isNew)
+	{
+		pushFrontMessages(lastMessages);
+	}
+	else
+	{
+		pushBackMessages(lastMessages);
+	}
+}
+
+void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
+{
+	beginInsertRows({}, 0, static_cast<int>(lastMessages.size()) - 1);
+	m_messages.insert(m_messages.begin(), lastMessages.cbegin(), lastMessages.cend());
+	endInsertRows();
+}
+
+void LastMessagesModel::pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
+{
+	beginInsertRows({}, rowCount(), rowCount() + static_cast<int>(lastMessages.size()) - 1);
+	std::copy(lastMessages.cbegin(), lastMessages.cend(), std::back_inserter(m_messages));
+	endInsertRows();
 }
