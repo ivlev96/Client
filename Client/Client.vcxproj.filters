@@ -78,9 +78,6 @@
     <ClCompile Include="widgets\mainwindow\mainwindow.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="widgets\contacts\contacts.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="widgets\messages\messages.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
@@ -120,11 +117,14 @@
     <ClCompile Include="models\lastmessagesmodel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
+    <ClCompile Include="models\modelscommon.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\lastmessages\lastmessages.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="widgets\contacts\contacts.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="widgets\messages\messages.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -137,11 +137,11 @@
     <QtUic Include="widgets\registration\registration.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="widgets\lastmessages\lastmessages.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="widgets\contacts\contacts.h">
-      <Filter>Header Files\widgets</Filter>
-    </QtMoc>
     <QtMoc Include="widgets\mainwindow\mainwindow.h">
       <Filter>Header Files\widgets</Filter>
     </QtMoc>
@@ -165,6 +165,9 @@
     </QtMoc>
     <QtMoc Include="models\lastmessagesmodel.h">
       <Filter>Header Files\models</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\lastmessages\lastmessages.h">
+      <Filter>Header Files\widgets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +209,12 @@
       <Filter>QML Files</Filter>
     </None>
     <None Include="Resources\RoundedImage.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\LastMessagesListView.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\LastMessagesDelegate.qml">
       <Filter>QML Files</Filter>
     </None>
   </ItemGroup>

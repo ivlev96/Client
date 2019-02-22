@@ -8,6 +8,7 @@ using namespace Network;
 
 GlobalController::GlobalController()
 	: m_messagesModel(new MessagesModel(this))
+	, m_lastMessagesModel(new LastMessagesModel(this))
 	, m_requester(new Requester(Common::serverUrl))
 	, m_requesterThread(new QThread(this))
 {
@@ -20,7 +21,7 @@ GlobalController::GlobalController()
 	qRegisterMetaType<Common::Message::State>("State");
 	qRegisterMetaType<std::optional<Common::Person>>("std::optional<Common::Person>");
 
-	m_mainWindow = std::make_unique<MainWindow>(m_messagesModel);
+	m_mainWindow = std::make_unique<MainWindow>(m_lastMessagesModel, m_messagesModel);
 
 	m_requester->moveToThread(m_requesterThread);
 	assert(connect(m_requesterThread, &QThread::finished, m_requester, &QObject::deleteLater));

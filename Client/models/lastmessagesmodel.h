@@ -38,6 +38,11 @@ public slots:
 	void updateOne(const std::pair<Common::Person, Common::Message>& last);
 
 private:
+#ifdef _DEBUG
+	void debugInit();
+#endif
+
+private:
 	std::deque<std::pair<Common::Person, Common::Message>> m_messages;
 };
 

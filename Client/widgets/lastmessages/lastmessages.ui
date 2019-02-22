@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Contacts</class>
- <widget class="QWidget" name="Contacts">
+ <class>LastMessages</class>
+ <widget class="QWidget" name="LastMessages">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,10 +24,7 @@
   <property name="windowTitle">
    <string>Contacts</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <property name="sizeConstraint">
-    <enum>QLayout::SetNoConstraint</enum>
-   </property>
+  <layout class="QGridLayout" name="gridLayout_2">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -44,7 +41,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QListView" name="m_listView"/>
+    <layout class="QGridLayout" name="gridLayout"/>
    </item>
   </layout>
  </widget>

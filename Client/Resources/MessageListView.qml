@@ -7,8 +7,8 @@ ListView
 {
     id: customView
     anchors.margins: 10
-    width: parent.width
-    height: parent.height
+    width: parent ? parent.width : undefined
+    height: parent ? parent.height : undefined
     spacing: 10
     model: listModel
 
@@ -63,7 +63,7 @@ ListView
 
                 font.pointSize: 8
                 textFormat: TextEdit.RichText
-                text: "<b>" + messageName + "</b> " + "<font color=\"grey\">" + messageTime + "</font>"
+                text: "<b>" + messageAuthor + "</b> " + "<font color=\"grey\">" + messageTime + "</font>"
                 selectByMouse: true
             }
 

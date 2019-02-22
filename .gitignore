@@ -3,3 +3,5 @@
 */GeneratedFiles/
 debugMessages.json
 debugPersons.json
+/x64/Debug
+/Client/Client.vcxproj.user

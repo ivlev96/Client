@@ -187,14 +187,7 @@ bool MessagesModel::setData(const QModelIndex& index, const QVariant& value, int
 
 QHash<int, QByteArray> MessagesModel::roleNames() const
 {
-	return
-	{
-		{ Qt::DisplayRole, "messageText" },
-		{ MessagesDataRole::MessageAuthorRole, "messageName" },
-		{ MessagesDataRole::MessageTimeRole, "messageTime" },
-		{ MessagesDataRole::MessageAvatarRole, "messageAvatar" },
-		{ MessagesDataRole::MessageIsFromMeRole, "messageIsFromMe" }
-	};
+	return Models::roleNames();
 }
 
 void MessagesModel::setPerson(const Common::Person& person)

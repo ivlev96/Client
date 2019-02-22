@@ -60,7 +60,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -96,7 +96,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -134,13 +134,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="models\lastmessagesmodel.cpp" />
     <ClCompile Include="models\messagesmodel.cpp" />
+    <ClCompile Include="models\modelscommon.cpp" />
     <ClCompile Include="network\requester.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="widgets\authorization\authorization.cpp" />
-    <ClCompile Include="widgets\contacts\contacts.cpp" />
+    <ClCompile Include="widgets\lastmessages\lastmessages.cpp" />
     <ClCompile Include="widgets\mainwindow\mainwindow.cpp" />
     <ClCompile Include="widgets\messages\messages.cpp" />
     <ClCompile Include="widgets\registration\registration.cpp" />
@@ -153,16 +154,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="widgets\authorization\authorization.ui" />
-    <QtUic Include="widgets\contacts\contacts.ui" />
+    <QtUic Include="widgets\lastmessages\lastmessages.ui" />
     <QtUic Include="widgets\mainwindow\mainwindow.ui" />
     <QtUic Include="widgets\messages\messages.ui" />
     <QtUic Include="widgets\registration\registration.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="widgets\contacts\contacts.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../widgets/contacts/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../widgets/contacts/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="widgets\messages\messages.h">
@@ -176,6 +171,12 @@
     <ClInclude Include="common\common.h" />
     <ClInclude Include="common\message.h" />
     <ClInclude Include="common\person.h" />
+    <QtMoc Include="widgets\lastmessages\lastmessages.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_WEBSOCKETS_LIB;QT_CONCURRENT_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_WEBSOCKETS_LIB;QT_CONCURRENT_LIB</Define>
+    </QtMoc>
     <QtMoc Include="models\lastmessagesmodel.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
@@ -191,7 +192,6 @@
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../controllers/%(Filename)%(Extension)</ForceInclude>
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../controllers/%(Filename)%(Extension)</ForceInclude>
     </QtMoc>
-    <ClInclude Include="GeneratedFiles\ui_contacts.h" />
     <ClInclude Include="GeneratedFiles\ui_messages.h" />
     <QtMoc Include="network\requester.h">
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../network/%(Filename)%(Extension)</ForceInclude>
@@ -206,6 +206,8 @@
     <QtRcc Include="Resources\client.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\LastMessagesDelegate.qml" />
+    <None Include="Resources\LastMessagesListView.qml" />
     <None Include="Resources\MessageListView.qml">
       <FileType>Document</FileType>
     </None>
