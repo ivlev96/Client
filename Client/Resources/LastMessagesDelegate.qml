@@ -6,15 +6,15 @@ import QtGraphicalEffects 1.12
 Rectangle
 {
 	id: delegateRect
-	height: 80
+	height: 60
 
 	GridLayout
     {
         id: globalLayout
-        anchors.rightMargin: 10
-        anchors.leftMargin: 10
-        anchors.bottomMargin: 10
-        anchors.topMargin: 10
+        anchors.rightMargin: 15
+        anchors.leftMargin: 5
+        anchors.bottomMargin: 5
+        anchors.topMargin: 5
         anchors.fill: parent
 
 		columns: 2
@@ -24,6 +24,7 @@ Rectangle
 
         Rectangle
 		{
+			id: avatar
 			Layout.row: 0
 			Layout.column: 0
 			Layout.rowSpan: 2
@@ -50,17 +51,23 @@ Rectangle
 			{
 				Layout.column: 0
 
-				font.pointSize: 8
+				font.pointSize: 9
 				textFormat: TextEdit.RichText
 				text: "<b>" + messageAuthor + "</b>"
 				selectByMouse: true
 			}
+
+			Item
+			{
+				Layout.column: 1
+				Layout.fillWidth: true
+			}
 				
 			TextEdit
 			{
-				Layout.column: 1
+				Layout.column: 2
 
-				font.pointSize: 8
+				font.pointSize: 9
 				textFormat: TextEdit.RichText
 				text: "<font color=\"grey\">" + messageTime + "</font>"
 				selectByMouse: true
@@ -77,34 +84,48 @@ Rectangle
 
 			TextEdit
 			{
+				id: shortAuthor
 				Layout.column: 0
 
-				font.pointSize: 8
+				font.pointSize: 9
 				textFormat: TextEdit.RichText
 				text: "<font color=\"grey\">" + messageShortAuthor + ":</font>"
 				selectByMouse: true
 			}
 				
-			TextEdit
+			Text
 			{
 				Layout.column: 1
 
-				font.pointSize: 8
-				textFormat: TextEdit.RichText
+				font.pointSize: 9
+				textFormat: Text.PlainText
 				text: messageText
-				selectByMouse: true
+				Layout.preferredWidth: delegateRect.width - 
+					avatar.width - 
+					globalLayout.anchors.leftMargin - 
+					globalLayout.anchors.rightMargin - 
+					globalLayout.columnSpacing - 
+					shortAuthor.width
+				elide: Qt.ElideRight
 			}
         }
+	}
 
-        Item
-        {
-            Layout.row: 0
-            Layout.column: 2
-            Layout.rowSpan: 2
+	Rectangle //separator
+	{
+		anchors.bottom: delegateRect.bottom
+		id: lowerBorder
+		width: delegateRect.width
+		height: 1
 
-            // spacer item
-            Layout.fillWidth: true
-            Layout.fillHeight: true // to visualize the spacer
-        }
+		gradient: Gradient
+		{
+			GradientStop { position: 0.0; color: "white" }
+			GradientStop { position: 0.5; color: "grey" }
+			GradientStop { position: 1.0; color: "white" }
+			orientation: Qt.Horizontal
+		}
+
+		visible: index + 1 < lastMessagesListView.count
 	}
 }

@@ -56,7 +56,7 @@ public slots:
 private slots:
 	void switchToRegistration();
 	void switchToAuthorization();
-	void switchToContacts();
+	void switchToLastMessages();
 
 private:
 	std::unique_ptr<Ui::MainWindow> m_ui;
@@ -65,7 +65,7 @@ private:
 
 	std::unique_ptr<Authorization> m_authorization;
 	std::unique_ptr<Registration> m_registration;
-	std::unique_ptr<LastMessages> m_contacts;
+	std::unique_ptr<LastMessages> m_lastMessages;
 	std::unique_ptr<Messages> m_messages;
 };
 

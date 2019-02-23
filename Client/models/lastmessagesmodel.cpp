@@ -76,8 +76,7 @@ QVariant LastMessagesModel::data(const QModelIndex& index, int role) const
 	switch (role)
 	{
 	case Qt::DisplayRole:
-		return message.text;
-
+		return message.text.simplified();
 	case MessagesDataRole::MessageAuthorRole:
 		return person.name();
 
@@ -122,6 +121,21 @@ QHash<int, QByteArray> LastMessagesModel::roleNames() const
 	return Models::roleNames();
 }
 
+void LastMessagesModel::insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
+{
+	Q_UNUSED(id);
+	assert(id == Authorization::AuthorizationInfo::instance().id());
+
+	if (isNew)
+	{
+		pushFrontMessages(lastMessages);
+	}
+	else
+	{
+		pushBackMessages(lastMessages);
+	}
+}
+
 void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Message>& last)
 {
 	const auto[person, message] = last;
@@ -157,26 +171,11 @@ void LastMessagesModel::debugInit()
 {
 	m_messages = 
 	{
-		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123" } },
-		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Message text 2\n\n\n\n1234" } },
+		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123блаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблабла." } },
+		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Тестовое сообщение         \n\n\n     text 2\n\n\n\n1234" } },
 };
 }
 #endif
-
-void LastMessagesModel::insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
-{
-	Q_UNUSED(id);
-	assert(id == Authorization::AuthorizationInfo::instance().id());
-
-	if (isNew)
-	{
-		pushFrontMessages(lastMessages);
-	}
-	else
-	{
-		pushBackMessages(lastMessages);
-	}
-}
 
 void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
 {

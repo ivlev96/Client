@@ -208,9 +208,8 @@
   <ItemGroup>
     <None Include="Resources\LastMessagesDelegate.qml" />
     <None Include="Resources\LastMessagesListView.qml" />
-    <None Include="Resources\MessageListView.qml">
-      <FileType>Document</FileType>
-    </None>
+    <None Include="Resources\MessagesDelegate.qml" />
+    <None Include="Resources\MessagesListView.qml" />
     <None Include="Resources\RoundedImage.qml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -9,7 +9,6 @@ ListView
     anchors.margins: 10
     width: parent ? parent.width : undefined
     height:  parent ? parent.height : undefined
-    spacing: 10
     model: listModel
 
     boundsBehavior: Flickable.StopAtBounds

@@ -171,9 +171,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_contacts.h">
-      <Filter>Generated Files\widgets</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_messages.h">
       <Filter>Generated Files\widgets</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MessageListView.qml">
-      <Filter>QML Files</Filter>
-    </None>
     <None Include="Resources\RoundedImage.qml">
       <Filter>QML Files</Filter>
     </None>
@@ -215,6 +209,12 @@
       <Filter>QML Files</Filter>
     </None>
     <None Include="Resources\LastMessagesDelegate.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\MessagesListView.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\MessagesDelegate.qml">
       <Filter>QML Files</Filter>
     </None>
   </ItemGroup>

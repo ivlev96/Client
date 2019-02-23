@@ -15,7 +15,7 @@ Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 
 	QQmlContext* context = m_messagesView->rootContext();
 	context->setContextProperty("listModel", m_messagesModel);
-	m_messagesView->setSource(QUrl("qrc:/MessageListView.qml"));
+	m_messagesView->setSource(QUrl("qrc:/MessagesListView.qml"));
 
 	QWidget* container = QWidget::createWindowContainer(m_messagesView.get(), this);
 

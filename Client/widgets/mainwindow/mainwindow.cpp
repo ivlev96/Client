@@ -20,7 +20,7 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 
 	m_authorization = std::make_unique<Authorization>();
 	m_registration = std::make_unique<Registration>();
-	m_contacts = std::make_unique<LastMessages>(lastMessagesModel);
+	m_lastMessages = std::make_unique<LastMessages>(lastMessagesModel);
 	m_messages = std::make_unique<Messages>(messagesModel);
 
 	m_layout = std::make_unique<QStackedLayout>();
@@ -28,7 +28,7 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 
 	m_layout->addWidget(m_authorization.get());
 	m_layout->addWidget(m_registration.get());
-	m_layout->addWidget(m_contacts.get());
+	m_layout->addWidget(m_lastMessages.get());
 	m_layout->addWidget(m_messages.get());
 
 	switchToAuthorization();
@@ -61,7 +61,7 @@ void MainWindow::onLogInResponse(bool ok, const std::optional<Common::Person>& p
 	if (ok)
 	{
 		::Authorization::AuthorizationInfo::instance().reset(*person);
-		switchToContacts();
+		switchToLastMessages();
 	}
 	else
 	{
@@ -74,7 +74,7 @@ void MainWindow::onSignUpResponse(bool ok, const std::optional<Common::Person>& 
 	if (ok)
 	{
 		::Authorization::AuthorizationInfo::instance().reset(*person);
-		switchToContacts();
+		switchToLastMessages();
 	}
 	else
 	{
@@ -92,7 +92,7 @@ void MainWindow::switchToAuthorization()
 	m_layout->setCurrentWidget(m_authorization.get());
 }
 
-void MainWindow::switchToContacts()
+void MainWindow::switchToLastMessages()
 {
-	m_layout->setCurrentWidget(m_contacts.get());
+	m_layout->setCurrentWidget(m_lastMessages.get());
 }
