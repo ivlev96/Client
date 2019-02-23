@@ -8,6 +8,9 @@ using namespace Models;
 LastMessagesModel::LastMessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 {
+#ifdef _DEBUG
+	debugInit();
+#endif
 }
 
 LastMessagesModel::~LastMessagesModel()
@@ -67,34 +70,38 @@ QVariant LastMessagesModel::data(const QModelIndex& index, int role) const
 {
 	assert(hasIndex(index.row(), index.column(), index.parent()));
 
+	const auto me = Authorization::AuthorizationInfo::instance().id();
 	const auto[person, message] = m_messages[index.row()];
 
 	switch (role)
 	{
 	case Qt::DisplayRole:
-		return { message.text };
+		return message.text;
 
 	case MessagesDataRole::MessageAuthorRole:
-		return { person.name() };
+		return person.name();
+
+	case MessagesDataRole::MessageShortAuthorRole:
+		return message.from == me ? "You" : person.firstName;
 
 	case MessagesDataRole::MessageTimeRole:
 	{
 		const auto dateTime = message.dateTime;
 		if (dateTime.date() == QDate::currentDate())
 		{
-			return { dateTime.time().toString(Common::timeFormat) };
+			return dateTime.time().toString(Common::timeFormat);
 		}
-		return { dateTime.toString(Common::dateTimeFormat) };
+		return dateTime.toString(Common::dateTimeFormat);
 	}
 
 	case MessagesDataRole::MessageAvatarRole:
-		return { person.avatarUrl };
+		return person.avatarUrl;
 
 	case MessagesDataRole::MessageIsFromMeRole:
-		return { person.id == Authorization::AuthorizationInfo::instance().id() };
+		return person.id == me;
 
 	case MessagesDataRole::MessageStateRole:
-		return { static_cast<int>(message.state) };
+		return static_cast<int>(message.state);
 
 	default:
 		return {};
@@ -112,15 +119,7 @@ bool LastMessagesModel::setData(const QModelIndex& index, const QVariant& value,
 
 QHash<int, QByteArray> LastMessagesModel::roleNames() const
 {
-	return
-	{
-		{ Qt::DisplayRole, "messageText" },
-		{ MessagesDataRole::MessageAuthorRole, "messageName" },
-		{ MessagesDataRole::MessageTimeRole, "messageTime" },
-		{ MessagesDataRole::MessageAvatarRole, "messageAvatar" },
-		{ MessagesDataRole::MessageIsFromMeRole, "messageIsFromMe" },
-		{ MessagesDataRole::MessageStateRole, "messageState" }
-	};
+	return Models::roleNames();
 }
 
 void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Message>& last)
@@ -152,6 +151,17 @@ void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Messag
 	m_messages.push_front(last);
 	endInsertRows();
 }
+
+#ifdef _DEBUG
+void LastMessagesModel::debugInit()
+{
+	m_messages = 
+	{
+		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123" } },
+		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Message text 2\n\n\n\n1234" } },
+};
+}
+#endif
 
 void LastMessagesModel::insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
 {

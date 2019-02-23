@@ -41,6 +41,10 @@ private:
 	void pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
 	void pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
 
+#ifdef _DEBUG
+	void debugInit();
+#endif
+
 private:
 	std::deque<std::pair<Common::Person, Common::Message>> m_messages;
 };

@@ -3,13 +3,16 @@
 #include "authorization/authorizationinfo.h"
 #include "widgets/registration/registration.h"
 #include "widgets/authorization/authorization.h"
-#include "widgets/contacts/contacts.h"
+#include "widgets/lastmessages/lastmessages.h"
 #include "widgets/messages/messages.h"
 #include "models/messagesmodel.h"
+#include "models/lastmessagesmodel.h"
 
 using namespace Widgets;
 
-MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)
+MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
+	Models::MessagesModel* messagesModel,
+	QWidget *parent)
 	: QMainWindow(parent)
 {
 	m_ui = std::make_unique<Ui::MainWindow>();
@@ -17,7 +20,7 @@ MainWindow::MainWindow(Models::MessagesModel* messagesModel, QWidget *parent)
 
 	m_authorization = std::make_unique<Authorization>();
 	m_registration = std::make_unique<Registration>();
-	m_contacts = std::make_unique<Contacts>();
+	m_contacts = std::make_unique<LastMessages>(lastMessagesModel);
 	m_messages = std::make_unique<Messages>(messagesModel);
 
 	m_layout = std::make_unique<QStackedLayout>();

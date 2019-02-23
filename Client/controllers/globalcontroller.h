@@ -2,6 +2,7 @@
 
 #include "widgets/mainwindow/mainwindow.h"
 #include "models/messagesmodel.h"
+#include "models/lastmessagesmodel.h"
 #include "network/requester.h"
 
 namespace Controllers
@@ -24,6 +25,7 @@ private:
 	std::unique_ptr<Widgets::MainWindow> m_mainWindow;
 
 	Models::MessagesModel* m_messagesModel;
+	Models::LastMessagesModel* m_lastMessagesModel;
 
 	Network::Requester* m_requester;
 

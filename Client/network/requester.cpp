@@ -16,7 +16,8 @@ void Requester::onThreadStarted()
 
 	assert(connect(m_socket.get(), &QWebSocket::connected, this, &Requester::onConnected));
 	assert(connect(m_socket.get(), &QWebSocket::disconnected, this, &Requester::onDisconnected));
-	assert(connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
+	//assert(connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
+	assert(connect(m_socket.get(), static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Requester::onError));
 	assert(connect(m_socket.get(), &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
 
 	m_socket->open(m_serverUrl);

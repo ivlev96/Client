@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>MessageListView.qml</file>
         <file>RoundedImage.qml</file>
+        <file>LastMessagesListView.qml</file>
+        <file>LastMessagesDelegate.qml</file>
     </qresource>
 </RCC>
