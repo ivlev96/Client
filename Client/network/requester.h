@@ -18,9 +18,19 @@ public:
 signals:
 	void logInResponse(bool ok, const std::optional<Common::Person>& person);
 	void signUpResponse(bool ok, const std::optional<Common::Person>& person);
-	void getLastMessagesResponse(Common::PersonIdType id, const std::vector<std::pair<Common::Person, Common::Message>>& messages);
-	void sendMessagesResponse(const std::vector<Common::Message>& message);
-	void getMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
+	
+	void getLastMessagesResponse(Common::PersonIdType id, 
+		const std::vector<std::pair<Common::Person, Common::Message>>& messages, 
+		const std::optional<Common::MessageIdType>& before);
+	
+	void sendMessagesResponse(const std::vector<Common::Message>& messages);
+
+	void getMessagesResponse(Common::PersonIdType otherId, 
+		const std::vector<Common::Message>& messages, 
+		const std::optional<Common::MessageIdType>& before);
+
+	void newMessage(const Common::Person& from, const Common::Message& message);
+
 	void error(const QString& error);
 	void connected();
 
@@ -40,7 +50,10 @@ public slots:
 		const QString& login,
 		const QString& password);
 
-	void onGetMessages(Common::PersonIdType otherId, bool isNew, int count);
+	void onGetMessages(Common::PersonIdType otherId, int count, 
+		const std::optional<Common::MessageIdType>& before = {});
+
+	void onGetLastMessages(int count, const std::optional<Common::MessageIdType>& before = {});
 	void onSendMessages(const std::vector<Common::Message>& messages);
 
 private:

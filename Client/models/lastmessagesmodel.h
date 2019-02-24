@@ -32,14 +32,20 @@ public:
 
 signals:
 	void personSelected(const Common::Person& other);
+	void getLastMessages(int count, const std::optional<Common::MessageIdType>& from = {});
 
 public slots:
-	void insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
-	void updateOne(const std::pair<Common::Person, Common::Message>& last);
+	void onLogInResponse();
+
+	void onGetLastMessagesResponse(Common::PersonIdType id,
+		const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages,
+		const std::optional<Common::MessageIdType>& before);
+
+	void onNewMessage(const Common::Person& from, const Common::Message& message);
 
 private:
 	void pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
-	void pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
+	void pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages, Common::MessageIdType before);
 
 #ifdef _DEBUG
 	void debugInit();

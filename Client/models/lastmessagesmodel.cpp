@@ -121,30 +121,35 @@ QHash<int, QByteArray> LastMessagesModel::roleNames() const
 	return Models::roleNames();
 }
 
-void LastMessagesModel::insertMessages(Common::PersonIdType id, bool isNew, const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
+void LastMessagesModel::onLogInResponse()
+{
+	emit getLastMessages(Common::defaultMessagesCount);
+}
+
+void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,
+	const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages,
+	const std::optional<Common::MessageIdType>& before)
 {
 	Q_UNUSED(id);
 	assert(id == Authorization::AuthorizationInfo::instance().id());
 
-	if (isNew)
+	if (before.has_value())
 	{
 		pushFrontMessages(lastMessages);
 	}
 	else
 	{
-		pushBackMessages(lastMessages);
+		pushBackMessages(lastMessages, *before);
 	}
 }
 
-void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Message>& last)
+void LastMessagesModel::onNewMessage(const Common::Person& from, const Common::Message& message)
 {
-	const auto[person, message] = last;
-
 	const auto it = std::find_if(m_messages.rbegin(), m_messages.rend(),
-		[&person](const auto pair)
-		{
-			return pair.first == person;
-		});
+		[&from](const auto pair)
+	{
+		return pair.first == from;
+	});
 
 	if (it != m_messages.rend())
 	{
@@ -162,20 +167,9 @@ void LastMessagesModel::updateOne(const std::pair<Common::Person, Common::Messag
 	}
 
 	beginInsertRows({}, 0, 0);
-	m_messages.push_front(last);
+	m_messages.emplace_front(from, message);
 	endInsertRows();
 }
-
-#ifdef _DEBUG
-void LastMessagesModel::debugInit()
-{
-	m_messages = 
-	{
-		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123блаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблабла." } },
-		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Тестовое сообщение         \n\n\n     text 2\n\n\n\n1234" } },
-};
-}
-#endif
 
 void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
 {
@@ -184,9 +178,23 @@ void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Pe
 	endInsertRows();
 }
 
-void LastMessagesModel::pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)
+void LastMessagesModel::pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages, Common::MessageIdType before)
 {
+	Q_UNUSED(before);
+	assert(before == m_messages.rbegin()->second.id);
+
 	beginInsertRows({}, rowCount(), rowCount() + static_cast<int>(lastMessages.size()) - 1);
 	std::copy(lastMessages.cbegin(), lastMessages.cend(), std::back_inserter(m_messages));
 	endInsertRows();
 }
+
+#ifdef _DEBUG
+void LastMessagesModel::debugInit()
+{
+	m_messages =
+	{
+		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123блаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблабла." } },
+		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Тестовое сообщение         \n\n\n     text 2\n\n\n\n1234" } },
+	};
+}
+#endif

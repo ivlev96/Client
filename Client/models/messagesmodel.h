@@ -31,7 +31,8 @@ public:
 	virtual QHash<int, QByteArray> roleNames() const override;
 
 signals:
-	void getMessages(Common::PersonIdType otherId, bool isNew, int count);
+	void getMessages(Common::PersonIdType otherId, int count, 
+		const std::optional<Common::MessageIdType>& before = {});
 	void sendMessages(const std::vector<Common::Message>& messages);
 	void error(const QString& error);
 
@@ -43,10 +44,14 @@ public slots:
 
 	//Slots for requester
 	void onSendMessagesResponse(const std::vector<Common::Message>& message);
-	void onGetMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages);
+	void onGetMessagesResponse(Common::PersonIdType otherId, 
+		const std::vector<Common::Message>& messages, 
+		const std::optional<Common::MessageIdType>& before);
+
+	void onNewMessage(const Common::Person& from, const Common::Message& message);
 
 private:
-	void pushFrontMessages(const std::vector<Common::Message>& newMessages);
+	void pushFrontMessages(const std::vector<Common::Message>& newMessages, Common::MessageIdType before);
 	void pushBackMessages(const std::vector<Common::Message>& newMessages);
 	void debugGenerate();
 

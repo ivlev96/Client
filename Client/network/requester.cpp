@@ -82,7 +82,7 @@ void Requester::onMessageReceived(const QString& message)
 	if (type == Common::getLastMessagesResponse)
 	{
 		const Common::GetLastMessagesResponse response(json);
-		emit getLastMessagesResponse(response.id, response.messages);
+		emit getLastMessagesResponse(response.id, response.messages, response.before);
 		return;
 	}
 
@@ -113,7 +113,14 @@ void Requester::onMessageReceived(const QString& message)
 			return;
 		}
 
-		emit getMessagesResponse(otherId, response.isNew, response.messages);
+		emit getMessagesResponse(otherId, response.messages, response.before);
+		return;
+	}
+
+	if (type == Common::newMessageCommand)
+	{
+		const Common::NewMessageCommand command(json);
+		emit newMessage(command.from, command.message);
 		return;
 	}
 
@@ -140,10 +147,19 @@ void Requester::onSignUp(
 	sendMessage(json);
 }
 
-void Requester::onGetMessages(Common::PersonIdType otherId, bool isNew, int count)
+void Requester::onGetMessages(Common::PersonIdType otherId, int count,
+	const std::optional<Common::MessageIdType>& before)
 {
 	const Common::PersonIdType myId = Authorization::AuthorizationInfo::instance().id();
-	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, isNew, count).toJson();
+	const QJsonObject json = Common::GetMessagesRequest(myId, otherId, count, before).toJson();
+
+	sendMessage(json);
+}
+
+void Requester::onGetLastMessages(int count, const std::optional<Common::MessageIdType>& before)
+{
+	const Common::PersonIdType myId = Authorization::AuthorizationInfo::instance().id();
+	const QJsonObject json = Common::GetLastMessagesRequest(myId, count, before).toJson();
 
 	sendMessage(json);
 }

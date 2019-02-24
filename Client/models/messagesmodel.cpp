@@ -205,7 +205,7 @@ void MessagesModel::setPerson(const Common::Person& person)
 		m_messages.clear();
 		endResetModel();
 
-		emit getMessages(m_otherPerson.id, true, Common::defaultMessagesCount);
+		emit getMessages(m_otherPerson.id, Common::defaultMessagesCount);
 
 		startWaiting();	
 	}
@@ -232,27 +232,46 @@ void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& m
 	Q_UNUSED(messages);
 }
 
-void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId, bool isNew, const std::vector<Common::Message>& messages)
+void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId,
+	const std::vector<Common::Message>& messages,
+	const std::optional<Common::MessageIdType>& before)
 {
 	m_isWaitForResponse = false;
 
 	Q_UNUSED(otherId);
 	assert(otherId == m_otherPerson.id);
 
-	if (isNew)
+	if (before.has_value())
 	{
-		pushBackMessages(messages);
+		pushFrontMessages(messages, *before);
 	}
 	else
 	{
-		pushFrontMessages(messages);
+		pushBackMessages(messages);
 	}
 }
 
-void MessagesModel::pushFrontMessages(const std::vector<Common::Message>& newMessages)
+void MessagesModel::onNewMessage(const Common::Person& from, const Common::Message& message)
 {
-	beginInsertRows(QModelIndex(), 0, static_cast<int>(newMessages.size()) - 1);
-	m_messages.insert(m_messages.begin(), newMessages.cbegin(), newMessages.cend());
+	if (from.id == m_otherPerson.id)
+	{
+		pushBackMessages({ message });
+	}
+}
+
+void MessagesModel::pushFrontMessages(const std::vector<Common::Message>& newMessages, Common::MessageIdType before)
+{
+	auto it = std::find_if(m_messages.begin(), m_messages.end(), 
+		[&before](const auto& message)
+		{
+			return message.id == before;
+		});
+	assert(it != m_messages.end());
+
+	const int row = static_cast<int>(std::distance(m_messages.begin(), it));
+
+	beginInsertRows(QModelIndex(), row, row + static_cast<int>(newMessages.size()) - 1);
+	m_messages.insert(it, newMessages.cbegin(), newMessages.cend());
 	endInsertRows();
 }
 

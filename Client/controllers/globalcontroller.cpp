@@ -38,10 +38,17 @@ GlobalController::GlobalController()
 	assert(connect(m_mainWindow.get(), &MainWindow::signUp, m_requester, &Requester::onSignUp));
 	assert(connect(m_requester, &Requester::signUpResponse, m_mainWindow.get(), &MainWindow::onSignUpResponse));
 
+	assert(connect(m_lastMessagesModel, &LastMessagesModel::getLastMessages, m_requester, &Requester::onGetLastMessages));
+	assert(connect(m_requester, &Requester::getLastMessagesResponse, m_lastMessagesModel, &LastMessagesModel::onGetLastMessagesResponse));
+
 	assert(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
+	assert(connect(m_requester, &Requester::getMessagesResponse, m_messagesModel, &MessagesModel::onGetMessagesResponse));
 
 	assert(connect(m_messagesModel, &MessagesModel::sendMessages, m_requester, &Requester::onSendMessages));
 	assert(connect(m_requester, &Requester::sendMessagesResponse, m_messagesModel, &MessagesModel::onSendMessagesResponse));
+
+	assert(connect(m_requester, &Requester::newMessage, m_lastMessagesModel, &LastMessagesModel::onNewMessage));
+	assert(connect(m_requester, &Requester::newMessage, m_messagesModel, &MessagesModel::onNewMessage));
 
 	assert(connect(m_requester, &Requester::connected, m_mainWindow.get(), &MainWindow::onConnected));
 
