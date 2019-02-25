@@ -8,7 +8,7 @@ using namespace Models;
 LastMessagesModel::LastMessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 {
-#ifdef _DEBUG
+#ifdef o_DEBUG
 	debugInit();
 #endif
 }
@@ -133,7 +133,7 @@ void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,
 	Q_UNUSED(id);
 	assert(id == Authorization::AuthorizationInfo::instance().id());
 
-	if (before.has_value())
+	if (!before.has_value())
 	{
 		pushFrontMessages(lastMessages);
 	}
