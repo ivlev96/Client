@@ -21,7 +21,7 @@ Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 
 	m_ui->gridLayout->addWidget(container, 0, 0, 1, 2);
 
-	assert(connect(m_ui->buttonSend, &QPushButton::clicked, this, &Messages::onButtonSendClicked));
+	VERIFY(connect(m_ui->buttonSend, &QPushButton::clicked, this, &Messages::onButtonSendClicked));
 }
 
 Messages::~Messages()

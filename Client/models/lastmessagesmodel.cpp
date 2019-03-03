@@ -8,19 +8,16 @@ using namespace Models;
 LastMessagesModel::LastMessagesModel(QObject *parent)
 	: QAbstractListModel(parent)
 {
-#ifdef o_DEBUG
-	debugInit();
-#endif
 }
 
 LastMessagesModel::~LastMessagesModel()
 {
 }
 
-Common::Person Models::LastMessagesModel::personByIndex(const QModelIndex& index) const
+Common::Person Models::LastMessagesModel::personByRow(int row) const
 {
-	assert(hasIndex(index.row(), index.column(), index.parent()));
-	return m_messages[index.row()].first;
+	ASSERT(row < rowCount());
+	return m_messages[row].first;
 }
 
 bool LastMessagesModel::hasIndex(int row, int column, const QModelIndex& parent) const
@@ -35,14 +32,14 @@ bool LastMessagesModel::hasIndex(int row, int column, const QModelIndex& parent)
 QModelIndex LastMessagesModel::index(int row, int column, const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
-	assert(hasIndex(row, column, parent));
+	ASSERT(hasIndex(row, column, parent));
 	return createIndex(row, column, static_cast<quintptr>(0));
 }
 
 QModelIndex LastMessagesModel::parent(const QModelIndex& child) const
 {
 	Q_UNUSED(child);
-	assert(child.isValid());
+	ASSERT(child.isValid());
 
 	return {};
 }
@@ -56,7 +53,7 @@ int LastMessagesModel::rowCount(const QModelIndex& parent) const
 int LastMessagesModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
-	assert(!parent.isValid());
+	ASSERT(!parent.isValid());
 
 	return 1;
 }
@@ -68,7 +65,7 @@ bool LastMessagesModel::hasChildren(const QModelIndex& parent) const
 
 QVariant LastMessagesModel::data(const QModelIndex& index, int role) const
 {
-	assert(hasIndex(index.row(), index.column(), index.parent()));
+	ASSERT(hasIndex(index.row(), index.column(), index.parent()));
 
 	const auto me = Authorization::AuthorizationInfo::instance().id();
 	const auto[person, message] = m_messages[index.row()];
@@ -131,7 +128,7 @@ void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,
 	const std::optional<Common::MessageIdType>& before)
 {
 	Q_UNUSED(id);
-	assert(id == Authorization::AuthorizationInfo::instance().id());
+	ASSERT(id == Authorization::AuthorizationInfo::instance().id());
 
 	if (!before.has_value())
 	{
@@ -181,20 +178,9 @@ void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Pe
 void LastMessagesModel::pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages, Common::MessageIdType before)
 {
 	Q_UNUSED(before);
-	assert(before == m_messages.rbegin()->second.id);
+	ASSERT(before == m_messages.rbegin()->second.id);
 
 	beginInsertRows({}, rowCount(), rowCount() + static_cast<int>(lastMessages.size()) - 1);
 	std::copy(lastMessages.cbegin(), lastMessages.cend(), std::back_inserter(m_messages));
 	endInsertRows();
 }
-
-#ifdef _DEBUG
-void LastMessagesModel::debugInit()
-{
-	m_messages =
-	{
-		{ { 2, "Pavel", "Zharov",  QUrl::fromLocalFile("Pasha.jpg").toString() }, { 2, 1, QDateTime::currentDateTime().addSecs(-60), "Message text 1<br><br><br>123блаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблаблабла." } },
-		{ { 3, "Vityok", "Burrr",  QUrl::fromLocalFile("Vanya.jpg").toString() }, { 1, 3, QDateTime::currentDateTime().addSecs(-120), "Тестовое сообщение         \n\n\n     text 2\n\n\n\n1234" } },
-	};
-}
-#endif

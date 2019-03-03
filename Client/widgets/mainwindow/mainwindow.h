@@ -54,9 +54,12 @@ public slots:
 	void onSignUpResponse(bool ok, const std::optional<Common::Person>& person);
 
 private slots:
+	void onPersonSelected(const Common::Person& person);
+
 	void switchToRegistration();
 	void switchToAuthorization();
 	void switchToLastMessages();
+	void switchToMessages();
 
 private:
 	std::unique_ptr<Ui::MainWindow> m_ui;

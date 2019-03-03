@@ -36,6 +36,8 @@ signals:
 	void sendMessages(const std::vector<Common::Message>& messages);
 	void error(const QString& error);
 
+	void scrollTo(int row);
+
 public slots:
 	//Slots for parent Widget
 	void setPerson(const Common::Person& person);

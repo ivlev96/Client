@@ -26,37 +26,37 @@ GlobalController::GlobalController()
 	m_mainWindow = std::make_unique<MainWindow>(m_lastMessagesModel, m_messagesModel);
 
 	m_requester->moveToThread(m_requesterThread);
-	assert(connect(m_requesterThread, &QThread::finished, m_requester, &QObject::deleteLater));
-	assert(connect(m_requesterThread, &QThread::started, m_requester, &Requester::onThreadStarted));
+	VERIFY(connect(m_requesterThread, &QThread::finished, m_requester, &QObject::deleteLater));
+	VERIFY(connect(m_requesterThread, &QThread::started, m_requester, &Requester::onThreadStarted));
 
 	//errors
-	assert(connect(m_requester, &Requester::error, this, &GlobalController::onError));
-	assert(connect(m_messagesModel, &MessagesModel::error, this, &GlobalController::onError));
-	assert(connect(m_mainWindow.get(), &MainWindow::error, this, &GlobalController::onError));
+	VERIFY(connect(m_requester, &Requester::error, this, &GlobalController::onError));
+	VERIFY(connect(m_messagesModel, &MessagesModel::error, this, &GlobalController::onError));
+	VERIFY(connect(m_mainWindow.get(), &MainWindow::error, this, &GlobalController::onError));
 
-	assert(connect(m_mainWindow.get(), &MainWindow::logIn, m_requester, &Requester::onLogIn));
-	assert(connect(m_requester, &Requester::logInResponse, m_mainWindow.get(), &MainWindow::onLogInResponse));
-	assert(connect(m_requester, &Requester::logInResponse, m_lastMessagesModel, &LastMessagesModel::onLogInResponse));
+	VERIFY(connect(m_mainWindow.get(), &MainWindow::logIn, m_requester, &Requester::onLogIn));
+	VERIFY(connect(m_requester, &Requester::logInResponse, m_mainWindow.get(), &MainWindow::onLogInResponse));
+	VERIFY(connect(m_requester, &Requester::logInResponse, m_lastMessagesModel, &LastMessagesModel::onLogInResponse));
 
-	assert(connect(m_mainWindow.get(), &MainWindow::signUp, m_requester, &Requester::onSignUp));
-	assert(connect(m_requester, &Requester::signUpResponse, m_mainWindow.get(), &MainWindow::onSignUpResponse));
+	VERIFY(connect(m_mainWindow.get(), &MainWindow::signUp, m_requester, &Requester::onSignUp));
+	VERIFY(connect(m_requester, &Requester::signUpResponse, m_mainWindow.get(), &MainWindow::onSignUpResponse));
 
-	assert(connect(m_lastMessagesModel, &LastMessagesModel::getLastMessages, m_requester, &Requester::onGetLastMessages));
-	assert(connect(m_requester, &Requester::getLastMessagesResponse, m_lastMessagesModel, &LastMessagesModel::onGetLastMessagesResponse));
+	VERIFY(connect(m_lastMessagesModel, &LastMessagesModel::getLastMessages, m_requester, &Requester::onGetLastMessages));
+	VERIFY(connect(m_requester, &Requester::getLastMessagesResponse, m_lastMessagesModel, &LastMessagesModel::onGetLastMessagesResponse));
 
-	assert(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
-	assert(connect(m_requester, &Requester::getMessagesResponse, m_messagesModel, &MessagesModel::onGetMessagesResponse));
+	VERIFY(connect(m_messagesModel, &MessagesModel::getMessages, m_requester, &Requester::onGetMessages));
+	VERIFY(connect(m_requester, &Requester::getMessagesResponse, m_messagesModel, &MessagesModel::onGetMessagesResponse));
 
-	assert(connect(m_messagesModel, &MessagesModel::sendMessages, m_requester, &Requester::onSendMessages));
-	assert(connect(m_requester, &Requester::sendMessagesResponse, m_messagesModel, &MessagesModel::onSendMessagesResponse));
+	VERIFY(connect(m_messagesModel, &MessagesModel::sendMessages, m_requester, &Requester::onSendMessages));
+	VERIFY(connect(m_requester, &Requester::sendMessagesResponse, m_messagesModel, &MessagesModel::onSendMessagesResponse));
 
-	assert(connect(m_requester, &Requester::newMessage, m_lastMessagesModel, &LastMessagesModel::onNewMessage));
-	assert(connect(m_requester, &Requester::newMessage, m_messagesModel, &MessagesModel::onNewMessage));
+	VERIFY(connect(m_requester, &Requester::newMessage, m_lastMessagesModel, &LastMessagesModel::onNewMessage));
+	VERIFY(connect(m_requester, &Requester::newMessage, m_messagesModel, &MessagesModel::onNewMessage));
 
-	assert(connect(m_requester, &Requester::connected, m_mainWindow.get(), &MainWindow::onConnected));
+	VERIFY(connect(m_requester, &Requester::connected, m_mainWindow.get(), &MainWindow::onConnected));
 
 	m_requesterThread->start();
-	assert(m_requesterThread->isRunning());
+	ASSERT(m_requesterThread->isRunning());
 }
 
 GlobalController::~GlobalController()

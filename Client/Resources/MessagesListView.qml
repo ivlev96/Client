@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.12
 
 ListView
 {
-    id: customView
+    id: messagesListView
     anchors.margins: 10
     width: parent ? parent.width : undefined
     height: parent ? parent.height : undefined
@@ -20,4 +20,13 @@ ListView
     }
 	
     delegate: MessagesDelegate{}
+
+	Connections 
+	{
+		target: listModel 
+		onScrollTo: 
+		{
+			messagesListView.currentIndex = row
+		}
+	}
 }

@@ -16,6 +16,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
 #include <QtQuick/QQuickView>
+#include <QtQuick/QQuickItem>
 #include <QAbstractListModel>
 #include <QtWebSockets/QWebSocket>
 
@@ -25,3 +26,15 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QtQml/QQmlContext>
+
+#ifdef _DEBUG
+
+#define ASSERT(X) _ASSERT(X)
+#define VERIFY(X) _ASSERT(X)
+
+#else
+
+#define ASSERT(X)
+#define VERIFY(X) (X)
+
+#endif

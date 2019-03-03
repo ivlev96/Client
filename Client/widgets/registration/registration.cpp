@@ -9,8 +9,8 @@ Registration::Registration(QWidget *parent)
 {
 	m_ui->setupUi(this);
 
-	assert(connect(m_ui->logIn, &QPushButton::clicked, this, &Registration::logInClicked));
-	assert(connect(m_ui->signUp, &QPushButton::clicked, this, &Registration::onSignUpClicked));
+	VERIFY(connect(m_ui->logIn, &QPushButton::clicked, this, &Registration::logInClicked));
+	VERIFY(connect(m_ui->signUp, &QPushButton::clicked, this, &Registration::onSignUpClicked));
 }
 
 Registration::~Registration()

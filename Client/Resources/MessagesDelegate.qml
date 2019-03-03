@@ -5,6 +5,10 @@ import QtGraphicalEffects 1.12
 
 Rectangle
 {
+	id: messageDelegate
+    width: messageLayout.width + 10
+    height: messageLayout.height + 10
+
     radius: 10
 
     color: "lightgreen"
@@ -14,16 +18,10 @@ Rectangle
     GridLayout
     {
         id: messageLayout
-        anchors.rightMargin: 5
-        anchors.leftMargin: 5
-        anchors.bottomMargin: 5
-        anchors.topMargin: 5
-        anchors.fill: parent
-
         columns: 2
         rows: 2
         columnSpacing: 10
-		rowSpacing: 10
+        anchors.centerIn: messageDelegate
 
         Rectangle
         {
@@ -60,7 +58,7 @@ Rectangle
             Layout.column: 1
 
             font.pointSize: 10
-            textFormat: TextEdit.PlainText
+			textFormat: TextEdit.PlainText
             text: messageText
             selectByMouse: true
         }

@@ -33,12 +33,14 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 
 	switchToAuthorization();
 
-	assert(connect(m_authorization.get(), &Authorization::error, this, &MainWindow::error));
-	assert(connect(m_authorization.get(), &Authorization::signUpClicked, this, &MainWindow::switchToRegistration));	
-	assert(connect(m_authorization.get(), &Authorization::logIn, this, &MainWindow::logIn));
+	VERIFY(connect(m_authorization.get(), &Authorization::error, this, &MainWindow::error));
+	VERIFY(connect(m_authorization.get(), &Authorization::signUpClicked, this, &MainWindow::switchToRegistration));	
+	VERIFY(connect(m_authorization.get(), &Authorization::logIn, this, &MainWindow::logIn));
 
-	assert(connect(m_registration.get(), &Registration::logInClicked, this, &MainWindow::switchToAuthorization));	
-	assert(connect(m_registration.get(), &Registration::signUp, this, &MainWindow::signUp));	
+	VERIFY(connect(m_registration.get(), &Registration::logInClicked, this, &MainWindow::switchToAuthorization));	
+	VERIFY(connect(m_registration.get(), &Registration::signUp, this, &MainWindow::signUp));
+	
+	VERIFY(connect(m_lastMessages.get(), &LastMessages::personSelected, this, &MainWindow::onPersonSelected));
 }
 
 MainWindow::~MainWindow()
@@ -82,6 +84,12 @@ void MainWindow::onSignUpResponse(bool ok, const std::optional<Common::Person>& 
 	}
 }
 
+void MainWindow::onPersonSelected(const Common::Person& person)
+{
+	m_messages->setPerson(person);
+	switchToMessages();
+}
+
 void MainWindow::switchToRegistration()
 {
 	m_layout->setCurrentWidget(m_registration.get());
@@ -95,4 +103,9 @@ void MainWindow::switchToAuthorization()
 void MainWindow::switchToLastMessages()
 {
 	m_layout->setCurrentWidget(m_lastMessages.get());
+}
+
+void MainWindow::switchToMessages()
+{
+	m_layout->setCurrentWidget(m_messages.get());
 }

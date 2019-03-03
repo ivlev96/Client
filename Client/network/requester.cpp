@@ -14,11 +14,11 @@ void Requester::onThreadStarted()
 {
 	m_socket = std::make_unique<QWebSocket>();
 
-	assert(connect(m_socket.get(), &QWebSocket::connected, this, &Requester::onConnected));
-	assert(connect(m_socket.get(), &QWebSocket::disconnected, this, &Requester::onDisconnected));
-	//assert(connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
-	assert(connect(m_socket.get(), static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Requester::onError));
-	assert(connect(m_socket.get(), &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
+	VERIFY(connect(m_socket.get(), &QWebSocket::connected, this, &Requester::onConnected));
+	VERIFY(connect(m_socket.get(), &QWebSocket::disconnected, this, &Requester::onDisconnected));
+	//VERIFY(connect(m_socket.get(), qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, &Requester::onError));
+	VERIFY(connect(m_socket.get(), static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error), this, &Requester::onError));
+	VERIFY(connect(m_socket.get(), &QWebSocket::textMessageReceived, this, &Requester::onMessageReceived));
 
 	m_socket->open(m_serverUrl);
 }
@@ -58,10 +58,10 @@ void Requester::onMessageReceived(const QString& message)
 {
 	QJsonParseError error;
 	const QJsonDocument doc = QJsonDocument::fromJson(QByteArray().append(message), &error);
-	assert(error.error == QJsonParseError::NoError);
+	ASSERT(error.error == QJsonParseError::NoError);
 
 	const QJsonObject json(doc.object());
-	assert(!json[Common::typeField].isNull());
+	ASSERT(!json[Common::typeField].isNull());
 
 	const QString type = json[Common::typeField].toString();
 
@@ -109,7 +109,7 @@ void Requester::onMessageReceived(const QString& message)
 		}
 		else
 		{
-			assert(!"Incorrect ids in command");
+			ASSERT(!"Incorrect ids in command");
 			return;
 		}
 
@@ -124,7 +124,7 @@ void Requester::onMessageReceived(const QString& message)
 		return;
 	}
 
-	assert(!"Not implemented");
+	ASSERT(!"Not implemented");
 }
 
 void Requester::onLogIn(const QString& login, const QString& password)

@@ -7,6 +7,14 @@ Rectangle
 {
 	id: delegateRect
 	height: 60
+	color: mouseArea.containsMouse ? "lightyellow" : "white"
+
+	MouseArea {
+		hoverEnabled: true
+		id: mouseArea
+		anchors.fill: delegateRect
+		onClicked: lastMessagesListView.itemClicked(index)
+	}
 
 	GridLayout
     {

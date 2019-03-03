@@ -14,7 +14,7 @@ public:
 	LastMessagesModel(QObject *parent = nullptr);
 	~LastMessagesModel();
 
-	Common::Person personByIndex(const QModelIndex& index) const;
+	Common::Person personByRow(int row) const;
 
 	//QAbstractItemModel implementation:
 	bool hasIndex(int row, int column, const QModelIndex& parent = {}) const;
@@ -46,10 +46,6 @@ public slots:
 private:
 	void pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);
 	void pushBackMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages, Common::MessageIdType before);
-
-#ifdef _DEBUG
-	void debugInit();
-#endif
 
 private:
 	std::deque<std::pair<Common::Person, Common::Message>> m_messages;
