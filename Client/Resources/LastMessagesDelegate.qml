@@ -55,14 +55,14 @@ Rectangle
             Layout.row: 0
             Layout.column: 1
 
-			TextEdit
+            Text
 			{
 				Layout.column: 0
 
 				font.pointSize: 9
-				textFormat: TextEdit.RichText
+                textFormat: Text.RichText
 				text: "<b>" + messageAuthor + "</b>"
-				selectByMouse: true
+                //selectByMouse: true
 			}
 
 			Item
@@ -71,14 +71,14 @@ Rectangle
 				Layout.fillWidth: true
 			}
 				
-			TextEdit
+            Text
 			{
 				Layout.column: 2
 
 				font.pointSize: 9
-				textFormat: TextEdit.RichText
+                textFormat: Text.RichText
 				text: "<font color=\"grey\">" + messageTime + "</font>"
-				selectByMouse: true
+                //selectByMouse: true
 			}
 		}
 
@@ -90,15 +90,15 @@ Rectangle
 			Layout.row: 1
 			Layout.column: 1
 
-			TextEdit
+            Text
 			{
 				id: shortAuthor
 				Layout.column: 0
 
 				font.pointSize: 9
-				textFormat: TextEdit.RichText
+                textFormat: Text.RichText
 				text: "<font color=\"grey\">" + messageShortAuthor + ":</font>"
-				selectByMouse: true
+                //selectByMouse: true
 			}
 				
 			Text

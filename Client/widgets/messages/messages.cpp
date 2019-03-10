@@ -9,17 +9,17 @@ Messages::Messages(Models::MessagesModel* messagesModel, QWidget *parent)
 	: QWidget(parent)
 	, m_messagesModel(messagesModel)
 	, m_ui(std::make_unique<Ui::Messages>())
-	, m_messagesView(std::make_unique<QQuickView>())
+    , m_messagesView(std::make_unique<QQuickView>())
 {
-	m_ui->setupUi(this);
+    m_ui->setupUi(this);
 
-	QQmlContext* context = m_messagesView->rootContext();
+    QQmlContext* context = m_messagesView->rootContext();
 	context->setContextProperty("listModel", m_messagesModel);
 	m_messagesView->setSource(QUrl("qrc:/MessagesListView.qml"));
 
 	QWidget* container = QWidget::createWindowContainer(m_messagesView.get(), this);
 
-	m_ui->gridLayout->addWidget(container, 0, 0, 1, 2);
+    m_ui->verticalLayout->insertWidget(0, container);
 
 	VERIFY(connect(m_ui->buttonSend, &QPushButton::clicked, this, &Messages::onButtonSendClicked));
 }

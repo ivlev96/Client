@@ -41,26 +41,26 @@ Rectangle
         }
 
 
-        TextEdit
+        Text
         {
             Layout.row: 0
             Layout.column: 1
 
             font.pointSize: 8
-            textFormat: TextEdit.RichText
+            textFormat: Text.RichText
             text: "<b>" + messageAuthor + "</b> " + "<font color=\"grey\">" + messageTime + "</font>"
-            selectByMouse: true
+            //selectByMouse: true
         }
 
-        TextEdit
+        Text
         {
             Layout.row: 1
             Layout.column: 1
 
             font.pointSize: 10
-			textFormat: TextEdit.PlainText
+            textFormat: Text.PlainText
             text: messageText
-            selectByMouse: true
+            //selectByMouse: true
         }
     }
 }

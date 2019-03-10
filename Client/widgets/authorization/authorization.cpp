@@ -9,6 +9,24 @@ Authorization::Authorization(QWidget *parent)
 {
 	m_ui->setupUi(this);
 
+#ifdef Q_OS_ANDROID
+    m_ui->login->setMinimumWidth(this->width()/2);
+    m_ui->login->setMaximumWidth(this->width()/2);
+
+    m_ui->password->setMinimumWidth(this->width()/2);
+    m_ui->password->setMaximumWidth(this->width()/2);
+
+    m_ui->buttonLogIn->setMinimumWidth(this->width()/2);
+    m_ui->buttonLogIn->setMaximumWidth(this->width()/2);
+
+    QFont font;
+    font.setPointSize(16);
+    m_ui->label->setFont(font);
+    m_ui->login->setFont(font);
+    m_ui->password->setFont(font);
+    m_ui->buttonLogIn->setFont(font);
+#endif
+
 	VERIFY(connect(m_ui->buttonLogIn, &QPushButton::clicked, this, &Authorization::onLogInClicked));
 	VERIFY(connect(m_ui->signUp, &QPushButton::clicked, this, &Authorization::signUpClicked));
 }

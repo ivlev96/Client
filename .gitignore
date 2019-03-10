@@ -5,3 +5,5 @@ debugMessages.json
 debugPersons.json
 /x64/Debug
 /Client/Client.vcxproj.user
+Android
+MinGWx64

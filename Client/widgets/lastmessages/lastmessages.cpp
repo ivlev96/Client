@@ -16,7 +16,8 @@ LastMessages::LastMessages(Models::LastMessagesModel* model, QWidget *parent)
 	QQmlContext* context = m_messagesView->rootContext();
 	context->setContextProperty("listModel", m_model);
 	m_messagesView->setSource(QUrl("qrc:/LastMessagesListView.qml"));
-	VERIFY(connect(m_messagesView->rootObject(), SIGNAL(itemClicked(int)), this, SLOT(onItemClicked(int))));
+    QObject* lastMessagesView = m_messagesView->rootObject();
+    VERIFY(connect(lastMessagesView, SIGNAL(itemClicked(int)), this, SLOT(onItemClicked(int))));
 
 	QWidget* container = QWidget::createWindowContainer(m_messagesView.get(), this);
 	m_ui->gridLayout->addWidget(container);

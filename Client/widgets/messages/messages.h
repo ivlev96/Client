@@ -30,7 +30,7 @@ private slots:
 
 private:
 	std::unique_ptr<Ui::Messages> m_ui;
-	std::unique_ptr<QQuickView> m_messagesView;
+    std::unique_ptr<QQuickView> m_messagesView;
 
 	Models::MessagesModel* m_messagesModel;
 };

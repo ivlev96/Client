@@ -27,7 +27,7 @@
 #include <QJsonObject>
 #include <QtQml/QQmlContext>
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 
 #define ASSERT(X) _ASSERT(X)
 #define VERIFY(X) _ASSERT(X)
