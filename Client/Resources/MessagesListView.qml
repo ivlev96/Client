@@ -10,7 +10,7 @@ ListView
     width: parent ? parent.width : undefined
     height: parent ? parent.height : undefined
     spacing: 10
-    model: listModel
+    //model: listModel
 
     boundsBehavior: Flickable.StopAtBounds
 
@@ -21,12 +21,12 @@ ListView
 	
     delegate: MessagesDelegate{}
 
-	Connections 
+	/*Connections 
 	{
 		target: listModel 
 		onScrollTo: 
 		{
 			messagesListView.currentIndex = row
 		}
-	}
+	}*/
 }

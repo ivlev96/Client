@@ -65,11 +65,6 @@ GlobalController::~GlobalController()
 	m_requesterThread->wait();
 }
 
-void Controllers::GlobalController::run()
-{
-	m_mainWindow->show();
-}
-
 void GlobalController::onError(const QString& error)
 {
 	m_mainWindow->showError(error);

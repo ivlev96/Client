@@ -140,11 +140,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="widgets\authorization\authorization.cpp" />
-    <ClCompile Include="widgets\lastmessages\lastmessages.cpp" />
     <ClCompile Include="widgets\mainwindow\mainwindow.cpp" />
-    <ClCompile Include="widgets\messages\messages.cpp" />
-    <ClCompile Include="widgets\registration\registration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="widgets\mainwindow\mainwindow.h">
@@ -153,46 +149,21 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="widgets\authorization\authorization.ui" />
-    <QtUic Include="widgets\lastmessages\lastmessages.ui" />
-    <QtUic Include="widgets\mainwindow\mainwindow.ui" />
-    <QtUic Include="widgets\messages\messages.ui" />
-    <QtUic Include="widgets\registration\registration.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="widgets\messages\messages.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../widgets/messages/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../widgets/messages/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="authorization\authorizationinfo.h" />
     <ClInclude Include="common\commands.h" />
     <ClInclude Include="common\common.h" />
     <ClInclude Include="common\message.h" />
     <ClInclude Include="common\person.h" />
-    <QtMoc Include="widgets\lastmessages\lastmessages.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_WEBSOCKETS_LIB;QT_CONCURRENT_LIB</Define>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_WIDGETS_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QUICKWIDGETS_LIB;QT_WEBSOCKETS_LIB;QT_CONCURRENT_LIB</Define>
-    </QtMoc>
     <QtMoc Include="models\lastmessagesmodel.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
     </QtMoc>
     <ClInclude Include="models\modelscommon.h" />
     <ClInclude Include="stdafx.h" />
-    <QtMoc Include="widgets\registration\registration.h" />
-    <QtMoc Include="widgets\authorization\authorization.h">
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../widgets/authorization/%(Filename)%(Extension)</ForceInclude>
-      <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../widgets/authorization/%(Filename)%(Extension)</ForceInclude>
-    </QtMoc>
     <QtMoc Include="controllers\globalcontroller.h">
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../controllers/%(Filename)%(Extension)</ForceInclude>
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../controllers/%(Filename)%(Extension)</ForceInclude>
     </QtMoc>
-    <ClInclude Include="GeneratedFiles\ui_messages.h" />
     <QtMoc Include="network\requester.h">
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../network/%(Filename)%(Extension)</ForceInclude>
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../network/%(Filename)%(Extension)</ForceInclude>
@@ -206,10 +177,14 @@
     <QtRcc Include="Resources\client.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Authorization.qml" />
     <None Include="Resources\LastMessagesDelegate.qml" />
     <None Include="Resources\LastMessagesListView.qml" />
+    <None Include="Resources\MainWindow.qml" />
+    <None Include="Resources\Messages.qml" />
     <None Include="Resources\MessagesDelegate.qml" />
     <None Include="Resources\MessagesListView.qml" />
+    <None Include="Resources\Registration.qml" />
     <None Include="Resources\RoundedImage.qml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

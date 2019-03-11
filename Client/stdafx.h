@@ -15,8 +15,11 @@
 #include <QWidget>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QMainWindow>
+
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
+#include <QQmlApplicationEngine>
+
 #include <QAbstractListModel>
 #include <QtWebSockets/QWebSocket>
 

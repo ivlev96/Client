@@ -24,18 +24,17 @@ class LastMessages;
 class Authorization;
 class Registration;
 
-class MainWindow : public QMainWindow
+class MainWindow : public QObject
 {
 	Q_OBJECT
 
 public:
 	MainWindow(Models::LastMessagesModel* lastMessagesModel, 
-		Models::MessagesModel* messagesModel, 
-		QWidget *parent = nullptr);
+		Models::MessagesModel* messagesModel);
 
 	~MainWindow();
 
-	void showError(const QString& error) const;
+	void showError(const QString& error);
 
 signals:
 	void error(const QString& message);
@@ -62,14 +61,8 @@ private slots:
 	void switchToMessages();
 
 private:
-	std::unique_ptr<Ui::MainWindow> m_ui;
+	QQmlApplicationEngine m_engine;
 
-	std::unique_ptr<QStackedLayout> m_layout;
-
-	std::unique_ptr<Authorization> m_authorization;
-	std::unique_ptr<Registration> m_registration;
-	std::unique_ptr<LastMessages> m_lastMessages;
-	std::unique_ptr<Messages> m_messages;
 };
 
 }

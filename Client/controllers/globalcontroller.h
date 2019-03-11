@@ -16,8 +16,6 @@ public:
 	GlobalController();
 	~GlobalController();
 
-	void run();
-
 public slots:
 	void onError(const QString& error);
 

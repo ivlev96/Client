@@ -5,5 +5,9 @@
         <file>LastMessagesDelegate.qml</file>
         <file>MessagesDelegate.qml</file>
         <file>MessagesListView.qml</file>
+        <file>MainWindow.qml</file>
+        <file>Authorization.qml</file>
+        <file>Messages.qml</file>
+        <file>Registration.qml</file>
     </qresource>
 </RCC>

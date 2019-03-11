@@ -14,10 +14,6 @@
       <Extensions>qrc;*</Extensions>
       <ParseFiles>false</ParseFiles>
     </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
       <Extensions>qrc;*</Extensions>
@@ -78,9 +74,6 @@
     <ClCompile Include="widgets\mainwindow\mainwindow.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="widgets\messages\messages.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="models\messagesmodel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
@@ -108,44 +101,15 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="widgets\authorization\authorization.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="widgets\registration\registration.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
     <ClCompile Include="models\lastmessagesmodel.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
     <ClCompile Include="models\modelscommon.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
-    <ClCompile Include="widgets\lastmessages\lastmessages.cpp">
-      <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="widgets\messages\messages.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="widgets\mainwindow\mainwindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="widgets\authorization\authorization.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="widgets\registration\registration.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="widgets\lastmessages\lastmessages.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="widgets\mainwindow\mainwindow.h">
-      <Filter>Header Files\widgets</Filter>
-    </QtMoc>
-    <QtMoc Include="widgets\messages\messages.h">
       <Filter>Header Files\widgets</Filter>
     </QtMoc>
     <QtMoc Include="models\messagesmodel.h">
@@ -157,17 +121,8 @@
     <QtMoc Include="controllers\globalcontroller.h">
       <Filter>Header Files\controllers</Filter>
     </QtMoc>
-    <QtMoc Include="widgets\authorization\authorization.h">
-      <Filter>Header Files\widgets</Filter>
-    </QtMoc>
-    <QtMoc Include="widgets\registration\registration.h">
-      <Filter>Header Files\widgets</Filter>
-    </QtMoc>
     <QtMoc Include="models\lastmessagesmodel.h">
       <Filter>Header Files\models</Filter>
-    </QtMoc>
-    <QtMoc Include="widgets\lastmessages\lastmessages.h">
-      <Filter>Header Files\widgets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +170,18 @@
       <Filter>QML Files</Filter>
     </None>
     <None Include="Resources\MessagesDelegate.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\MainWindow.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\Authorization.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\Registration.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\Messages.qml">
       <Filter>QML Files</Filter>
     </None>
   </ItemGroup>
