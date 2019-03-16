@@ -13,8 +13,7 @@ public:
 	explicit MessagesModel(QObject *parent = nullptr);
 	~MessagesModel();
 
-	Common::Person otherPerson() const;
-	void addNewMessage(const QString& text);
+    Common::Person otherPerson() const;
 
 	//QAbstractItemModel implementation:
 	bool hasIndex(int row, int column, const QModelIndex &parent = {}) const;
@@ -43,6 +42,8 @@ public slots:
 	void setPerson(const Common::Person& person);
 	void startWaiting();
 	void stopWaiting();
+
+    void onSendMessage(const QString& text);
 
 	//Slots for requester
 	void onSendMessagesResponse(const std::vector<Common::Message>& message);

@@ -41,3 +41,5 @@
 #define VERIFY(X) (X)
 
 #endif
+
+#define ASSERT_NOT_NULL(X) ASSERT(X != nullptr)

@@ -178,9 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Authorization.qml" />
+    <None Include="Resources\ContentDesktop.qml" />
+    <None Include="Resources\ContentMobile.qml" />
     <None Include="Resources\LastMessagesDelegate.qml" />
     <None Include="Resources\LastMessagesListView.qml" />
-    <None Include="Resources\MainWindow.qml" />
+    <None Include="Resources\MainWindowDesktop.qml" />
+    <None Include="Resources\MainWindowMobile.qml" />
     <None Include="Resources\Messages.qml" />
     <None Include="Resources\MessagesDelegate.qml" />
     <None Include="Resources\MessagesListView.qml" />

@@ -2,15 +2,20 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.12
+import cppnamespace 1.0
 
 Item
 {
-    id: authorization
+    id: root
 
-    ColumnLayout {
+    signal logIn(string login, string password)
+
+    ColumnLayout 
+	{
         anchors.centerIn: parent
 
-        Label {
+        Label 
+		{
             id: label
             text: "Authorization"
             horizontalAlignment: Text.AlignHCenter
@@ -20,7 +25,8 @@ Item
             Layout.fillWidth: true
         }
 
-        TextField {
+        TextField 
+		{
             id: login
             horizontalAlignment: Text.AlignLeft
             placeholderText: "Login"
@@ -28,37 +34,45 @@ Item
             font.pointSize: 10
             font.weight: Font.Thin
             Layout.fillWidth: true
-            Layout.preferredHeight: 20
-            Layout.preferredWidth: 80
+            Layout.preferredWidth: 120
         }
 
-        TextField {
+        TextField 
+		{
             id: password
             placeholderText: "Password"
             placeholderTextColor: "lightgrey"
             font.pointSize: 10
             Layout.fillWidth: true
-            Layout.preferredHeight: 20
-            Layout.preferredWidth: 80
+            Layout.preferredWidth: 120
+			echoMode: TextInput.Password
         }
 
-        Button {
+        Button 
+		{
             id: logInButton
             text: "Log In"
             font.pointSize: 10
             Layout.fillWidth: true
+
+            onClicked:
+            {
+                root.logIn(login.text, password.text)
+            }
         }
     }
 
-    Button {
-        id: signUpButton
-        x: 270
-        y: 432
+    Button 
+	{
+        id: switchToSignUpButton
+        width: 120
         text: "Sign Up"
         font.pointSize: 10
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 8
+
+        onClicked: mainWindowLayout.currentIndex = Widgets.Registration
     }
 
 }

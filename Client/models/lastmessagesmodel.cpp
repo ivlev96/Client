@@ -142,24 +142,29 @@ void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,
 
 void LastMessagesModel::onNewMessage(const Common::Person& from, const Common::Message& message)
 {
-	const auto it = std::find_if(m_messages.rbegin(), m_messages.rend(),
+	const auto it = std::find_if(m_messages.begin(), m_messages.end(),
 		[&from](const auto pair)
 	{
 		return pair.first == from;
 	});
 
-	if (it != m_messages.rend())
+	if (it != m_messages.end())
 	{
-		const int row = static_cast<int>(std::distance(m_messages.begin(), it.base()));
+		const int row = static_cast<int>(std::distance(m_messages.begin(), it));
 		const QModelIndex index = this->index(row, 0);
 
 		it->second = message;
-		emit dataChanged(index, index);
 
-		beginMoveRows({}, row, row, {}, 0);
-		std::rotate(it, it + 1, m_messages.rend());
-		endMoveRows();
-
+		if (row == 0)
+		{
+			emit dataChanged(index, index);
+		}
+		else
+		{
+			beginMoveRows({}, row, row, {}, 0);
+			std::rotate(m_messages.begin(), it, it + 1);
+			endMoveRows();
+		}
 		return;
 	}
 

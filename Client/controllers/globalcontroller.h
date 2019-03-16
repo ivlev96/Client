@@ -18,6 +18,7 @@ public:
 
 public slots:
 	void onError(const QString& error);
+	void onPersonSelected(int row);
 
 private:
 	std::unique_ptr<Widgets::MainWindow> m_mainWindow;

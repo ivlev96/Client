@@ -5,125 +5,94 @@ import QtGraphicalEffects 1.12
 
 Rectangle
 {
-	id: delegateRect
+    id: root
 	height: 60
-	color: mouseArea.containsMouse ? "lightyellow" : "white"
+    width: lastMessagesListView.width
+    color: mouseArea.containsMouse ? "red" : "white"
 
-	MouseArea {
+    MouseArea
+    {
 		hoverEnabled: true
 		id: mouseArea
-		anchors.fill: delegateRect
+        anchors.fill: root
 		onClicked: lastMessagesListView.itemClicked(index)
 	}
 
-	GridLayout
+    Rectangle
     {
-        id: globalLayout
-        anchors.rightMargin: 15
-        anchors.leftMargin: 5
-        anchors.bottomMargin: 5
+        id: avatar
+        width: height
+        radius: width/2
+        anchors.top: parent.top
         anchors.topMargin: 5
-        anchors.fill: parent
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 5
 
-		columns: 2
-		rows: 2
-        columnSpacing: 10
-        rowSpacing: 10
-
-        Rectangle
-		{
-			id: avatar
-			Layout.row: 0
-			Layout.column: 0
-			Layout.rowSpan: 2
-            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-
-            height: delegateRect.height - globalLayout.anchors.topMargin - globalLayout.anchors.bottomMargin
-			width: height
-			radius: width/2
-
-            RoundedImage
-            {
-				source: messageAvatar
-			}
-		}
-
-		RowLayout
+        RoundedImage
         {
-            id: headerLayout
-
-            Layout.row: 0
-            Layout.column: 1
-
-            Text
-			{
-				Layout.column: 0
-
-				font.pointSize: 9
-                textFormat: Text.RichText
-				text: "<b>" + messageAuthor + "</b>"
-                //selectByMouse: true
-			}
-
-			Item
-			{
-				Layout.column: 1
-				Layout.fillWidth: true
-			}
-				
-            Text
-			{
-				Layout.column: 2
-
-				font.pointSize: 9
-                textFormat: Text.RichText
-				text: "<font color=\"grey\">" + messageTime + "</font>"
-                //selectByMouse: true
-			}
-		}
-
-			
-		RowLayout
-		{
-			id: messageTextLayout
-
-			Layout.row: 1
-			Layout.column: 1
-
-            Text
-			{
-				id: shortAuthor
-				Layout.column: 0
-
-				font.pointSize: 9
-                textFormat: Text.RichText
-				text: "<font color=\"grey\">" + messageShortAuthor + ":</font>"
-                //selectByMouse: true
-			}
-				
-			Text
-			{
-				Layout.column: 1
-
-				font.pointSize: 9
-				textFormat: Text.PlainText
-				text: messageText
-				Layout.preferredWidth: delegateRect.width - 
-					avatar.width - 
-					globalLayout.anchors.leftMargin - 
-					globalLayout.anchors.rightMargin - 
-					globalLayout.columnSpacing - 
-					shortAuthor.width
-				elide: Qt.ElideRight
-			}
+            source: messageAvatar
         }
-	}
+    }
+
+    Text
+    {
+        id: author
+        font.pointSize: 9
+        textFormat: Text.RichText
+        text: "<b>" + messageAuthor + "</b>"
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.left: avatar.right
+        anchors.leftMargin: 10
+        //selectByMouse: true
+    }
+
+    Text
+    {
+        id: time
+        font.pointSize: 9
+        textFormat: Text.RichText
+        text: "<font color=\"grey\">" + messageTime + "</font>"
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        //selectByMouse: true
+    }
+
+    Text
+    {
+        id: shortAuthor
+        font.pointSize: 9
+        textFormat: Text.RichText
+        text: "<font color=\"grey\">" + messageShortAuthor + ":</font>"
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        anchors.left: avatar.right
+        anchors.leftMargin: 10
+        //selectByMouse: true
+    }
+
+    Text
+    {
+        id: message
+        text: messageText
+        font.pointSize: 9
+        textFormat: Text.PlainText
+        anchors.bottom: shortAuthor.bottom
+        anchors.bottomMargin: 0
+        anchors.left: shortAuthor.right
+        anchors.leftMargin: 5
+        elide: Qt.ElideRight
+    }
 
 	Rectangle //separator
-	{
-		anchors.bottom: delegateRect.bottom
+    {
+        anchors.bottom: root.bottom
 		id: lowerBorder
-		width: delegateRect.width
+        width: root.width
 		height: 1
 
 		gradient: Gradient

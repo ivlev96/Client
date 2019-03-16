@@ -41,6 +41,9 @@ GlobalController::GlobalController()
 	VERIFY(connect(m_mainWindow.get(), &MainWindow::signUp, m_requester, &Requester::onSignUp));
 	VERIFY(connect(m_requester, &Requester::signUpResponse, m_mainWindow.get(), &MainWindow::onSignUpResponse));
 
+	VERIFY(connect(m_mainWindow.get(), &MainWindow::personSelected, this, &GlobalController::onPersonSelected));
+    VERIFY(connect(m_mainWindow.get(), &MainWindow::sendMessage, m_messagesModel, &MessagesModel::onSendMessage));
+
 	VERIFY(connect(m_lastMessagesModel, &LastMessagesModel::getLastMessages, m_requester, &Requester::onGetLastMessages));
 	VERIFY(connect(m_requester, &Requester::getLastMessagesResponse, m_lastMessagesModel, &LastMessagesModel::onGetLastMessagesResponse));
 
@@ -63,6 +66,11 @@ GlobalController::~GlobalController()
 {
 	m_requesterThread->quit();
 	m_requesterThread->wait();
+}
+
+void GlobalController::onPersonSelected(int row)
+{
+	m_messagesModel->setPerson(m_lastMessagesModel->personByRow(row));
 }
 
 void GlobalController::onError(const QString& error)

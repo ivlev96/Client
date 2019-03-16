@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.12
 
 Rectangle
 {
-	id: messageDelegate
+    id: root
     width: messageLayout.width + 10
     height: messageLayout.height + 10
 
@@ -21,7 +21,7 @@ Rectangle
         columns: 2
         rows: 2
         columnSpacing: 10
-        anchors.centerIn: messageDelegate
+        anchors.centerIn: root
 
         Rectangle
         {

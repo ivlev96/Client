@@ -126,9 +126,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_messages.h">
-      <Filter>Generated Files\widgets</Filter>
-    </ClInclude>
     <ClInclude Include="authorization\authorizationinfo.h">
       <Filter>Header Files\authorization</Filter>
     </ClInclude>
@@ -172,9 +169,6 @@
     <None Include="Resources\MessagesDelegate.qml">
       <Filter>QML Files</Filter>
     </None>
-    <None Include="Resources\MainWindow.qml">
-      <Filter>QML Files</Filter>
-    </None>
     <None Include="Resources\Authorization.qml">
       <Filter>QML Files</Filter>
     </None>
@@ -182,6 +176,18 @@
       <Filter>QML Files</Filter>
     </None>
     <None Include="Resources\Messages.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\MainWindowDesktop.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\MainWindowMobile.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\ContentDesktop.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\ContentMobile.qml">
       <Filter>QML Files</Filter>
     </None>
   </ItemGroup>

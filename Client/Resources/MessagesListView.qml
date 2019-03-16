@@ -3,30 +3,42 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.12
 
-ListView
+Rectangle
 {
-    id: messagesListView
-    anchors.margins: 10
-    width: parent ? parent.width : undefined
-    height: parent ? parent.height : undefined
-    spacing: 10
-    //model: listModel
+    id: root
+    radius: 10
+    border.color: "lightgreen"
+    border.width: 1
 
-    boundsBehavior: Flickable.StopAtBounds
-
-    ScrollBar.vertical: ScrollBar
+    ListView
     {
-        policy: ScrollBar.AsNeeded
-    }
-	
-    delegate: MessagesDelegate{}
+        id: messagesListView
+        objectName: "messagesListView"
+        anchors.topMargin: 3
+        anchors.bottomMargin: 3
+        anchors.leftMargin: 5
+        anchors.rightMargin: 5
+        anchors.fill: parent
+        spacing: 10
+        model: messagesModel
 
-	/*Connections 
-	{
-		target: listModel 
-		onScrollTo: 
-		{
-			messagesListView.currentIndex = row
-		}
-	}*/
+        boundsBehavior: Flickable.StopAtBounds
+        clip: true
+
+        ScrollBar.vertical: ScrollBar
+        {
+            policy: ScrollBar.AsNeeded
+        }
+
+        delegate: MessagesDelegate{}
+
+        Connections
+        {
+            target: messagesModel
+            onScrollTo:
+            {
+                messagesListView.currentIndex = row
+            }
+        }
+    }
 }

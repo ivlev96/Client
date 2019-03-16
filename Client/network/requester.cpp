@@ -68,14 +68,14 @@ void Requester::onMessageReceived(const QString& message)
 	if (type == Common::logInResponse)
 	{
 		const Common::LogInResponse response(json);
-		emit logInResponse(response.ok, response.person);
+		emit logInResponse(response.person);
 		return;
 	}
 
 	if (type == Common::registrationResponse)
 	{
 		const Common::RegistrationResponse response(json);
-		emit signUpResponse(response.ok, response.person);
+		emit signUpResponse(response.person);
 		return;
 	}
 

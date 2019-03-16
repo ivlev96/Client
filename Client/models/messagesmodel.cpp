@@ -72,16 +72,6 @@ Common::Person MessagesModel::otherPerson() const
 	return m_otherPerson;
 }
 
-void MessagesModel::addNewMessage(const QString& text)
-{
-	Common::Person me = Authorization::AuthorizationInfo::instance().person();
-
-	const std::vector<Common::Message> newMessages(1, { me.id, otherPerson().id, QDateTime::currentDateTime(), text });
-
-	pushBackMessages(newMessages);
-	emit sendMessages(newMessages);
-}
-
 bool MessagesModel::hasIndex(int row, int column, const QModelIndex &parent) const
 {
 	return !parent.isValid() && column == 0 && 
@@ -212,6 +202,16 @@ void MessagesModel::stopWaiting()
 		m_isWaitForResponse = false;
 		emit error("No answer from the server");
 	}
+}
+
+void MessagesModel::onSendMessage(const QString& text)
+{
+    Common::Person me = Authorization::AuthorizationInfo::instance().person();
+
+    const std::vector<Common::Message> newMessages({{ me.id, otherPerson().id, QDateTime::currentDateTime(), text }});
+
+    pushBackMessages(newMessages);
+    emit sendMessages(newMessages);
 }
 
 void MessagesModel::onSendMessagesResponse(const std::vector<Common::Message>& messages)

@@ -3,7 +3,7 @@ import QtGraphicalEffects 1.12
 
 Image
 {
-    id: img
+    id: root
     anchors.fill: parent
 
     layer.enabled: true
@@ -11,13 +11,13 @@ Image
     {
         maskSource: Item
         {
-            width: img.width
-            height: img.height
+            width: root.width
+            height: root.height
             Rectangle
             {
                 anchors.centerIn: parent
-                width: img.width
-                height: img.height
+                width: root.width
+                height: root.height
                 radius: Math.min(width, height)
             }
         }

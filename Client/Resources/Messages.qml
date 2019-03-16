@@ -5,44 +5,67 @@ import QtGraphicalEffects 1.12
 
 Item
 {
-    id: element
+    id: root
+
+    signal sendMessage(string text)
+
     MessagesListView
     {
         id: messagesListView
         height: parent.height*0.8
         anchors.right: parent.right
-        anchors.rightMargin: 0
+        anchors.rightMargin: 5
         anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors.leftMargin: 5
         anchors.top: parent.top
-        anchors.topMargin: 0
-        transformOrigin: Item.Center
+        anchors.topMargin: 5
     }
 
-    TextEdit
+    Rectangle
     {
-        id: newMessage
+        id: newMessageRect
         width: parent.width*0.8
         anchors.left: parent.left
-        anchors.leftMargin: 0
+        anchors.leftMargin: 5
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        anchors.bottomMargin: 5
         anchors.top: messagesListView.bottom
-        anchors.topMargin: 0
-        font.pixelSize: 12
+        anchors.topMargin: 5
+
+        border.color: "lightgreen"
+        border.width: 1
+        radius: 10
+
+        TextEdit
+        {
+            id: newMessage
+            anchors.margins: 5
+            anchors.fill: parent
+            font.pixelSize: 14
+        }
     }
 
-    Button
+    RoundButton
     {
         id: buttonSend
-        text: "Button"
         anchors.right: parent.right
-        anchors.rightMargin: 0
+        anchors.rightMargin: 5
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-        anchors.left: newMessage.right
-        anchors.leftMargin: 0
+        anchors.bottomMargin: 5
+        anchors.left: newMessageRect.right
+        anchors.leftMargin: 5
         anchors.top: messagesListView.bottom
-        anchors.topMargin: 0
+        anchors.topMargin: 5
+
+        radius: 10
+
+        text: "Send"
+        font.pointSize: 10
+
+        onClicked:
+        {
+            root.sendMessage(newMessage.text)
+            newMessage.clear()
+        }
     }
 }

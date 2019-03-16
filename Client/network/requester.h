@@ -16,8 +16,8 @@ public:
 	~Requester();
 
 signals:
-	void logInResponse(bool ok, const std::optional<Common::Person>& person);
-	void signUpResponse(bool ok, const std::optional<Common::Person>& person);
+	void logInResponse(const std::optional<Common::Person>& person);
+	void signUpResponse(const std::optional<Common::Person>& person);
 	
 	void getLastMessagesResponse(Common::PersonIdType id, 
 		const std::vector<std::pair<Common::Person, Common::Message>>& messages, 

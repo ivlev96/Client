@@ -19,6 +19,17 @@ struct Person;
 namespace Widgets
 {
 
+//#if true//!defined(Q_OS_ANDROID)
+Q_NAMESPACE
+enum WidgetNumber
+{
+	Authorization = 0,
+	Registration,
+	Content
+};
+Q_ENUM_NS(WidgetNumber)
+//#endif
+
 class Messages;
 class LastMessages;
 class Authorization;
@@ -39,6 +50,9 @@ public:
 signals:
 	void error(const QString& message);
 	void logIn(const QString& login, const QString& password);
+	void personSelected(int row);
+
+    void sendMessage(const QString& message);
 
 	void signUp(
 		const QString& firstName,
@@ -47,18 +61,16 @@ signals:
 		const QString& login,
 		const QString& password);
 
+	void switchToContent();
+
 public slots:
 	void onConnected();
-	void onLogInResponse(bool ok, const std::optional<Common::Person>& person);
-	void onSignUpResponse(bool ok, const std::optional<Common::Person>& person);
+	void onLogInResponse(const std::optional<Common::Person>& person);
+	void onSignUpResponse(const std::optional<Common::Person>& person);
 
 private slots:
 	void onPersonSelected(const Common::Person& person);
 
-	void switchToRegistration();
-	void switchToAuthorization();
-	void switchToLastMessages();
-	void switchToMessages();
 
 private:
 	QQmlApplicationEngine m_engine;
