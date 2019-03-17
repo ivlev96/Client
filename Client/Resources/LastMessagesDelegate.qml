@@ -8,14 +8,21 @@ Rectangle
     id: root
 	height: 60
     width: lastMessagesListView.width
-    color: mouseArea.containsMouse ? "red" : "white"
+    color: mouseArea.containsMouse ? "lightgreen" : "white"
 
     MouseArea
     {
 		hoverEnabled: true
 		id: mouseArea
         anchors.fill: root
-		onClicked: lastMessagesListView.itemClicked(index)
+        onClicked:
+        {
+            if (Qt.platform.os === "android")
+            {
+                content.switchToMessages()
+            }
+            lastMessagesListView.itemClicked(index)
+        }
 	}
 
     Rectangle

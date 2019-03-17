@@ -19,7 +19,6 @@ struct Person;
 namespace Widgets
 {
 
-//#if true//!defined(Q_OS_ANDROID)
 Q_NAMESPACE
 enum WidgetNumber
 {
@@ -28,7 +27,6 @@ enum WidgetNumber
 	Content
 };
 Q_ENUM_NS(WidgetNumber)
-//#endif
 
 class Messages;
 class LastMessages;

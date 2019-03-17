@@ -17,9 +17,6 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 		"Error: only enums"			// error in case someone tries to create a MyNamespace object
 	);
 
-	Q_UNUSED(lastMessagesModel);
-	Q_UNUSED(messagesModel);
-
 	auto rootContext = m_engine.rootContext();
 	ASSERT_NOT_NULL(rootContext);
 
@@ -27,7 +24,11 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 	rootContext->setContextProperty("lastMessagesModel", lastMessagesModel);
 	rootContext->setContextProperty("messagesModel", messagesModel);
 
+#if defined(Q_OS_ANDROID)
+	m_engine.load(QUrl("qrc:/MainWindowMobile.qml"));
+#else
 	m_engine.load(QUrl("qrc:/MainWindowDesktop.qml"));
+#endif
 
 	auto authorizationWidget = m_engine.rootObjects()[0]->findChild<QObject*>("authorization");
 	ASSERT_NOT_NULL(authorizationWidget);

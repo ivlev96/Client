@@ -13,13 +13,6 @@ ApplicationWindow
     height: 480
     title: qsTr("SunChat")
 
-    enum WidgetNum {
-        Authorization = 1,
-        Registration,
-        LastMessagesListView,
-        Messages
-    }
-
     StackLayout
     {
         id: mainWindowLayout

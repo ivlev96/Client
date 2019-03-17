@@ -2,7 +2,7 @@ import QtQuick 2.12
 
 Item
 {
-    id: element
+    id: root
     LastMessagesListView
     {
         id: lastMessagesListView
