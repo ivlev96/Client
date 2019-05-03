@@ -27,7 +27,6 @@ Item
             placeholderText: "First name"
             placeholderTextColor: "lightgrey"
             font.pointSize: 10
-            font.weight: Font.Thin
             Layout.fillWidth: true
             Layout.preferredWidth: 120
         }

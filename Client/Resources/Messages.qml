@@ -42,6 +42,13 @@ Item
             anchors.margins: 5
             anchors.fill: parent
             font.pixelSize: 14
+            selectByMouse: true
+            MouseArea
+            {
+                anchors.fill: parent
+                cursorShape: Qt.IBeamCursor
+                acceptedButtons: Qt.NoButton
+            }
         }
     }
 

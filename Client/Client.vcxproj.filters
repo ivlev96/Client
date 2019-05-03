@@ -190,5 +190,8 @@
     <None Include="Resources\ContentMobile.qml">
       <Filter>QML Files</Filter>
     </None>
+    <None Include="Resources\FriendSearch.qml">
+      <Filter>QML Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

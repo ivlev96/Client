@@ -35,7 +35,7 @@ void AuthorizationInfo::reset(const Person& person)
 }
 
 AuthorizationInfo::AuthorizationInfo()
-	: m_currentPerson(1, "Ivan", "Ivlev", QUrl::fromLocalFile("Vanya.jpg").toString())
+	: m_currentPerson()
 {
 
 }

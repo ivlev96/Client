@@ -35,7 +35,7 @@ signals:
 	void getLastMessages(int count, const std::optional<Common::MessageIdType>& from = {});
 
 public slots:
-	void onLogInResponse();
+	void onLogInResponse(const std::optional<Common::Person>& person);
 
 	void onGetLastMessagesResponse(Common::PersonIdType id,
 		const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages,

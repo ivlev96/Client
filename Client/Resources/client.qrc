@@ -12,5 +12,6 @@
         <file>MainWindowMobile.qml</file>
         <file>ContentDesktop.qml</file>
         <file>ContentMobile.qml</file>
+        <file>FriendSearch.qml</file>
     </qresource>
 </RCC>

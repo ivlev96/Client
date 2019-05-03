@@ -14,7 +14,7 @@ LastMessagesModel::~LastMessagesModel()
 {
 }
 
-Common::Person Models::LastMessagesModel::personByRow(int row) const
+Common::Person LastMessagesModel::personByRow(int row) const
 {
 	ASSERT(row < rowCount());
 	return m_messages[row].first;
@@ -118,9 +118,12 @@ QHash<int, QByteArray> LastMessagesModel::roleNames() const
 	return Models::roleNames();
 }
 
-void LastMessagesModel::onLogInResponse()
+void LastMessagesModel::onLogInResponse(const std::optional<Common::Person>& person)
 {
-	emit getLastMessages(Common::defaultMessagesCount);
+	if (person)
+	{
+		emit getLastMessages(Common::defaultMessagesCount);
+	}
 }
 
 void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,

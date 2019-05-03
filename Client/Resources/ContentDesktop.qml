@@ -3,15 +3,28 @@ import QtQuick 2.12
 Item
 {
     id: root
+
+    FriendSearch
+    {
+        id: friendSearch
+        width: parent.width * 0.3
+
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 0
+    }
+
     LastMessagesListView
     {
         id: lastMessagesListView
+        anchors.right: friendSearch.right
+        anchors.rightMargin: 0
         objectName: "lastMessagesListView"
-        width: parent.width * 0.3
+        anchors.top: friendSearch.bottom
+        anchors.topMargin: 0
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
-        anchors.top: parent.top
-        anchors.topMargin: 5
         anchors.left: parent.left
         anchors.leftMargin: 5
     }

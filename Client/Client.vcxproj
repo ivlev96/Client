@@ -180,6 +180,7 @@
     <None Include="Resources\Authorization.qml" />
     <None Include="Resources\ContentDesktop.qml" />
     <None Include="Resources\ContentMobile.qml" />
+    <None Include="Resources\FriendSearch.qml" />
     <None Include="Resources\LastMessagesDelegate.qml">
       <SubType>Designer</SubType>
     </None>
