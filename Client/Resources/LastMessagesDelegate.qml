@@ -6,24 +6,9 @@ import QtGraphicalEffects 1.12
 Rectangle
 {
     id: root
-	height: 60
+    height: 60
     width: lastMessagesListView.width
     color: mouseArea.containsMouse ? "lightgreen" : "white"
-
-    MouseArea
-    {
-		hoverEnabled: true
-		id: mouseArea
-        anchors.fill: root
-        onClicked:
-        {
-            if (Qt.platform.os === "android")
-            {
-                content.switchToMessages()
-            }
-            lastMessagesListView.itemClicked(index)
-        }
-	}
 
     Rectangle
     {
@@ -86,30 +71,49 @@ Rectangle
     {
         id: message
         text: messageText
-        font.pointSize: 9
-        textFormat: Text.PlainText
+        anchors.right: parent.right
+        anchors.rightMargin: 5
         anchors.bottom: shortAuthor.bottom
         anchors.bottomMargin: 0
         anchors.left: shortAuthor.right
         anchors.leftMargin: 5
+
+        font.pointSize: 9
+        textFormat: Text.PlainText
+
         elide: Qt.ElideRight
     }
 
-	Rectangle //separator
+    Rectangle //separator
     {
         anchors.bottom: root.bottom
-		id: lowerBorder
+        id: lowerBorder
         width: root.width
-		height: 1
+        height: 1
 
-		gradient: Gradient
-		{
-			GradientStop { position: 0.0; color: "white" }
-			GradientStop { position: 0.5; color: "grey" }
-			GradientStop { position: 1.0; color: "white" }
-			orientation: Qt.Horizontal
-		}
+        gradient: Gradient
+        {
+            GradientStop { position: 0.0; color: "white" }
+            GradientStop { position: 0.5; color: "grey" }
+            GradientStop { position: 1.0; color: "white" }
+            orientation: Qt.Horizontal
+        }
 
-		visible: index + 1 < lastMessagesListView.count
-	}
+        visible: index + 1 < lastMessagesListView.count
+    }
+
+    MouseArea
+    {
+        hoverEnabled: true
+        id: mouseArea
+        anchors.fill: root
+        onClicked:
+        {
+            if (Qt.platform.os === "android")
+            {
+                content.switchToMessages()
+            }
+            lastMessagesListView.itemClicked(index)
+        }
+    }
 }

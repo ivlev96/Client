@@ -43,6 +43,9 @@ Item
             anchors.fill: parent
             font.pixelSize: 14
             selectByMouse: true
+
+            wrapMode: TextEdit.Wrap
+
             MouseArea
             {
                 anchors.fill: parent

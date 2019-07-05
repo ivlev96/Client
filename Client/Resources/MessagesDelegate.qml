@@ -25,6 +25,7 @@ Rectangle
 
         Rectangle
         {
+            id: avatar
             Layout.row: 0
             Layout.column: 0
             Layout.rowSpan: 2
@@ -56,10 +57,12 @@ Rectangle
         {
             Layout.row: 1
             Layout.column: 1
+            Layout.maximumWidth: messages.width * 0.75 - avatar.width
 
             font.pointSize: 10
             textFormat: Text.PlainText
             text: messageText
+            wrapMode: Text.Wrap
             //selectByMouse: true
         }
     }
