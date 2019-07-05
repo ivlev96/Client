@@ -34,6 +34,7 @@ Item
             font.pointSize: 10
             Layout.fillWidth: true
             Layout.preferredWidth: 120
+            selectByMouse: true
         }
 
         TextField 
@@ -45,6 +46,7 @@ Item
             Layout.fillWidth: true
             Layout.preferredWidth: 120
 			echoMode: TextInput.Password
+            selectByMouse: true
         }
 
         Button 

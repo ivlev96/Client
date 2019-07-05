@@ -36,23 +36,61 @@ Item
         border.width: 1
         radius: 10
 
-        TextEdit
+        Flickable
         {
-            id: newMessage
+            id: newMessageFlickable
+
             anchors.margins: 5
             anchors.fill: parent
-            font.pixelSize: 14
-            selectByMouse: true
 
-            wrapMode: TextEdit.Wrap
+            contentWidth: newMessage.paintedWidth
+            contentHeight: newMessage.paintedHeight
+            clip: true
 
-            MouseArea
+            boundsBehavior: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar
             {
-                anchors.fill: parent
-                cursorShape: Qt.IBeamCursor
-                acceptedButtons: Qt.NoButton
+                policy: ScrollBar.AsNeeded
+            }
+
+            function ensureVisible(r)
+            {
+                if (contentX >= r.x)
+                  contentX = r.x;
+                else if (contentX+width <= r.x+r.width)
+                  contentX = r.x+r.width-width;
+                if (contentY >= r.y)
+                  contentY = r.y;
+                else if (contentY+height <= r.y+r.height)
+                  contentY = r.y+r.height-height;
+            }
+
+
+            TextEdit
+            {
+                id: newMessage
+
+                width: newMessageFlickable.width
+                Layout.minimumHeight: newMessageFlickable.height
+
+                font.pixelSize: 14
+                selectByMouse: true
+
+                wrapMode: TextEdit.Wrap
+                clip: true
+
+                onCursorRectangleChanged: newMessageFlickable.ensureVisible(cursorRectangle)
+
+                MouseArea //TODO: fill whole flickable and catch mouse click to activate newMessage
+                {
+                    anchors.fill: parent
+                    cursorShape: Qt.IBeamCursor
+                    acceptedButtons: Qt.NoButton
+                }
             }
         }
+        
+
     }
 
     RoundButton

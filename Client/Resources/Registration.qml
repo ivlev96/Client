@@ -29,6 +29,7 @@ Item
             font.pointSize: 10
             Layout.fillWidth: true
             Layout.preferredWidth: 120
+            selectByMouse: true
         }
 
         TextField {
@@ -38,6 +39,7 @@ Item
             font.pointSize: 10
             Layout.fillWidth: true
             Layout.preferredWidth: 120
+            selectByMouse: true
         }
 
         Item {
@@ -53,6 +55,7 @@ Item
             font.pointSize: 10
             Layout.fillWidth: true
             Layout.preferredWidth: 120
+            selectByMouse: true
         }
 
         Item {
@@ -69,6 +72,7 @@ Item
             Layout.fillWidth: true
             Layout.preferredWidth: 120
 			echoMode: TextInput.Password
+            selectByMouse: true
         }
 
         TextField {
@@ -79,6 +83,7 @@ Item
             Layout.fillWidth: true
             Layout.preferredWidth: 120
 			echoMode: TextInput.Password
+            selectByMouse: true
         }
 
         Button {
