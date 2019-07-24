@@ -31,6 +31,8 @@ signals:
 
 	void newMessage(const Common::Person& from, const Common::Message& message);
 
+	void possibleFriendsList(const std::vector<std::pair<Common::Person, std::optional<Common::Message>>>& persons);
+
 	void error(const QString& error);
 	void connected();
 
@@ -55,6 +57,8 @@ public slots:
 
 	void onGetLastMessages(int count, const std::optional<Common::MessageIdType>& before = {});
 	void onSendMessages(const std::vector<Common::Message>& messages);
+
+	void onFindFriends(const QString& name, bool withMessages, bool withoutMessages);
 
 private:
 	void sendMessage(const QJsonObject& json);

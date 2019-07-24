@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "authorization/authorizationinfo.h"
-#include "models/messagesmodel.h"
-#include "models/lastmessagesmodel.h"
 
 using namespace Widgets;
 
-MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
-	Models::MessagesModel* messagesModel)
+MainWindow::MainWindow(
+	QAbstractItemModel* lastMessagesModel,
+	QAbstractItemModel* messagesModel,
+	QAbstractItemModel* possibleFriendsModel)
 	: m_engine()
 {
 	qmlRegisterUncreatableMetaObject(
@@ -23,6 +23,7 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 	rootContext->setContextProperty("CppParent", this);
 	rootContext->setContextProperty("lastMessagesModel", lastMessagesModel);
 	rootContext->setContextProperty("messagesModel", messagesModel);
+	rootContext->setContextProperty("possibleFriendsModel", possibleFriendsModel);
 
 #if defined(Q_OS_ANDROID)
 	m_engine.load(QUrl("qrc:/MainWindowMobile.qml"));
@@ -30,18 +31,33 @@ MainWindow::MainWindow(Models::LastMessagesModel* lastMessagesModel,
 	m_engine.load(QUrl("qrc:/MainWindowDesktop.qml"));
 #endif
 
-	auto authorizationWidget = m_engine.rootObjects()[0]->findChild<QObject*>("authorization");
+	auto rootObjects = m_engine.rootObjects();
+	ASSERT(!rootObjects.isEmpty());
+
+	auto authorizationWidget = rootObjects[0]->findChild<QObject*>("authorization");
 	ASSERT_NOT_NULL(authorizationWidget);
 
-	auto lastMessagesWidget = m_engine.rootObjects()[0]->findChild<QObject*>("lastMessagesListView");
+	auto lastMessagesWidget = rootObjects[0]->findChild<QObject*>("lastMessagesListView");
     ASSERT_NOT_NULL(lastMessagesWidget);
 
-    auto messagesWidget = m_engine.rootObjects()[0]->findChild<QObject*>("messages");
+    auto messagesWidget = rootObjects[0]->findChild<QObject*>("messages");
     ASSERT_NOT_NULL(messagesWidget);
+
+	auto possibleFriends = rootObjects[0]->findChild<QObject*>("possibleFriends");
+	ASSERT_NOT_NULL(possibleFriends);
+
+	auto possibleFriendsListView = rootObjects[0]->findChild<QObject*>("possibleFriendsListView");
+	ASSERT_NOT_NULL(possibleFriendsListView);
+
+	auto filterFriends = rootObjects[0]->findChild<QObject*>("filterFriends");
+	ASSERT_NOT_NULL(filterFriends);
 
 	VERIFY(connect(authorizationWidget, SIGNAL(logIn(QString, QString)), SIGNAL(logIn(const QString&, const QString&))));
 	VERIFY(connect(lastMessagesWidget, SIGNAL(itemClicked(int)), SIGNAL(personSelected(int))));
     VERIFY(connect(messagesWidget, SIGNAL(sendMessage(QString)), SIGNAL(sendMessage(const QString&))));
+    VERIFY(connect(possibleFriends, SIGNAL(findFriends(QString, bool, bool)), SIGNAL(findFriends(const QString&, bool, bool))));
+	VERIFY(connect(possibleFriendsListView, SIGNAL(itemClicked(int)), SIGNAL(possibleFriendSelected(int))));
+    VERIFY(connect(filterFriends, SIGNAL(filterFriendsTextChanged(QString)), SIGNAL(filterFriendsTextChanged(const QString&))));
 }
 
 MainWindow::~MainWindow()
@@ -51,7 +67,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::showError(const QString& error)
 {
-	Q_UNUSED(error);
+	qDebug() << error;
 }
 
 void MainWindow::onConnected()
@@ -83,11 +99,4 @@ void MainWindow::onSignUpResponse(const std::optional<Common::Person>& person)
 	{
 		emit error("Login is already in use");
 	}
-}
-
-void MainWindow::onPersonSelected(const Common::Person& person)
-{
-	Q_UNUSED(person);
-	//m_messages->setPerson(person);
-	//switchToMessages();
 }

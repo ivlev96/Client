@@ -12,25 +12,29 @@ Item
     MessagesListView
     {
         id: messagesListView
-        height: parent.height*0.8
+
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.left: parent.left
         anchors.leftMargin: 5
         anchors.top: parent.top
         anchors.topMargin: 5
+
+        height: parent.height*0.8
     }
 
     Rectangle
     {
         id: newMessageRect
-        width: parent.width*0.8
+
         anchors.left: parent.left
         anchors.leftMargin: 5
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         anchors.top: messagesListView.bottom
         anchors.topMargin: 5
+
+        width: parent.width*0.8
 
         border.color: "lightgreen"
         border.width: 1

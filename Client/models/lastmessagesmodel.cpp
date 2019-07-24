@@ -46,8 +46,7 @@ QModelIndex LastMessagesModel::parent(const QModelIndex& child) const
 
 int LastMessagesModel::rowCount(const QModelIndex& parent) const
 {
-	Q_UNUSED(parent);
-	return static_cast<int>(m_messages.size());
+	return parent.isValid() ? 0 : static_cast<int>(m_messages.size());
 }
 
 int LastMessagesModel::columnCount(const QModelIndex& parent) const
@@ -87,7 +86,7 @@ QVariant LastMessagesModel::data(const QModelIndex& index, int role) const
 		{
 			return dateTime.time().toString(Common::timeFormat);
 		}
-		return dateTime.toString(Common::dateTimeFormat);
+		return dateTime.toString(Common::dateFormat);
 	}
 
 	case MessagesDataRole::MessageAvatarRole:
@@ -102,15 +101,6 @@ QVariant LastMessagesModel::data(const QModelIndex& index, int role) const
 	default:
 		return {};
 	}
-}
-
-bool LastMessagesModel::setData(const QModelIndex& index, const QVariant& value, int role)
-{
-	Q_UNUSED(index);
-	Q_UNUSED(value);
-	Q_UNUSED(role);
-
-	return false;
 }
 
 QHash<int, QByteArray> LastMessagesModel::roleNames() const
@@ -132,6 +122,11 @@ void LastMessagesModel::onGetLastMessagesResponse(Common::PersonIdType id,
 {
 	Q_UNUSED(id);
 	ASSERT(id == Authorization::AuthorizationInfo::instance().id());
+
+	if (lastMessages.size() == 0)
+	{
+		return;
+	}
 
 	if (!before.has_value())
 	{
@@ -174,6 +169,12 @@ void LastMessagesModel::onNewMessage(const Common::Person& from, const Common::M
 	beginInsertRows({}, 0, 0);
 	m_messages.emplace_front(from, message);
 	endInsertRows();
+}
+
+void Models::LastMessagesModel::onSuccessfullySendMessages(const std::vector<Common::Message>& messages)
+{
+	Q_UNUSED(messages);
+	//TODO: implement
 }
 
 void LastMessagesModel::pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages)

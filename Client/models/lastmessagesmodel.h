@@ -26,12 +26,10 @@ public:
 	virtual bool hasChildren(const QModelIndex& parent = {}) const override;
 
 	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
 
 	virtual QHash<int, QByteArray> roleNames() const override;
 
 signals:
-	void personSelected(const Common::Person& other);
 	void getLastMessages(int count, const std::optional<Common::MessageIdType>& from = {});
 
 public slots:
@@ -42,6 +40,7 @@ public slots:
 		const std::optional<Common::MessageIdType>& before);
 
 	void onNewMessage(const Common::Person& from, const Common::Message& message);
+	void onSuccessfullySendMessages(const std::vector<Common::Message>& messages);
 
 private:
 	void pushFrontMessages(const std::vector<std::pair<Common::Person, Common::Message>>& lastMessages);

@@ -7,7 +7,7 @@ Rectangle
 {
     id: root
     height: 60
-    width: lastMessagesListView.width
+    width: possibleFriendsListView.width
     color: mouseArea.containsMouse ? "lightgreen" : "white"
 
     Rectangle
@@ -48,7 +48,7 @@ Rectangle
         id: time
         font.pointSize: 9
         textFormat: Text.RichText
-        text: "<font color=\"grey\">" + messageTime + "</font>"
+        text: messageShortAuthor ? "<font color=\"grey\">" + messageTime + "</font>" : null
         anchors.top: parent.top
         anchors.topMargin: 5
         anchors.right: parent.right
@@ -61,7 +61,7 @@ Rectangle
         id: shortAuthor
         font.pointSize: 9
         textFormat: Text.RichText
-        text: "<font color=\"grey\">" + messageShortAuthor + ":</font>"
+        text: messageShortAuthor ? "<font color=\"grey\">" + messageShortAuthor + ":</font>" : null
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         anchors.left: avatar.right
@@ -72,7 +72,7 @@ Rectangle
     Text
     {
         id: message
-        text: messageText
+        text: messageText ? messageText : null
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.bottom: shortAuthor.bottom
@@ -101,7 +101,7 @@ Rectangle
             orientation: Qt.Horizontal
         }
 
-        visible: index + 1 < lastMessagesListView.count
+        visible: index + 1 < possibleFriendsListView.count
     }
 
     MouseArea
@@ -115,7 +115,7 @@ Rectangle
             {
                 content.switchToMessages()
             }
-            lastMessagesListView.itemClicked(index)
+            possibleFriendsListView.itemClicked(index)
         }
     }
 }

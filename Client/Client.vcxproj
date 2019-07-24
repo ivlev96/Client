@@ -133,8 +133,10 @@
     <ClCompile Include="controllers\globalcontroller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="models\lastmessagesmodel.cpp" />
+    <ClCompile Include="models\lastmessagesproxymodel.cpp" />
     <ClCompile Include="models\messagesmodel.cpp" />
     <ClCompile Include="models\modelscommon.cpp" />
+    <ClCompile Include="models\possiblefriendsmodel.cpp" />
     <ClCompile Include="network\requester.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -158,7 +160,15 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration</IncludePath>
     </QtMoc>
+    <QtMoc Include="models\lastmessagesproxymodel.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+    </QtMoc>
     <ClInclude Include="models\modelscommon.h" />
+    <QtMoc Include="models\possiblefriendsmodel.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\widgets\contacts;.\widgets\messages;$(QTDIR)\include\QtQml;$(QTDIR)\include\QtQuick;$(QTDIR)\include\QtQuickWidgets;$(QTDIR)\include\QtWebSockets;$(QTDIR)\include\QtConcurrent;.\widgets\authorization;.\widgets\registration;.\models</IncludePath>
+    </QtMoc>
     <ClInclude Include="stdafx.h" />
     <QtMoc Include="controllers\globalcontroller.h">
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h;../../controllers/%(Filename)%(Extension)</ForceInclude>
@@ -180,7 +190,7 @@
     <None Include="Resources\Authorization.qml" />
     <None Include="Resources\ContentDesktop.qml" />
     <None Include="Resources\ContentMobile.qml" />
-    <None Include="Resources\FriendSearch.qml" />
+    <None Include="Resources\LastMessages.qml" />
     <None Include="Resources\LastMessagesDelegate.qml">
       <SubType>Designer</SubType>
     </None>
@@ -190,6 +200,9 @@
     <None Include="Resources\Messages.qml" />
     <None Include="Resources\MessagesDelegate.qml" />
     <None Include="Resources\MessagesListView.qml" />
+    <None Include="Resources\PossibleFriends.qml" />
+    <None Include="Resources\PossibleFriendsDelegate.qml" />
+    <None Include="Resources\PossibleFriendsListView.qml" />
     <None Include="Resources\Registration.qml" />
     <None Include="Resources\RoundedImage.qml" />
   </ItemGroup>

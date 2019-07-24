@@ -107,6 +107,12 @@
     <ClCompile Include="models\modelscommon.cpp">
       <Filter>Source Files\models</Filter>
     </ClCompile>
+    <ClCompile Include="models\lastmessagesproxymodel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
+    <ClCompile Include="models\possiblefriendsmodel.cpp">
+      <Filter>Source Files\models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="widgets\mainwindow\mainwindow.h">
@@ -122,6 +128,12 @@
       <Filter>Header Files\controllers</Filter>
     </QtMoc>
     <QtMoc Include="models\lastmessagesmodel.h">
+      <Filter>Header Files\models</Filter>
+    </QtMoc>
+    <QtMoc Include="models\lastmessagesproxymodel.h">
+      <Filter>Header Files\models</Filter>
+    </QtMoc>
+    <QtMoc Include="models\possiblefriendsmodel.h">
       <Filter>Header Files\models</Filter>
     </QtMoc>
   </ItemGroup>
@@ -190,7 +202,16 @@
     <None Include="Resources\ContentMobile.qml">
       <Filter>QML Files</Filter>
     </None>
-    <None Include="Resources\FriendSearch.qml">
+    <None Include="Resources\LastMessages.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\PossibleFriends.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\PossibleFriendsDelegate.qml">
+      <Filter>QML Files</Filter>
+    </None>
+    <None Include="Resources\PossibleFriendsListView.qml">
       <Filter>QML Files</Filter>
     </None>
   </ItemGroup>

@@ -1,9 +1,22 @@
 #pragma once
 
-#include "widgets/mainwindow/mainwindow.h"
-#include "models/messagesmodel.h"
-#include "models/lastmessagesmodel.h"
-#include "network/requester.h"
+namespace Models
+{
+	class MessagesModel;
+	class LastMessagesModel;
+	class LastMessagesProxyModel;
+	class PossibleFriendsModel;
+}
+
+namespace Network
+{
+	class Requester;
+}
+
+namespace Widgets
+{
+	class MainWindow;
+}
 
 namespace Controllers
 {
@@ -19,12 +32,15 @@ public:
 public slots:
 	void onError(const QString& error);
 	void onPersonSelected(int row);
+	void onPosibleFriendSelected(int row);
 
 private:
 	std::unique_ptr<Widgets::MainWindow> m_mainWindow;
 
 	Models::MessagesModel* m_messagesModel;
 	Models::LastMessagesModel* m_lastMessagesModel;
+	Models::LastMessagesProxyModel* m_lastMessagesProxyModel;
+	Models::PossibleFriendsModel* m_possibleFriendsModel;
 
 	Network::Requester* m_requester;
 

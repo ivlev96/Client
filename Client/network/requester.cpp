@@ -124,6 +124,13 @@ void Requester::onMessageReceived(const QString& message)
 		return;
 	}
 
+	if (type == Common::findFriendResponse)
+	{
+		const Common::FindFriendResponse response(json);
+		emit possibleFriendsList(response.persons);
+		return;
+	}
+
 	ASSERT(!"Not implemented");
 }
 
@@ -166,8 +173,27 @@ void Requester::onGetLastMessages(int count, const std::optional<Common::Message
 
 void Requester::onSendMessages(const std::vector<Common::Message>& messages)
 {
-	const Common::Person me = Authorization::AuthorizationInfo::instance().person();
 	const QJsonObject json = Common::SendMessagesRequest(messages).toJson();
+
+	sendMessage(json);
+}
+
+void Requester::onFindFriends(const QString& name, bool withMessages, bool withoutMessages)
+{
+	if (name.isEmpty())
+	{
+		return;
+	}
+
+	const QJsonObject json = 
+		Common::FindFriendRequest(
+			Authorization::AuthorizationInfo::instance().id(), 
+			name, 
+			withMessages, 
+			withoutMessages,
+			{},
+			Common::defaultPersonsCount
+		).toJson();
 
 	sendMessage(json);
 }

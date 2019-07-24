@@ -137,7 +137,7 @@ QVariant MessagesModel::data(const QModelIndex& index, int role) const
 			{
 				return { dateTime.time().toString(Common::timeFormat) };
 			}
-			return { dateTime.toString(Common::dateTimeFormat) };
+			return { dateTime.toString(QString("%1 %2").arg(Common::dateFormat, Common::timeFormat)) };
 		}
 
 	case MessagesDataRole::MessageAvatarRole:
@@ -228,7 +228,10 @@ void MessagesModel::onGetMessagesResponse(Common::PersonIdType otherId,
 
 	Q_UNUSED(otherId);
 	ASSERT(otherId == m_otherPerson.id);
-	ASSERT(messages.size() > 0);
+	if (messages.size() == 0)
+	{
+		return;
+	}
 
 	if (before.has_value())
 	{

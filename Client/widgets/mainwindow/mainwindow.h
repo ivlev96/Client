@@ -5,12 +5,6 @@ namespace Ui
 class MainWindow;
 }
 
-namespace Models
-{
-class MessagesModel;
-class LastMessagesModel;
-}
-
 namespace Common
 {
 struct Person;
@@ -38,8 +32,9 @@ class MainWindow : public QObject
 	Q_OBJECT
 
 public:
-	MainWindow(Models::LastMessagesModel* lastMessagesModel, 
-		Models::MessagesModel* messagesModel);
+	MainWindow(QAbstractItemModel* lastMessagesModel,
+		QAbstractItemModel* messagesModel,
+		QAbstractItemModel* possibleFriendsModel);
 
 	~MainWindow();
 
@@ -49,6 +44,7 @@ signals:
 	void error(const QString& message);
 	void logIn(const QString& login, const QString& password);
 	void personSelected(int row);
+	void possibleFriendSelected(int row);
 
     void sendMessage(const QString& message);
 
@@ -59,6 +55,8 @@ signals:
 		const QString& login,
 		const QString& password);
 
+	void findFriends(const QString& name, bool withMessages, bool withoutMessages);
+	void filterFriendsTextChanged(const QString& text);
 	void switchToContent();
 
 public slots:
@@ -66,13 +64,8 @@ public slots:
 	void onLogInResponse(const std::optional<Common::Person>& person);
 	void onSignUpResponse(const std::optional<Common::Person>& person);
 
-private slots:
-	void onPersonSelected(const Common::Person& person);
-
-
 private:
 	QQmlApplicationEngine m_engine;
-
 };
 
 }

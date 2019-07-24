@@ -12,5 +12,9 @@
         <file>MainWindowMobile.qml</file>
         <file>ContentDesktop.qml</file>
         <file>ContentMobile.qml</file>
+        <file>LastMessages.qml</file>
+        <file>PossibleFriends.qml</file>
+        <file>PossibleFriendsDelegate.qml</file>
+        <file>PossibleFriendsListView.qml</file>
     </qresource>
 </RCC>

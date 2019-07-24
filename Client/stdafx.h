@@ -21,6 +21,7 @@
 #include <QQmlApplicationEngine>
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 #include <QtWebSockets/QWebSocket>
 
 #include <QUrl>
